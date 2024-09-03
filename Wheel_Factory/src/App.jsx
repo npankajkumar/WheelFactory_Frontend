@@ -1,14 +1,18 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Soldering from './pages/soldering/Soldering'
-
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import Inventory from './pages/inventory/Inventory'
+import Home from './pages/navbar/Home'
+import Soldering from './pages/soldering/Soldering';
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+     <Router>
+      <Routes>
+      <Route path='/inventory' element={<Inventory/>}/>
+      <Route path='' element={<Home/>}/>
+      <Route path='/soldering' element={<Soldering/>}/>
+      </Routes>
+     </Router>
    </>
   )
 }

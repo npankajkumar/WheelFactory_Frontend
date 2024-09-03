@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 
 const Soldering = () => {
-  // State to store form values
-  const [orderId, setOrderId] = useState("12345"); // Sample order ID from backend
-  const [status, setStatus] = useState("In Progress"); // Default status
+  const [orderId, setOrderId] = useState("12345"); 
+  const [status, setStatus] = useState("In Progress"); 
   const [sandBlastingLevel, setSandBlastingLevel] = useState("");
   const [solderingNote, setSolderingNote] = useState("");
   const [image, setImage] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
 
-  // Handler for image upload
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would send the data to the backend
     console.log({
       orderId,
       status,
@@ -30,8 +26,7 @@ const Soldering = () => {
 
   return (
     <div className="h-screen bg-gray-100 ">
-      {/* Header */}
-      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
+        <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition">
             Prev
@@ -43,9 +38,7 @@ const Soldering = () => {
         </button>
       </header>
 
-      {/* Body */}
       <main className="h-screen">
-        {/* First Division */}
         <div className="bg-white p-5 shadow-md border border-gray-200 rounded-md flex justify-between">
           <div>
             <p className="text-lg font-bold">ORDER ID: {orderId}</p>
@@ -63,15 +56,14 @@ const Soldering = () => {
           </div>
         </div>
 
-        {/* Second Division - Main Form */}
+      
         <form
           onSubmit={handleSubmit}
           className="bg-white p-5 shadow-md border border-gray-200 rounded-md space-y-5 h-svh"
         >
           <div className="flex flex-col md:flex-row md:space-x-8">
-            {/* Left Side */}
-            <div className="flex-1 space-y-5">
-              {/* SandBlasting Level */}
+                       <div className="flex-1 space-y-5">
+            
               <div>
                 <label className="block text-lg font-bold mb-2">
                   SandBlasting Level:
@@ -111,7 +103,7 @@ const Soldering = () => {
                 </div>
               </div>
               <br />
-              {/* Soldering Note */}
+              
               <div>
                 <label className="block text-lg font-bold mb-2">
                   Soldering Note:
@@ -125,9 +117,9 @@ const Soldering = () => {
               </div>
             </div>
 
-            {/* Right Side */}
+           
             <div className="flex-1 space-y-5">
-              {/* Upload Image */}
+             
               <div>
                 <label className="block text-lg font-bold mb-2">
                   Upload Image:
@@ -139,7 +131,7 @@ const Soldering = () => {
                 />
               </div>
 
-              {/* Additional Notes */}
+            
               <div>
                 <label className="block text-lg font-bold mb-2">Add Notes:</label>
                 <input
@@ -152,7 +144,7 @@ const Soldering = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
+        
           <div className="text-center">
             <button
               type="submit"
