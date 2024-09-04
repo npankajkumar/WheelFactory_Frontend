@@ -69,6 +69,7 @@ const Painting = () => {
               value={typeOfPaint}
               onChange={(e) => setTypeOfPaint(e.target.value)}
             >
+                <option value="select">Select</option>
               <option value="powder">Powder</option>
               <option value="urethane">Urethane</option>
             </select>

@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 
 const Soldering = () => {
-  const [orderId, setOrderId] = useState("12345"); 
-  const [status, setStatus] = useState("In Progress"); 
+  const [orderId, setOrderId] = useState("12345");
+  const [status, setStatus] = useState("In Progress");
   const [sandBlastingLevel, setSandBlastingLevel] = useState("");
   const [solderingNote, setSolderingNote] = useState("");
   const [image, setImage] = useState(null);
@@ -32,7 +32,7 @@ const Soldering = () => {
           <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition">
             Prev
           </button>
-          <h1 className="text-xl font-bold text-white">LEVEL 2 - Soldering and SandBlasting</h1>
+          <h1 className="text-xl font-bold text-white">LEVEL 2 - SOLDERING</h1>
         </div>
         <button className="border font-bold border-red-400 p-2 rounded-md shadow-sm text-red-500 hover:bg-red-300 hover:text-black transition">
           Logout
@@ -96,7 +96,7 @@ const Soldering = () => {
               </div>
             </div>
 
-            {/* Soldering Note Input */}
+
             <div>
               <label className="block text-lg font-bold mb-2">Soldering Note:</label>
               <input
@@ -112,30 +112,31 @@ const Soldering = () => {
               <input
                 type="file"
                 onChange={handleImageUpload}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"/>
-</div>
+                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition" />
+            </div>
 
-<div>
-  <label className="block text-lg font-bold mb-2">Additional Notes:</label>
-  <textarea
-    value={additionalNotes}
-    onChange={(e) => setAdditionalNotes(e.target.value)}
-    className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
-  ></textarea>
-</div>
-</div>
+            <div>
+              <label className="block text-lg font-bold mb-2">Additional Notes:</label>
+              <textarea
+                value={additionalNotes}
+                onChange={(e) => setAdditionalNotes(e.target.value)}
+                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
+              ></textarea>
+            </div>
+          </div>
 
-<div className="text-center">
-<button
-  type="submit"
-  className="bg-gray-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-900 transition"
->
-  Submit
-</button>
-</div>
-</form>
-</main>
-</div>
-); };
+          <div className="text-center">
+            <button
+              type="submit"
+              className="bg-gray-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-900 transition"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+  );
+};
 
 export default Soldering;
