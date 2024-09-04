@@ -96,7 +96,6 @@ const Soldering = () => {
               </div>
             </div>
 
-            {/* Soldering Note Input */}
             <div>
               <label className="block text-lg font-bold mb-2">Soldering Note:</label>
               <input
@@ -136,6 +135,8 @@ const Soldering = () => {
 </form>
 </main>
 </div>
-); };
+); 
+
+};
 
 export default Soldering;
