@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 
 const Packaging = () => {
-  // State to store form values
-  const [orderId, setOrderId] = useState("12345"); // Placeholder Order ID
+  const [orderId, setOrderId] = useState("12345"); 
   const [status, setStatus] = useState("In Progress");
   const [rating, setRating] = useState("");
   const [notes, setNotes] = useState("");
   const [image, setImage] = useState(null);
 
-  // Handle image upload
-  const handleImageUpload = (e) => {
+    const handleImageUpload = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would call the APIs to send the data
     console.log({
       orderId,
       status,
@@ -27,26 +23,23 @@ const Packaging = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-5">
-      {/* Header */}
-      <header className="flex justify-between items-center p-5 bg-white shadow-md border border-gray-200">
+    <div className="min-h-screen  p-4">
+      <header className="flex justify-between items-center rounded-md p-5 bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button
             onClick={() => console.log("Redirect to previous page")}
-            className="border border-gray-300 p-2 rounded-md shadow-sm hover:bg-gray-200 transition"
+            className="border border-gray-300 text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
           >
             Prev
           </button>
-          <h1 className="text-xl font-bold">Level -3 Packaging</h1>
+          <h1 className="text-xl font-bold text-white">Level -3 Packaging</h1>
         </div>
-        <button className="border border-red-400 p-2 rounded-md shadow-sm text-red-500 hover:bg-red-100 transition">
+        <button className="border border-red-400 text-red-500 p-2 rounded-md shadow-sm hover:bg-red-100 transition">
           Logout
         </button>
       </header>
 
-      {/* Body */}
       <main className="mt-8 space-y-8">
-        {/* Order ID and Status */}
         <div className="bg-white p-5 shadow-md border border-gray-200 rounded-md flex justify-between">
           <p className="text-lg font-bold">ORDER ID: {orderId}</p>
           <div>
@@ -62,13 +55,11 @@ const Packaging = () => {
           </div>
         </div>
 
-        {/* Main Form */}
         <form
           onSubmit={handleSubmit}
           className="bg-white p-5 shadow-md border border-gray-200 rounded-md space-y-5"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Rating Input */}
             <div>
               <label className="block text-lg font-bold mb-2">Rating (1-5):</label>
               <input
@@ -81,7 +72,6 @@ const Packaging = () => {
               />
             </div>
 
-            {/* Notes Input */}
             <div>
               <label className="block text-lg font-bold mb-2">Notes:</label>
               <input
@@ -92,7 +82,6 @@ const Packaging = () => {
               />
             </div>
 
-            {/* Image Upload */}
             <div>
               <label className="block text-lg font-bold mb-2">Upload Image (Proof of Inspection):</label>
               <input
@@ -103,11 +92,10 @@ const Packaging = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"
-              className="bg-green-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-green-600 transition"
+              className="bg-gray-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-900 transition"
             >
               Submit
             </button>
