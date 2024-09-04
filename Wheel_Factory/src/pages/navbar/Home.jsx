@@ -18,6 +18,10 @@ const Home = () => {
             </Link>
           </li>
           <li>
+            {" "}
+            <Link to={"/packaging"} className="text-blue-300 hover:underline">
+              Packging
+              </Link>
             <Link to={"/painting"} className="text-blue-300 hover:underline">
               PAINTING
             </Link>
