@@ -13,9 +13,13 @@ const Home = () => {
             </Link>
           </li>
           <li>
-            {" "}
             <Link to={"/soldering"} className="text-blue-300 hover:underline">
               SOLDERING
+            </Link>
+          </li>
+          <li>
+            <Link to={"/painting"} className="text-blue-300 hover:underline">
+              PAINTING
             </Link>
           </li>
         </ul>
