@@ -18,6 +18,12 @@ const Home = () => {
               SOLDERING
             </Link>
           </li>
+          <li>
+            {" "}
+            <Link to={"/packaging"} className="text-blue-300 hover:underline">
+              Packging
+            </Link>
+          </li>
         </ul>
       </header>
       <div className="h-full bg-cover bg-center">
