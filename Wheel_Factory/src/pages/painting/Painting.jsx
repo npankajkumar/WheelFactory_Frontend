@@ -11,7 +11,6 @@ const Painting = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-  
     const payload = {
       orderId,
       paint,
@@ -42,13 +41,10 @@ const Painting = () => {
           LOGOUT
         </button>
       </header>
-
-     
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-       
         <div className="flex flex-col space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black-700">Order ID</label>
+            <label className="text-lg font-bold mr-2">Order ID</label>
             <input 
               type="text" 
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
@@ -57,7 +53,7 @@ const Painting = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black-700">Paint Color</label>
+            <label className="text-lg font-bold mr-2">Paint Color</label>
             <input 
               type="text" 
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
@@ -67,20 +63,23 @@ const Painting = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black-700">Type of Paint</label>
+            <label className="text-lg font-bold mr-2">Type of Paint</label>
             <select 
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
               value={typeOfPaint}
               onChange={(e) => setTypeOfPaint(e.target.value)}
             >
+                <option value="select">Select</option>
               <option value="powder">Powder</option>
               <option value="urethane">Urethane</option>
             </select>
           </div>
+        </div>
+        <div className="flex flex-col space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black-700">Status</label>
+             <label className="text-lg font-bold mr-2">Status </label>
             <select 
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+              className="block p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
@@ -88,20 +87,19 @@ const Painting = () => {
               <option value="completed">Completed</option>
             </select>
           </div>
-        </div>
-
-       
-        <div>
-          <label className="block text-sm font-medium text-black-700">Notes</label>
-          <textarea 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
-            rows="6" 
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
+          <div>
+            <label className="text-lg font-bold mr-2">Notes</label>
+            <textarea 
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+              rows="4" 
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
         </div>
       </div>
-      <div className="mt-5 text-right">
+       
+      <div className="mt-5 flex justify-center">
         <button 
           className="bg-black text-white p-3 rounded-md shadow-md hover:bg-gray-800 transition"
           onClick={handleSubmit}

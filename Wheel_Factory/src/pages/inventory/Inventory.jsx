@@ -1,53 +1,151 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Inventory = () => {
-  return (
-    <div classname="p-4">
-    <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
-    <div className="flex space-x-4">
-    <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition">PREVIOUS
-    </button>
-    <h1 className="text-xl text-white pt-1 font-bold">LEVEL-1 INVENTORY MANAGEMENT</h1>
-    </div>
-    <button className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500 hover:bg-red-100 transition">LOGOUT</button>
-    </header>
-   <form className="mt-4 space-y-4">
-        <div className="flex space-x-4">
-          <label className="block text-black">
-            YEAR:
-            <input type="text" className="block w-full rounded mt-1 p-1 border  border-gray-500" />
-          </label>
-          <label className="block text-black">
-            MAKE:
-            <input type="text" className="block w-full rounded mt-1 p-1 border border-gray-500" />
-          </label>
-          <label className="block text-black">
-            MODEL:
-            <input type="text" className="block w-full rounded mt-1 p-1 border  border-gray-500" />
-          </label>
-        </div>
-        <label className="block text-black">
-          DAMAGETYPE:
-          <select className="block w-full rounded mt-1 p-1 border  border-gray-500">
-          <option value="">SELECT</option>
-            <option value="">CHIPPED</option>
-            <option value="">PAIN FADE</option>
-            <option value="">LIP CRACK</option>
-            <option value="">TO BE SCRAPPED</option>
-          </select>
-        </label>
-        <label className="block text-black">
-         NOTES
-          <textarea className="block w-full rounded mt-1 p-2 border  border-gray-500 h-15"></textarea>
-        </label>
-        <label className="block text-black">
-          IMAGE
-          <input type="file" className="block w-full rounded mt-1 p-2 border  border-gray-500" />
-        </label>
-        <button type="submit" className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm  bg-black  px-4 py-2 mt-4 block mx-auto">SUBMIT</button>
-      </form>
-      </div>
-  )
-}
+  const [orderId, setOrderId] = useState('');
+  const [year, setYear] = useState('');
+  const [make, setMake] = useState('');
+  const [model, setModel] = useState('');
+  const [damageType, setDamageType] = useState('');
+  const [notes, setNotes] = useState('');
+  const [image, setImage] = useState(null);
 
-export default Inventory
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      orderId,
+      year,
+      make,
+      model,
+      damageType,
+      notes,
+      image,
+    };
+    console.log('Form Submitted:', payload);
+  };
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+  return (
+    <div className="p-4">
+      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
+        <div className="flex space-x-4">
+          <button 
+            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
+            onClick={() => navigate('/previous-page')} 
+          >
+            PREVIOUS
+          </button>
+          <h1 className="text-xl text-white pt-1 font-bold">LEVEL-1 INVENTORY MANAGEMENT</h1>
+        </div>
+        <button 
+          className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500 hover:bg-red-100 transition"
+          onClick={() => navigate('/logout')}
+        >
+          LOGOUT
+        </button>
+      </header>
+
+      <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+          <div className="flex-1 space-y-4">
+            <div>
+              <label className="text-lg font-bold text-black">
+                Order Id:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                value={orderId}
+                onChange={(e) => setOrderId(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Year:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Make:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                value={make}
+                onChange={(e) => setMake(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Model:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 space-y-4">
+            <div>
+            <label className="text-lg font-bold text-black">
+                DamageType:
+              </label>
+              <select 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
+                value={damageType}
+                onChange={(e) => setDamageType(e.target.value)}
+              >
+                <option value="">Select</option>
+                <option value="CHIPPED">Chipped</option>
+                <option value="PAINT FADE">Paint Fade</option>
+                <option value="LIP CRACK">Lip Crack</option>
+                <option value="TO BE SCRAPPED">To be Scrapped</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Notes:
+              </label>
+              <textarea 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black h-28"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              ></textarea>
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Image:
+              </label>
+              <input 
+                type="file" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Inventory;

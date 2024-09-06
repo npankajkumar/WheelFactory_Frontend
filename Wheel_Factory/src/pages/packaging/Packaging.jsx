@@ -32,7 +32,7 @@ const Packaging = () => {
           >
             Prev
           </button>
-          <h1 className="text-xl font-bold text-white">Level -3 Packaging</h1>
+          <h1 className="text-xl font-bold text-white">Level-4  PACKAGING</h1>
         </div>
         <button className="border border-red-400 text-red-500 p-2 rounded-md shadow-sm hover:bg-red-100 transition">
           Logout
@@ -79,9 +79,9 @@ const Packaging = () => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
-              />
+              
+              /> 
             </div>
-
             <div>
               <label className="block text-lg font-bold mb-2">Upload Image (Proof of Inspection):</label>
               <input
@@ -91,7 +91,6 @@ const Packaging = () => {
               />
             </div>
           </div>
-
           <div className="text-center">
             <button
               type="submit"
