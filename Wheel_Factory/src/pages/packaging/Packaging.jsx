@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Packaging = () => {
   const [orderId, setOrderId] = useState("12345"); 
@@ -7,6 +8,7 @@ const Packaging = () => {
   const [notes, setNotes] = useState("");
   const [image, setImage] = useState(null);
 
+  const navigate=useNavigate();
     const handleImageUpload = (e) => {
     setImage(e.target.files[0]);
   };
@@ -27,7 +29,7 @@ const Packaging = () => {
       <header className="flex justify-between items-center rounded-md p-5 bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button
-            onClick={() => console.log("Redirect to previous page")}
+            onClick={() => navigate('/packorder')} 
             className="border border-gray-300 text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
           >
             Prev

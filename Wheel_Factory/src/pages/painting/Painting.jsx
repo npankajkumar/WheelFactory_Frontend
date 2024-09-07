@@ -28,7 +28,7 @@ const Painting = () => {
         <div className="flex space-x-4">
           <button 
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
-            onClick={() => navigate('/previous-page')} 
+            onClick={() => navigate('/porders')} 
           >
             PREVIOUS
           </button>

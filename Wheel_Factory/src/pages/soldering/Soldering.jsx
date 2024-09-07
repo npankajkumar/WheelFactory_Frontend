@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Soldering = () => {
   const [orderId, setOrderId] = useState("12345");
@@ -8,6 +8,7 @@ const Soldering = () => {
   const [solderingNote, setSolderingNote] = useState("");
   const [image, setImage] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
+  const navigate=useNavigate();
 
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]);
@@ -29,7 +30,8 @@ const Soldering = () => {
     <div className="min-h-screen  p-4">
       <header className="flex justify-between rounded-md items-center p-5 bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
-          <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition">
+          <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
+          onClick={() => navigate('/sorders')} >
             Prev
           </button>
           <h1 className="text-xl font-bold text-white">LEVEL 2 - SOLDERING</h1>
@@ -38,7 +40,6 @@ const Soldering = () => {
           Logout
         </button>
       </header>
-
       <main className="mt-8 space-y-8">
         <div className="bg-white p-5 shadow-md border border-gray-200 rounded-md flex justify-between">
           <p className="text-lg font-bold">ORDER ID: {orderId}</p>
@@ -54,7 +55,6 @@ const Soldering = () => {
             </select>
           </div>
         </div>
-
         <form
           onSubmit={handleSubmit}
           className="bg-white p-5 shadow-md border border-gray-200 rounded-md space-y-5"
@@ -95,7 +95,6 @@ const Soldering = () => {
                 </label>
               </div>
             </div>
-
             <div>
               <label className="block text-lg font-bold mb-2">Soldering Note:</label>
               <input
@@ -105,7 +104,6 @@ const Soldering = () => {
                 className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
               />
             </div>
-
             <div>
               <label className="block text-lg font-bold mb-2">Upload Image:</label>
               <input
@@ -113,7 +111,6 @@ const Soldering = () => {
                 onChange={handleImageUpload}
                 className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition" />
             </div>
-
             <div>
               <label className="block text-lg font-bold mb-2">Additional Notes:</label>
               <textarea
@@ -123,7 +120,6 @@ const Soldering = () => {
               ></textarea>
             </div>
           </div>
-
           <div className="text-center">
             <button
               type="submit"
