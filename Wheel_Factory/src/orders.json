@@ -1,0 +1,151 @@
+{
+  "users": [
+    {
+      "userId": "USR001",
+      "role": "manager",
+      "username": "manager1",
+      "password": "managerpass",
+      "name": "Manager A"
+    },
+    {
+      "userId": "USR002",
+      "role": "worker",
+      "stage": 1,
+      "username": "worker1",
+      "password": "workerpass1",
+      "name": "Worker Stage 1"
+    },
+    {
+      "userId": "USR003",
+      "role": "worker",
+      "stage": 2,
+      "username": "worker2",
+      "password": "workerpass2",
+      "name": "Worker Stage 2"
+    },
+    {
+      "userId": "USR004",
+      "role": "worker",
+      "stage": 3,
+      "username": "worker3",
+      "password": "workerpass3",
+      "name": "Worker Stage 3"
+    },
+    {
+      "userId": "USR005",
+      "role": "worker",
+      "stage": 4,
+      "username": "worker4",
+      "password": "workerpass4",
+      "name": "Worker Stage 4"
+    }
+  ],
+  "wheels": [
+    {
+      "wheelId": "W001",
+      "clientName": "Client A",
+      "colorPreference": "Chrome",
+      "status": "in-progress"
+    },
+    {
+      "wheelId": "W002",
+      "clientName": "Client B",
+      "colorPreference": "Black Smoke",
+      "status": "in-progress"
+    },
+    {
+      "wheelId": "W003",
+      "clientName": "Client C",
+      "colorPreference": "Pearl White",
+      "status": "pending"
+    },
+    {
+      "wheelId": "W002",
+      "clientName": "Client B",
+      "color": "Blue",
+      "currentStage": 2,
+      "status": "in-progress"
+    }
+  ],
+  "stage1": [
+    {
+      "wheelId": "W001",
+      "userId": "USR002",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": "2015",
+      "damageType": "Lip Crack",
+      "notes": "Front left wheel",
+      "status": "completed"
+    },
+    {
+      "wheelId": "W003",
+      "userId": "USR002",
+      "make": "",
+      "model": "",
+      "year": "",
+      "damageType": "",
+      "notes": "",
+      "status": "pending"
+    }
+  ],
+  "stage2": [
+    {
+      "wheelId": "W001",
+      "userrId": "USR003",
+      "sandblastingNote": "Removed old paint",
+      "sandblastingAmount": "Medium",
+      "status": "completed"
+    },
+    {
+      "wheelId": "W002",
+      "userId": "USR003",
+      "sandblastingNote": "",
+      "sandblastingAmount": "",
+      "status": "pending"
+    }
+  ],
+  "stage3": [
+    {
+      "wheelId": "W001",
+      "userId": "USR004",
+      "paintingNote": "Applied base coat",
+      "color": "Chrome",
+      "paintType": "Powder",
+      "status": "completed"
+    },
+    {
+      "wheelId": "W002",
+      "userId": "USR004",
+      "paintingNote": "",
+      "color": "",
+      "paintType": "",
+      "status": "pending"
+    }
+  ],
+  "stage4": [
+    {
+      "wheelId": "W001",
+      "userId": "USR005",
+      "packagingNote": "Ready for delivery",
+      "finalInspectionRating": 5,
+      "status": "completed"
+    },
+    {
+      "wheelId": "W002",
+      "userId": "USR005",
+      "packagingNote": "",
+      "finalInspectionRating": null,
+      "status": "pending"
+    }
+  ],
+  "completedOrders": [
+    {
+      "orderId": "ORD001",
+      "userId": "W001",
+      "clientName": "Client A",
+      "status": "refurbished",
+      "completionDate": "2023-10-15"
+    }
+  ]
+}

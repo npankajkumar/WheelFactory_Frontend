@@ -5,6 +5,8 @@ import Home from './pages/navbar/Home'
 import Soldering from './pages/soldering/Soldering';
 import Packaging from './pages/packaging/Packaging';
 import Painting from './pages/painting/Painting';
+import { Login } from './pages/login/Login';
+import Worker from './pages/worker/Worker';
 function App() {
   return (
     <>
@@ -12,6 +14,8 @@ function App() {
       <Routes>
       <Route path='/inventory' element={<Inventory/>}/>
       <Route path='' element={<Home/>}/>
+      <Route path='/workers/:userId' element={<Worker/>}/>
+      <Route path='/login' element={<Login/>}/>
       <Route path='/soldering' element={<Soldering/>}/>
       <Route path='/packaging' element={<Packaging/>}/>
       <Route path='/painting' element={<Painting/>}/>
