@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 const Inventory = () => {
   const [orderId, setOrderId] = useState('');
   const [year, setYear] = useState('');
@@ -9,24 +9,42 @@ const Inventory = () => {
   const [damageType, setDamageType] = useState('');
   const [notes, setNotes] = useState('');
   const [image, setImage] = useState(null);
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const payload = {
-      orderId,
-      year,
-      make,
-      model,
-      damageType,
-      notes,
-      image,
-    };
-    console.log('Form Submitted:', payload);
-  };
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('orderId', orderId);
+    formData.append('year', year);
+    formData.append('make', make);
+    formData.append('model', model);
+    formData.append('damageType', damageType);
+    formData.append('notes', notes);
+    if (image) {
+      formData.append('image', image);
+    }
+    try {
+      await axios.post('http://localhost:3000/completedOrders', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setOrderId('');
+      setYear('');
+      setMake('');
+      setModel('');
+      setDamageType('');
+      setNotes('');
+      setImage(null);
+      alert('Order added successfully!');
+    } catch (error) {
+      console.error('Error submitting form', error);
+      alert('Error submitting form');
+    }
   };
   return (
     <div className="p-4">
@@ -34,7 +52,7 @@ const Inventory = () => {
         <div className="flex space-x-4">
           <button 
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
-            onClick={() => navigate('/iorders')} 
+            onClick={() => navigate('/workers/:userId')} 
           >
             PREVIOUS
           </button>
@@ -42,7 +60,7 @@ const Inventory = () => {
         </div>
         <button 
           className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500 hover:bg-red-100 transition"
-          onClick={() => navigate('/logout')}
+          onClick={() => navigate('/')}
         >
           LOGOUT
         </button>

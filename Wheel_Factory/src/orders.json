@@ -60,17 +60,20 @@
       "status": "pending"
     },
     {
-      "wheelId": "W002",
-      "clientName": "Client B",
-      "color": "Blue",
-      "currentStage": 2,
+      "id": "c7ca",
+      "wheelId": "W005",
+      "clientName": "MADHU",
+      "color": "BLACK",
+      "currentStage": 1,
       "status": "in-progress"
     }
   ],
   "stage1": [
     {
       "wheelId": "W001",
+      "stage": 1,
       "userId": "USR002",
+      "role": "Inventory",
       "make": "Toyota",
       "model": "Camry",
       "year": "2015",
@@ -80,7 +83,9 @@
     },
     {
       "wheelId": "W003",
+      "stage": 1,
       "userId": "USR002",
+      "role": "Inventory",
       "make": "",
       "model": "",
       "year": "",
@@ -92,7 +97,9 @@
   "stage2": [
     {
       "wheelId": "W001",
-      "userrId": "USR003",
+      "stage": 2,
+      "userId": "USR003",
+      "role": "Soldering",
       "sandblastingNote": "Removed old paint",
       "sandblastingAmount": "Medium",
       "status": "completed"
@@ -100,6 +107,8 @@
     {
       "wheelId": "W002",
       "userId": "USR003",
+      "role": "Soldering",
+      "stage": 2,
       "sandblastingNote": "",
       "sandblastingAmount": "",
       "status": "pending"
@@ -109,6 +118,8 @@
     {
       "wheelId": "W001",
       "userId": "USR004",
+      "stage": 3,
+      "role": "Painting",
       "paintingNote": "Applied base coat",
       "color": "Chrome",
       "paintType": "Powder",
@@ -117,6 +128,8 @@
     {
       "wheelId": "W002",
       "userId": "USR004",
+      "stage": 3,
+      "role": "Painting",
       "paintingNote": "",
       "color": "",
       "paintType": "",
@@ -126,7 +139,9 @@
   "stage4": [
     {
       "wheelId": "W001",
+      "stage": 4,
       "userId": "USR005",
+      "role": "Packaging",
       "packagingNote": "Ready for delivery",
       "finalInspectionRating": 5,
       "status": "completed"
@@ -134,6 +149,8 @@
     {
       "wheelId": "W002",
       "userId": "USR005",
+      "stage": 4,
+      "role": "Packaging",
       "packagingNote": "",
       "finalInspectionRating": null,
       "status": "pending"
@@ -142,10 +159,75 @@
   "completedOrders": [
     {
       "orderId": "ORD001",
-      "userId": "W001",
+      "wheelId": "W001",
       "clientName": "Client A",
       "status": "refurbished",
       "completionDate": "2023-10-15"
+    },
+    {
+      "id": "6ff8",
+      "orderId": " ",
+      "year": " ",
+      "make": " ",
+      "model": " ",
+      "damageType": " ",
+      "notes": " ",
+      "image": " "
+    },
+    {
+      "id": "b9ec",
+      "orderId": " ",
+      "year": " ",
+      "make": " ",
+      "model": " ",
+      "damageType": " ",
+      "notes": " ",
+      "image": " "
+    }
+  ],
+  "workers": [
+    {
+      "userId": "USR002",
+      "name": "Worker 1",
+      "role": "Inventory",
+      "stage": 1,
+      "tasks": [
+        "task1",
+        "task2"
+      ]
+    },
+    {
+      "userId": "USR003",
+      "name": "Worker 2",
+      "role": "Soldering",
+      "stage": 2,
+      "tasks": [
+        "Task A",
+        "Task B",
+        "Task C"
+      ]
+    },
+    {
+      "userId": "USR004",
+      "name": "Worker 3",
+      "role": "Painting",
+      "stage": 3,
+      "tasks": [
+        "Task X",
+        "Task Y",
+        "Task Z"
+      ]
+    },
+    {
+      "userId": "USR005",
+      "name": "Worker 4",
+      "role": "Packaging",
+      "stage": 4,
+      "tasks": [
+        "Task Alpha",
+        "Task Beta",
+        "Task Gamma"
+      ]
     }
   ]
 }

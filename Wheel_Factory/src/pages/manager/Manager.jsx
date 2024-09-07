@@ -12,11 +12,8 @@ const ManagerDashboard = () => {
     currentStage: 1,
     status: "in-progress",
   });
-
   const navigate = useNavigate();
-
   useEffect(() => {
-    // Fetch wheels and completed orders data
     const fetchData = async () => {
       const wheelsResponse = await fetch("http://localhost:3000/wheels");
       const completedOrdersResponse = await fetch(

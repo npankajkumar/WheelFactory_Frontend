@@ -29,14 +29,14 @@ const Packaging = () => {
       <header className="flex justify-between items-center rounded-md p-5 bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button
-            onClick={() => navigate('/packorder')} 
+            onClick={() => navigate('/workers/:userId')} 
             className="border border-gray-300 text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
           >
             Prev
           </button>
           <h1 className="text-xl font-bold text-white">Level-4  PACKAGING</h1>
         </div>
-        <button className="border border-red-400 text-red-500 p-2 rounded-md shadow-sm hover:bg-red-100 transition">
+        <button onClick={()=>navigate('/')} className="border border-red-400 text-red-500 p-2 rounded-md shadow-sm hover:bg-red-100 transition">
           Logout
         </button>
       </header>
