@@ -31,12 +31,12 @@ const Soldering = () => {
       <header className="flex justify-between rounded-md items-center p-5 bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
-          onClick={() => navigate('/sorders')} >
+          onClick={() => navigate('/workers/:userId')} >
             Prev
           </button>
           <h1 className="text-xl font-bold text-white">LEVEL 2 - SOLDERING</h1>
         </div>
-        <button className="border font-bold border-red-400 p-2 rounded-md shadow-sm text-red-500 hover:bg-red-300 hover:text-black transition">
+        <button onClick={() => navigate('/')} className="border font-bold border-red-400 p-2 rounded-md shadow-sm text-red-500 hover:bg-red-300 hover:text-black transition">
           Logout
         </button>
       </header>
