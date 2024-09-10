@@ -91,7 +91,7 @@ const Worker = () => {
       '4': `/packaging`
     };
 
-    navigate(stagePaths[stage]  || '/');
+    navigate(stagePaths[stage] || '/');
   };
 
   const handleDetailsClick = (wheelId) => {
@@ -110,11 +110,9 @@ const Worker = () => {
   if (error) {
     return <p>{error}</p>;
   }
-
   if (!worker) {
     return <p>Loading...</p>;
   }
-
   return (
     <div>
       <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
@@ -145,12 +143,6 @@ const Worker = () => {
               <td className="border border-gray-500 p-2">{item.status}</td>
               <td className="border border-gray-500 p-2">
                 <button
-                  className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-                  onClick={() => handleProcessClick(item.stage)}
-                >
-                  Process
-                </button>
-                <button
                   className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 ml-2"
                   onClick={() => handleDetailsClick(item.wheelId)}
                 >
@@ -166,12 +158,6 @@ const Worker = () => {
               <td className="border border-gray-500 p-2">{item.wheelId}</td>
               <td className="border border-gray-500 p-2">{item.status}</td>
               <td className="border border-gray-500 p-2">
-                <button
-                  className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-                  onClick={() => handleProcessClick(item.stage)}
-                >
-                  Process
-                </button>
                 <button
                   className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 ml-2"
                   onClick={() => handleDetailsClick(item.wheelId)}
@@ -189,12 +175,6 @@ const Worker = () => {
               <td className="border border-gray-500 p-2">{item.status}</td>
               <td className="border border-gray-500 p-2">
                 <button
-                  className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-                  onClick={() => handleProcessClick(item.stage)}
-                >
-                  Process
-                </button>
-                <button
                   className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 ml-2"
                   onClick={() => handleDetailsClick(item.wheelId)}
                 >
@@ -211,12 +191,6 @@ const Worker = () => {
               <td className="border border-gray-500 p-2">{item.status}</td>
               <td className="border border-gray-500 p-2">
                 <button
-                  className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-                  onClick={() => handleProcessClick(item.stage)}
-                >
-                  Process
-                </button>
-                <button
                   className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 ml-2"
                   onClick={() => handleDetailsClick(item.wheelId)}
                 >
@@ -225,7 +199,7 @@ const Worker = () => {
               </td>
             </tr>
           ))}
-        </tbody>
+        </tbody>  
       </table>
       {isModalOpen && selectedWheel && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -235,6 +209,12 @@ const Worker = () => {
             <p><strong>Client Name:</strong> {selectedWheel.clientName}</p>
             <p><strong>Color Preference:</strong> {selectedWheel.colorPreference}</p>
             <p><strong>Status:</strong> {selectedWheel.status}</p>
+            <button
+              className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
+              onClick={() => handleProcessClick(selectedWheel.stage)}
+            >
+              Process
+            </button>
             <button
               className="mt-2 bg-red-500 text-white p-2 rounded-md hover:bg-red-700"
               onClick={closeModal}

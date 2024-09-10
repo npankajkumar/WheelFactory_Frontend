@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Painting = () => {
   const [orderId, setOrderId] = useState('');
@@ -10,7 +11,11 @@ const Painting = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!orderId || !paint || !typeOfPaint || !status || !notes) {
+      alert('Please fill in all fields before submitting.');
+      return;
+    }
     const payload = {
       orderId,
       paint,
@@ -18,8 +23,25 @@ const Painting = () => {
       status,
       notes,
     };
-    console.log('Form Submitted:', payload);
-   
+
+    try {
+      await axios.post('http://localhost:3000/completedOrders', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setOrderId('');
+      setPaint('');
+      setTypeOfPaint('powder');
+      setStatus('inprogress');
+      setNotes('');
+
+      alert('Painting details submitted successfully!');
+      navigate('/painting');
+    } catch (error) {
+      console.error('Error submitting form', error);
+      alert('Error submitting form');
+    }
   };
 
   return (
@@ -69,7 +91,6 @@ const Painting = () => {
               value={typeOfPaint}
               onChange={(e) => setTypeOfPaint(e.target.value)}
             >
-                <option value="select">Select</option>
               <option value="powder">Powder</option>
               <option value="urethane">Urethane</option>
             </select>
@@ -77,7 +98,7 @@ const Painting = () => {
         </div>
         <div className="flex flex-col space-y-4">
           <div>
-             <label className="text-lg font-bold mr-2">Status </label>
+            <label className="text-lg font-bold mr-2">Status</label>
             <select 
               className="block p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
               value={status}

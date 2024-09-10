@@ -8,7 +8,7 @@ const Soldering = () => {
   const [solderingNote, setSolderingNote] = useState("");
   const [image, setImage] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleImageUpload = (e) => {
     setImage(e.target.files[0]);
@@ -27,42 +27,56 @@ const Soldering = () => {
   };
 
   return (
-    <div className="min-h-screen  p-4">
-      <header className="flex justify-between rounded-md items-center p-5 bg-black shadow-md border border-gray-200">
+    <div className="p-4">
+      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
         <div className="flex space-x-4">
-          <button className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
-          onClick={() => navigate('/workers/:userId')} >
-            Prev
+          <button 
+            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
+            onClick={() => navigate('/workers/:userId')} 
+          >
+            PREVIOUS
           </button>
-          <h1 className="text-xl font-bold text-white">LEVEL 2 - SOLDERING</h1>
+          <h1 className="text-xl text-white pt-1 font-bold">LEVEL-2 SOLDERING</h1>
         </div>
-        <button onClick={() => navigate('/')} className="border font-bold border-red-400 p-2 rounded-md shadow-sm text-red-500 hover:bg-red-300 hover:text-black transition">
-          Logout
+        <button 
+          className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500 hover:bg-red-100 transition"
+          onClick={() => navigate('/')}
+        >
+          LOGOUT
         </button>
       </header>
-      <main className="mt-8 space-y-8">
-        <div className="bg-white p-5 shadow-md border border-gray-200 rounded-md flex justify-between">
-          <p className="text-lg font-bold">ORDER ID: {orderId}</p>
-          <div>
-            <label className="text-lg font-bold mr-2">STATUS: </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="border border-gray-300 p-2 rounded-md shadow-sm"
-            >
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-        </div>
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-5 shadow-md border border-gray-200 rounded-md space-y-5"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+          <div className="flex-1 space-y-4">
             <div>
-              <label className="block text-lg font-bold mb-2">SandBlasting Level:</label>
-              <div className="space-x-4">
+              <label className="text-lg font-bold text-black">
+                Order Id:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                value={orderId}
+                onChange={(e) => setOrderId(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                Status:
+              </label>
+              <select 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-lg font-bold text-black">
+                SandBlasting Level:
+              </label>
+              <div className="mt-1 space-x-4">
                 <label>
                   <input
                     type="radio"
@@ -96,40 +110,47 @@ const Soldering = () => {
               </div>
             </div>
             <div>
-              <label className="block text-lg font-bold mb-2">Soldering Note:</label>
-              <input
-                type="text"
+              <label className="text-lg font-bold text-black">
+                Soldering Note:
+              </label>
+              <input 
+                type="text" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
                 value={solderingNote}
                 onChange={(e) => setSolderingNote(e.target.value)}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
+              />
+            </div>
+          </div>
+          <div className="flex-1 space-y-4">
+            <div>
+              <label className="text-lg font-bold text-black">
+                Upload Image:
+              </label>
+              <input 
+                type="file" 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black" 
+                onChange={handleImageUpload}
               />
             </div>
             <div>
-              <label className="block text-lg font-bold mb-2">Upload Image:</label>
-              <input
-                type="file"
-                onChange={handleImageUpload}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition" />
-            </div>
-            <div>
-              <label className="block text-lg font-bold mb-2">Additional Notes:</label>
-              <textarea
+              <label className="text-lg font-bold text-black">
+                Additional Notes:
+              </label>
+              <textarea 
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black h-28"
                 value={additionalNotes}
                 onChange={(e) => setAdditionalNotes(e.target.value)}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
               ></textarea>
             </div>
           </div>
-          <div className="text-center">
-            <button
-              type="submit"
-              className="bg-gray-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-900 transition"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </main>
+        </div>
+        <button 
+          type="submit" 
+          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
