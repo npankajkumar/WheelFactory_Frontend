@@ -109,7 +109,7 @@ const Soldering = () => {
                 </label>
               </div>
             </div>
-            <div>
+            {/* <div>
               <label className="text-lg font-bold text-black">
                 Soldering Note:
               </label>
@@ -119,7 +119,7 @@ const Soldering = () => {
                 value={solderingNote}
                 onChange={(e) => setSolderingNote(e.target.value)}
               />
-            </div>
+            </div> */}
           </div>
           <div className="flex-1 space-y-4">
             <div>

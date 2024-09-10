@@ -41,8 +41,8 @@ const Packaging = () => {
         </button>
       </header>
 
-      <main className="mt-8 space-y-8">
-        <div className="bg-white p-5 shadow-md border border-gray-200 rounded-md flex justify-between">
+      <main className="mt-2 ">
+        <div className="bg-white p-5   rounded-md flex justify-between">
           <p className="text-lg font-bold">ORDER ID: {orderId}</p>
           <div>
             <label className="text-lg font-bold mr-2">STATUS: </label>
@@ -59,7 +59,7 @@ const Packaging = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-5 shadow-md border border-gray-200 rounded-md space-y-5"
+          className="bg-white p-5  rounded-md space-y-5"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -96,7 +96,7 @@ const Packaging = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-gray-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-gray-900 transition"
+              className="bg-black font-bold text-white border h py-2 px-6 rounded-md shadow-md hover:bg-white hover:font-bold hover:text-black transition"
             >
               Submit
             </button>
