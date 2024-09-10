@@ -32,10 +32,10 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center">
+    <div className="relative flex h-screen w-full  items-center justify-center bg-gradient-to-r ">
       <img src="/bg-images/bglogin5.jpg" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="relative w-full max-w-[800px] h-auto md:h-[450px] bg-cover bg-center">
-        <div className="flex h-full items-center justify-center rounded-lg bg-card shadow-lg md:flex-row">
+      <div className="relative  backdrop-blur-md rounded-lg shadow-lg p-8 w-full max-w-[800px] h-auto md:h-[450px] bg-cover bg-center">
+        <div className="flex h-full items-center justify-center rounded-lg text-white shadow-lg md:flex-row">
           <div className="relative hidden md:block w-1/4 overflow-hidden rounded-l-lg">
             <img
               src="/bg-images/logins5.jpg"
@@ -44,10 +44,10 @@ export const Login = () => {
               style={{ aspectRatio: '350/450', objectFit: 'cover' }}
             />
           </div>
-          <div className="flex w-full md:w-1/2 flex-col justify-center gap-6 p-8 md:p-12">
-            <div className="space-y-2">
+          <div className="flex  w-full md:w-1/2 flex-col justify-center gap-6 p-8 md:p-12">
+            <div className="space-y-2 bg-black text-white rounded-md p-2">
               <h1 className="text-3xl font-bold">Welcome back!</h1>
-              <p className="text-muted-foreground">Enter your credentials to access your account.</p>
+              <p className="text-muted-foreground text-white">Enter your credentials to access your account.</p>
             </div>
             <form className="space-y-4" onSubmit={handleLogin}>
               <div className="space-y-2 font-bold">
@@ -66,7 +66,7 @@ export const Login = () => {
                   <label htmlFor="password">Password</label>
                   <a
                     href="#"
-                    className="text-sm font-medium underline underline-offset-4 hover:text-primary"
+                    className="text-sm font-medium underline underline-offset-4 hover:cursor-pointer"
                   >
                     Forgot password?
                   </a>
@@ -80,7 +80,7 @@ export const Login = () => {
                   className="w-full p-2 border rounded"
                 />
               </div>
-              <button type="submit" className="w-full p-2 bg-primary text-white rounded font-bold">
+              <button type="submit" className="w-full p-2 bg-primary text-white font-bold rounded transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 LOG IN
               </button>
             </form>
