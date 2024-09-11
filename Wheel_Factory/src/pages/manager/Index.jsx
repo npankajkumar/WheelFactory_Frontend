@@ -6,7 +6,7 @@ const ManagerRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/manager/:userId" element={<ManagerDashboard />} />
+        <Route path="/manager" element={<ManagerDashboard />} />
       </Routes>
     </Router>
   );

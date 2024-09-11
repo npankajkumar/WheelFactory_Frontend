@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 const Inventory = () => {
   const [orderId, setOrderId] = useState('');
   const [year, setYear] = useState('');
@@ -24,9 +25,8 @@ const Inventory = () => {
     formData.append('model', model);
     formData.append('damageType', damageType);
     formData.append('notes', notes);
-    if (image) {
-      formData.append('image', image);
-    }
+    formData.append('image', image);
+
     try {
       await axios.post('http://localhost:3000/completedOrders', formData, {
         headers: {
@@ -41,11 +41,13 @@ const Inventory = () => {
       setNotes('');
       setImage(null);
       alert('Order added successfully!');
+      navigate('/inventory');
     } catch (error) {
       console.error('Error submitting form', error);
       alert('Error submitting form');
     }
   };
+
   return (
     <div className="p-4">
       <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
@@ -115,13 +117,14 @@ const Inventory = () => {
           </div>
           <div className="flex-1 space-y-4">
             <div>
-            <label className="text-lg font-bold text-black">
+              <label className="text-lg font-bold text-black">
                 DamageType:
               </label>
               <select 
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
                 value={damageType}
-                onChange={(e) => setDamageType(e.target.value)}>
+                onChange={(e) => setDamageType(e.target.value)}
+              >
                 <option value="">Select</option>
                 <option value="CHIPPED">Chipped</option>
                 <option value="PAINT FADE">Paint Fade</option>
@@ -153,12 +156,14 @@ const Inventory = () => {
         </div>
         <button 
           type="submit" 
-          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto">
+          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+        >
           Submit
         </button>
       </form>
     </div>
   );
-};
+  };
 
 export default Inventory;
+
