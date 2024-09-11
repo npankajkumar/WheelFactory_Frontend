@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Login } from "../login/Login";
-
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 const Home = () => {
   const navigate = useNavigate();
   const loginHandler = () => {
@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <>
       <header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
-        <h3 className="text-xl text-black font-bold">THE WHEEL FACTORY</h3>
+        <h3 className="border-2 border-teal-500 text-black font-bold px-4 py-2 rounded hover:cursor-pointer hover:border-black hover:text-black transition ease-in-out duration-300">THE WHEEL FACTORY</h3>
         <ul className="flex list-none space-x-4 p-2">
           <li>
             <Link
@@ -52,61 +52,39 @@ const Home = () => {
           LOGIN
         </button>
       </header>
-      <div className="relative h-screen bg-cover bg-center bg-gray-800">
-        <img
-          src="public/bg-images/wheel.jpg"
-          alt="Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+    <div className="relative bg-gray-800 flex justify-center items-center">
+        <Carousel
+          showThumbs={false}
+          infiniteLoop
+          autoPlay
+          interval={2000}
+          showStatus={false}
+          emulateTouch
+          transitionTime={800}
+          className="w-screen "
+        >
+          <div>
+            <img src="public/bg-images/mansory1.png" alt="Wheel Image 1" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <img src="public/bg-images/man.png" alt="Wheel Image 2" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <img src="public/bg-images/mansory4.png" alt="Wheel Image 3" className="w-full h-full object-cover" />
+          </div>
+        </Carousel>
       </div>
+
+
       <div className="flex justify-center  bg-blue-950 "></div>
-      {/* <div className="grid grid-cols-3 gap-4 p-8 bg-blue-950">
-        <div className="text-center">
-          <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
-            INVENTORY MANAGEMENT
-          </h2>
-          <img
-            src="public/bg-images/car2.jpg"
-            width={400}
-            height={300}
-            alt="Image 1"
-            className="rounded-lg object-cover"
-            style={{ aspectRatio: "400/300", objectFit: "cover" }}
-          />
-        </div>
-        <div className="text-center">
-          <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
-            SOLDERING AND SANBLASTING
-          </h2>
-          <img
-            src="public/bg-images/car3.jpg"
-            width={400}
-            height={300}
-            alt="Image 2"
-            className="rounded-lg object-cover "
-            style={{ aspectRatio: "400/300", objectFit: "cover" }}
-          />
-        </div>
-        <div className="text-center">
-          <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
-            PACKAGING AND DELIVERY <i class="fa fa-bold" aria-hidden="true"></i>
-          </h2>
-          <img
-            src="public/bg-images/car1.jpg"
-            width={400}
-            height={300}
-            alt="Image 2"
-            className="rounded-lg object-cover"
-            style={{ aspectRatio: "400/300", objectFit: "cover" }}
-          />
-        </div>
-      </div> */}
+      
 
 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8 bg-blue-950">
         {[
           { title: "INVENTORY MANAGEMENT", image: "public/bg-images/car1.jpg" },
           { title: "SOLDERING AND SANDBLASTING", image: "public/bg-images/car2.jpg" },
           { title: "PACKAGING AND DELIVERY", image: "public/bg-images/car3.jpg" },
+          
         ].map((item, index) => (
           <>
           {/* <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
@@ -138,9 +116,9 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left">
             <div>
               <h5 className="text-xl font-bold text-teal-400 mb-2">Partners</h5>
-              <ul className="space-y-1 text-lg text-white">
+              <ul className="space-y-1 text-s text-white">
                 <li>KIA</li>
-                <li>HONDIA</li>
+                <li>HONDA</li>
                 <li>TATA</li>
                 <li>BMW</li>
                 <li>MERCEDES</li>
