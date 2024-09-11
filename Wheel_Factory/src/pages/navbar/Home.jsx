@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <>
       <header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
-        <h3 className="text-xl font-bold">THE WHEEL FACTORY</h3>
+        <h3 className="text-xl text-black font-bold">THE WHEEL FACTORY</h3>
         <ul className="flex list-none space-x-4 p-2">
           <li>
             <Link
@@ -109,6 +109,9 @@ const Home = () => {
           { title: "PACKAGING AND DELIVERY", image: "public/bg-images/car3.jpg" },
         ].map((item, index) => (
           <>
+          {/* <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
+            PACKAGING AND DELIVERY <i class="fa fa-bold" aria-hidden="true"></i>
+          </h2> */}
           <div key={index} className="group relative w-full h-full">
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-75 transition-all duration-500 ease-in-out rounded-lg"></div>
             
