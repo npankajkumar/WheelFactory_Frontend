@@ -215,7 +215,7 @@ const Inventory = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-end space-x-4 mt-4">
+        <div className="flex justify-center space-x-4 mt-4">
           <button
             type="submit"
             // className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"

@@ -230,3 +230,159 @@ const Worker = () => {
 
 export default Worker;
 
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+
+// const Worker = () => {
+//   const [pendingTasks, setPendingTasks] = useState([]);
+//   const [selectedTask, setSelectedTask] = useState(null);
+//   const [openModal, setOpenModal] = useState(false);
+//   const workerType = localStorage.getItem('type'); // 1: Inventory, 2: Soldering, 3: Painting, 4: Packaging
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchPendingTasks = async () => {
+//       try {
+//         let response;
+//         switch (workerType) {
+//           case '1':
+//             response = await axios.get('http://localhost:3000/api/inventory/pending');
+//             break;
+//           case '2':
+//             response = await axios.get('http://localhost:3000/api/soldering/pending');
+//             break;
+//           case '3':
+//             response = await axios.get('http://localhost:3000/api/painting/pending');
+//             break;
+//           case '4':
+//             response = await axios.get('http://localhost:3000/api/packaging/pending');
+//             break;
+//           default:
+//             console.log('Invalid worker type');
+//             return;
+//         }
+//         setPendingTasks(response.data);
+//       } catch (error) {
+//         console.error('Error fetching pending tasks:', error);
+//       }
+//     };
+
+//     fetchPendingTasks();
+//   }, [workerType]);
+
+//   const handleTaskClick = (task) => {
+//     setSelectedTask(task);
+//     setOpenModal(true);
+//   };
+
+//   const handleNext = () => {
+//     setOpenModal(false);
+//     switch (workerType) {
+//       case '1':
+//         navigate('/inventory');
+//         break;
+//       case '2':
+//         navigate('/soldering');
+//         break;
+//       case '3':
+//         navigate('/painting');
+//         break;
+//       case '4':
+//         navigate('/packaging');
+//         break;
+//       default:
+//         console.log('Invalid worker type');
+//     }
+//   };
+
+//   const handleCloseModal = () => {
+//     setOpenModal(false);
+//   };
+
+//   return (
+//     <div className="p-6 min-h-screen bg-gray-100">
+//       <header className="bg-black text-white p-4 rounded-md shadow-md mb-6">
+//         <h1 className="text-2xl font-bold">
+//           Welcome Worker {workerType}, Here are your Pending Tasks
+//         </h1>
+//       </header>
+
+//       <div className="overflow-x-auto">
+//         <table className="min-w-full bg-white border border-gray-300 shadow-md">
+//           <thead className="bg-gray-50">
+//             <tr>
+//               <th className="p-4 text-left">Order ID</th>
+//               <th className="p-4 text-left">Status</th>
+//               <th className="p-4 text-left">Action</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {pendingTasks.map((task) => (
+//               <tr key={task.orderId} className="border-t">
+//                 <td className="p-4">{task.orderId}</td>
+//                 <td className="p-4">{task.status}</td>
+//                 <td className="p-4">
+//                   <button
+//                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+//                     onClick={() => handleTaskClick(task)}
+//                   >
+//                     Next
+//                   </button>
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+
+//       {/* Modal for task details */}
+//       {openModal && (
+//         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//           <div className="bg-white p-6 rounded-md shadow-md w-1/2">
+//             {selectedTask && (
+//               <div>
+//                 <h2 className="text-xl font-semibold mb-4">Order ID: {selectedTask.orderId}</h2>
+//                 <div className="space-y-2">
+//                   <div>
+//                     <strong>Status:</strong> {selectedTask.status}
+//                   </div>
+//                   <div>
+//                     <strong>Notes:</strong> {selectedTask.notes}
+//                   </div>
+//                 </div>
+//                 <div className="mt-4 flex justify-end space-x-4">
+//                   <button
+//                     className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+//                     onClick={handleCloseModal}
+//                   >
+//                     Cancel
+//                   </button>
+//                   <button
+//                     className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+//                     onClick={handleNext}
+//                   >
+//                     Next
+//                   </button>
+//                 </div>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Worker;
