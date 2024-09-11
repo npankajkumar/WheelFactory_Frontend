@@ -45,7 +45,7 @@ const ManagerDashboard = () => {
   };
 
   const handleLogout = () => {
-    navigate("/logout");
+    navigate("/");
   };
 
   return (
