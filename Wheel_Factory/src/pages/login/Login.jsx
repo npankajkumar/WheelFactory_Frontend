@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
@@ -17,7 +17,7 @@ export const Login = () => {
 
       if (user) {
         if (user.role === 'manager') {
-          navigate(`/manager/${user.userId}`);
+          navigate(`/manager`);
         } else if (user.role === 'worker') {
           navigate(`/workers/${user.userId}`);
         }

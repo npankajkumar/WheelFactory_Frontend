@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -37,7 +37,7 @@ const Painting = () => {
 
   const formik = useFormik({
     initialValues: {
-      orderId: orderId || '',
+      orderId: orderId || 'ORD001',
       paint: '',
       typeOfPaint: '',
       status: status || '',
@@ -85,7 +85,7 @@ const Painting = () => {
           >
             PREVIOUS
           </button>
-          <h1 className="text-xl text-white pt-1 font-bold">LEVEL-3 PAINTING</h1>
+          <h1 className="text-xl text-white pt-1 font-bold"> PAINTING</h1>
         </div>
         <button
           className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500"

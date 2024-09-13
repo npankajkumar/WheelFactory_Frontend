@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -24,12 +24,12 @@ const Inventory = () => {
 
   const formik = useFormik({
     initialValues: {
-      orderId: '12345', // Dummy orderId for now, will come from API later
-      year: '',
-      make: '',
-      model: '',
-      damageType: '',
-      notes: '',
+      orderId: 'ORD001', // Dummy orderId for now, will come from API later
+      year: '2015',
+      make: 'Toyota',
+      model: 'Camry',
+      damageType: 'Lip Crack',
+      notes: 'Front left Wheel',
       image: null,
       status: 'Soldering', // Dummy status for now, will come from API later
     },
@@ -219,8 +219,9 @@ const Inventory = () => {
           <button
             type="submit"
             // className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
-            className='border-2 border-teal-500 text-black
-             font-bold px-4 py-2 rounded hover:bg-teal-500 hover:text-black transition ease-in-out duration-300'
+            className='border-2  border-red-500 text-black
+             font-bold px-4 py-2 rounded hover:bg-red-500 hover:text-black transition ease-in-out duration-300'
+             onChange={formik.handleSubmit}
           >
             Submit
           </button>
@@ -229,6 +230,7 @@ const Inventory = () => {
             // onClick={handleScrap}
             className='border-2 border-red-400 text-black
              font-bold px-4 py-2 rounded hover:bg-red-500 hover:text-black transition ease-in-out duration-300'
+          onChange={handleScrap}
           >
             Scrap
           </button>
