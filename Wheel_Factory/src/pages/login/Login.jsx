@@ -32,9 +32,9 @@ export const Login = () => {
   };
 
   return (
-    <div className="relative flex h-screen w-full  items-center justify-center bg-gradient-to-r ">
+    <div className="relative bg-gray-600 flex h-screen w-full  items-center justify-center bg-gradient-to-r ">
       <img src="/bg-images/bglogin5.jpg" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="relative  backdrop-blur-xl rounded-lg shadow-lg p-8 w-full max-w-[800px] h-auto md:h-[450px] bg-cover bg-center">
+      <div className="relative  backdrop-blur-3xl rounded-lg shadow-lg p-8 w-full max-w-[800px] h-auto md:h-[450px] bg-cover bg-center">
         <div className="flex h-full items-center justify-center rounded-lg text-white shadow-lg md:flex-row">
           <div className="relative hidden md:block w-1/4 overflow-hidden rounded-l-lg">
             <img

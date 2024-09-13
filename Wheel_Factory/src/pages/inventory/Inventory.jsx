@@ -31,7 +31,7 @@ const Inventory = () => {
       damageType: '',
       notes: '',
       image: null,
-      status: 'Pending', // Dummy status for now, will come from API later
+      status: 'Soldering', // Dummy status for now, will come from API later
     },
     validationSchema: Yup.object({
       year: Yup.string().required('Year is required'),

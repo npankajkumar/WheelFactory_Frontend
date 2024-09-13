@@ -79,11 +79,11 @@ const Home = () => {
       <div className="flex justify-center  bg-blue-950 "></div>
       
 
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8 bg-blue-950">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8 bg-gray-800">
         {[
-          { title: "INVENTORY MANAGEMENT", image: "public/bg-images/car1.jpg" },
+          { title: "INVENTORY MANAGEMENT", image: "public/bg-images/inventory1.png" },
           { title: "SOLDERING AND SANDBLASTING", image: "public/bg-images/car2.jpg" },
-          { title: "PACKAGING AND DELIVERY", image: "public/bg-images/car3.jpg" },
+          { title: "PACKAGING AND DELIVERY", image: "public/bg-images/remanu.png" },
           
         ].map((item, index) => (
           <>
@@ -105,7 +105,7 @@ const Home = () => {
           </>
         ))}
       </div>
-      <footer className="w-full border-t-4 border-teal-400 pt-8 pb-12 bg-blue-950">
+      <footer className="w-full border-t-4 border-teal-400 pt-8 pb-12 bg-gray-800">
         <div className="container max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-8">
           <div className="text-center sm:text-left">
             <h4 className="text-xl font-bold text-teal-400 ">Wheel Factory</h4>
@@ -149,8 +149,8 @@ const Home = () => {
         </div>
       </footer>
       <div
-        className="bg-blue-950 text-white p-4 flex justify-center font-bold"
-        style={{ backgroundColor: "#130f40" }}
+        className="bg-gray-900 text-white p-4 flex justify-center font-bold"
+        
       >
         <p>&copy; 2023 The Wheel Factory. All rights reserved.</p>
       </div>
