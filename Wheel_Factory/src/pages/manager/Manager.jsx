@@ -57,7 +57,7 @@ const ManagerDashboard = () => {
       <header className="flex justify-between items-center p-5 rounded-md bg-gray-900 shadow-md border border-gray-200">
         <div className="flex space-x-4">
           <button
-            className="flex items-center justify-center px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-medium"
+            className="flex items-center justify-center px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-medium"
             onClick={() => setShowAddModal(true)}
           >
             ADD NEW ORDER
@@ -77,13 +77,13 @@ const ManagerDashboard = () => {
       {/* Buttons for Switching Views */}
       <div className="pl-5 mt-4 flex space-x-4">
         <button
-          className="bg-teal-500 text-white p-2 rounded shadow-md hover:bg-teal-600"
+          className="bg-green-600 text-white font-serif font-semibold p-2 rounded shadow-md hover:bg-gray-900"
           onClick={() => setIsCompletedView(false)}
         >
           Current Orders
         </button>
         <button
-          className="bg-teal-500 text-white p-2 rounded shadow-md hover:bg-teal-600"
+          className="bg-green-600 text-white font-serif font-semibold p-2 rounded shadow-md hover:bg-teal-600"
           onClick={() => setIsCompletedView(true)}
         >
           Completed Orders
@@ -236,11 +236,11 @@ const CurrentOrders = ({
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
   return (
-    <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
+    <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4 mt-8">
       <h2 className="text-xl font-bold mb-4">Current Orders</h2>
       <div className="mb-4 flex space-x-4">
        <select
-          className="border p-2 rounded"
+          className="border p-3 rounded"
           value={stageFilter}
           onChange={(e) => setStageFilter(e.target.value)}
         >
@@ -251,7 +251,7 @@ const CurrentOrders = ({
           <option value="packaging">Packaging</option>
         </select>
         <select
-          className="border p-2 rounded"
+          className="border p-3 rounded"
           value={damageTypeFilter}
           onChange={(e) => setDamageTypeFilter(e.target.value)}
         >
@@ -282,19 +282,19 @@ const CurrentOrders = ({
         <tbody className="bg-white divide-y divide-gray-500">
           {currentOrdersPage.map((order) => (
             <tr key={order.orderId}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap font-serif text-l font-medium text-gray-900">
                 {order.orderId}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
+              <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">
                 {order.stage}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
+              <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">
                 {order.DamageType}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
+              <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">
               <button
                     type="button"
-                    className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                    className="bg-blue-500 text-white font-serif font-semibold  px-4 py-2 rounded hover:bg-gray-400"
                   onClick={() => setViewOrderDetails(order)}
                 >
                   View Details

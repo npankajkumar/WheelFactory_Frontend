@@ -396,11 +396,11 @@ export default function Worker() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="overflow-x-auto bg-white shadow-md rounded-lg p-2">
       <header className="flex justify-between items-center p-5 bg-gray-900 text-white rounded-lg shadow-md mb-8">
         <div className="flex space-x-4">
           <button 
-            className="flex items-center justify-center px-4 py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-medium"
+            className="flex items-center justify-center px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-medium"
             onClick={() => navigate('/login')} 
           >
             PREVIOUS
@@ -443,7 +443,7 @@ export default function Worker() {
       </div>
 
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse">
+        <table className="min-w-full divide-y divide-gray-500 table-auto w-full text-left border-collapse">
           <thead className="bg-gray-900">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">S.No</th>
@@ -456,19 +456,19 @@ export default function Worker() {
               <th scope="col" className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-900">
             {currentItems.map((item) => (
               <tr key={item.SNo} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.SNo}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.OrderId}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.year}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.make}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.model}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.damageType}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.notes}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l font-medium text-gray-900">{item.SNo}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.OrderId}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.year}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.make}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.model}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.damageType}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-serif text-l text-gray-950">{item.notes}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-l text-gray-950">
                   <button
-                    className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition duration-300"
+                    className="bg-green-500 font-semibold text-gray px-4 py-2 rounded-md hover:bg-green-600 transition duration-300"
                     onClick={() => handleDetailsClick(item.OrderId)}
                   >
                     Details
