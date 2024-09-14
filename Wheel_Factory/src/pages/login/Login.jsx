@@ -17,7 +17,7 @@ export const Login = () => {
 
       if (user) {
         if (user.role === 'manager') {
-          navigate(`/manager/${user.userId}`);
+          navigate(`/manager`);
         } else if (user.role === 'worker') {
           navigate(`/workers/${user.userId}`);
         }
