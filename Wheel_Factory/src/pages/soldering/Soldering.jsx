@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -32,7 +32,7 @@ const Soldering = () => {
   // Formik with Yup validation
   const formik = useFormik({
     initialValues: {
-      orderId: '',
+      orderId: 'ORD001',
       status: '',
       sandBlastingLevel: '',
       solderingNote: '',
@@ -85,7 +85,7 @@ const Soldering = () => {
           >
             PREVIOUS
           </button>
-          <h1 className="text-xl text-white font-bold">LEVEL-2 SOLDERING</h1>
+          <h1 className="text-xl text-white font-bold">SOLDERING</h1>
         </div>
         <button 
           className="border border-red-400 p-2 rounded-md font-bold text-red-500"

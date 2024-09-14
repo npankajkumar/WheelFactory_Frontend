@@ -47,86 +47,192 @@
   ],
   "wheels": [
     {
-      "wheelId": "W001",
-      "clientName": "Client A",
-      "colorPreference": "Chrome",
-      "status": "in-progress",
-      "id": "d322"
+      "id": "0121",
+      "year": "2015",
+      "make": "Toyota",
+      "model": "Camry",
+      "damageType": "",
+      "notes": "Front left wheel",
+      "clientName": "ORD001"
     },
     {
-      "wheelId": "W009",
-      "clientName": "Client B",
-      "colorPreference": "Black Smoke",
-      "status": "in-progress",
-      "id": "a662"
+      "id": "ffec",
+      "year": "2018",
+      "make": "Honda",
+      "model": "Civic",
+      "damageType": "",
+      "notes": "Rear bumper",
+      "clientName": "ORD002"
     },
     {
-      "wheelId": "W003",
-      "clientName": "Client C",
-      "colorPreference": "Pearl White",
-      "status": "pending",
-      "stage": 3,
-      "id": "717c"
+      "id": "578a",
+      "year": "2016",
+      "make": "Ford",
+      "model": "Focus",
+      "damageType": "",
+      "notes": "Driver side door",
+      "clientName": "ORD003"
     },
     {
-      "wheelId": "W004",
-      "clientName": "Client C",
-      "colorPreference": "Pearl White",
-      "status": "pending",
-      "stage": 4,
-      "id": "6259"
-    },
-    {
-      "wheelId": "W002",
-      "clientName": "Client C",
-      "colorPreference": "Pearl White",
-      "status": "pending",
-      "stage": 2,
-      "id": "c483"
-    },
-    {
-      "wheelId": "W005",
-      "clientName": "Client C",
-      "colorPreference": "Pearl White",
-      "status": "pending",
-      "stage": 1,
-      "id": "5cd7"
-    },
-    {
-      "id": "c7ca",
-      "wheelId": "W005",
-      "clientName": "MADHU",
-      "color": "BLACK",
-      "currentStage": 1,
-      "status": "in-progress"
+      "id": "547e",
+      "year": "2017",
+      "make": "Nissan",
+      "model": "Altima",
+      "damageType": "",
+      "notes": "Broken Mirror",
+      "clientName": "ORD004"
     }
   ],
   "stage1": [
     {
-      "wheelId": "W001",
-      "stage": 1,
-      "userId": "USR002",
-      "role": "Inventory",
+      "SNo": 1,
+      "OrderId": "ORD001",
+      "year": "2015",
       "make": "Toyota",
       "model": "Camry",
-      "year": "2015",
       "damageType": "Lip Crack",
       "notes": "Front left wheel",
-      "status": "completed",
-      "id": "2ca5"
+      "status": "Soldering"
     },
     {
-      "wheelId": "W005",
-      "stage": 1,
-      "userId": "USR002",
-      "role": "Inventory",
-      "make": "",
-      "model": "",
-      "year": "",
-      "damageType": "",
-      "notes": "",
-      "status": "pending",
-      "id": "b630"
+      "SNo": 2,
+      "OrderId": "ORD002",
+      "year": "2018",
+      "make": "Honda",
+      "model": "Civic",
+      "damageType": "Scratch",
+      "notes": "Rear bumper",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 3,
+      "OrderId": "ORD003",
+      "year": "2016",
+      "make": "Ford",
+      "model": "Focus",
+      "damageType": "Dent",
+      "notes": "Driver side door",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 4,
+      "OrderId": "ORD004",
+      "year": "2017",
+      "make": "Nissan",
+      "model": "Altima",
+      "damageType": "Broken Mirror",
+      "notes": "Passenger side mirror",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 5,
+      "OrderId": "ORD005",
+      "year": "2019",
+      "make": "Chevrolet",
+      "model": "Malibu",
+      "damageType": "Chip",
+      "notes": "Front windshield",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 6,
+      "OrderId": "ORD006",
+      "year": "2020",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "damageType": "Paint Scuff",
+      "notes": "Rear left fender",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 7,
+      "OrderId": "ORD007",
+      "year": "2014",
+      "make": "Kia",
+      "model": "Optima",
+      "damageType": "Scrape",
+      "notes": "Front right door",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 8,
+      "OrderId": "ORD008",
+      "year": "2013",
+      "make": "Mazda",
+      "model": "6",
+      "damageType": "Cracked Bumper",
+      "notes": "Rear bumper",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 9,
+      "OrderId": "ORD009",
+      "year": "2015",
+      "make": "Volkswagen",
+      "model": "Jetta",
+      "damageType": "Broken Tail Light",
+      "notes": "Rear left",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 10,
+      "OrderId": "ORD010",
+      "year": "2019",
+      "make": "BMW",
+      "model": "3 Series",
+      "damageType": "Fender Bend",
+      "notes": "Front right fender",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 11,
+      "OrderId": "ORD011",
+      "year": "2018",
+      "make": "Audi",
+      "model": "A4",
+      "damageType": "Crack",
+      "notes": "Sunroof glass",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 12,
+      "OrderId": "ORD012",
+      "year": "2020",
+      "make": "Mercedes",
+      "model": "C-Class",
+      "damageType": "Dent",
+      "notes": "Rear left door",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 13,
+      "OrderId": "ORD013",
+      "year": "2021",
+      "make": "Tesla",
+      "model": "Model 3",
+      "damageType": "Chip",
+      "notes": "Front bumper",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 14,
+      "OrderId": "ORD014",
+      "year": "2017",
+      "make": "Lexus",
+      "model": "ES",
+      "damageType": "Cracked Headlight",
+      "notes": "Front left",
+      "status": "Soldering"
+    },
+    {
+      "SNo": 15,
+      "OrderId": "ORD015",
+      "make": "Subaru",
+      "model": "Impreza",
+      "year": "2016",
+      "damageType": "Paint Chip",
+      "notes": "Rear left bumper",
+      "status": "Soldering"
     }
   ],
   "stage2": [
@@ -200,43 +306,170 @@
   "completedOrders": [
     {
       "orderId": "ORD001",
-      "wheelId": "W001",
-      "clientName": "Client A",
-      "status": "refurbished",
       "completionDate": "2023-10-15",
-      "id": "cacf"
+      "id": "ada6"
     },
     {
-      "id": "0a78",
-      "orderId": "w008",
-      "paint": "chrome",
-      "typeOfPaint": "urethane",
-      "status": "completed",
-      "notes": "colour is red"
+      "orderId": "ORD002",
+      "completionDate": "2023-10-15",
+      "id": "e0dc"
     },
     {
-      "id": "74c4",
-      "orderId": "",
-      "paint": "",
-      "typeOfPaint": "powder",
-      "status": "inprogress",
-      "notes": ""
+      "orderId": "ORD003",
+      "completionDate": "2023-10-15",
+      "id": "3e4b"
     },
     {
-      "id": "faff",
-      "orderId": "",
-      "paint": "",
-      "typeOfPaint": "powder",
-      "status": "inprogress",
-      "notes": ""
+      "orderId": "ORD004",
+      "completionDate": "2023-10-15",
+      "id": "b061"
     },
     {
-      "id": "e0b5",
-      "orderId": "W009",
-      "paint": "CHROME",
-      "typeOfPaint": "powder",
-      "status": "inprogress",
-      "notes": "COOO"
+      "orderId": "ORD005",
+      "completionDate": "2023-10-15",
+      "id": "1d90"
+    },
+    {
+      "orderId": "ORD006",
+      "completionDate": "2023-10-15",
+      "id": "9000"
+    },
+    {
+      "orderId": "ORD007",
+      "completionDate": "2023-10-15",
+      "id": "6d5f"
+    },
+    {
+      "orderId": "ORD008",
+      "completionDate": "2023-10-15",
+      "id": "5f99"
+    },
+    {
+      "orderId": "ORD009",
+      "completionDate": "2023-10-15",
+      "id": "2d0a"
+    },
+    {
+      "orderId": "ORD0010",
+      "completionDate": "2023-10-15",
+      "id": "2aca"
+    },
+    {
+      "orderId": "ORD0011",
+      "completionDate": "2023-10-15",
+      "id": "6155"
+    },
+    {
+      "orderId": "ORD0012",
+      "completionDate": "2023-10-15",
+      "id": "f633"
+    },
+    {
+      "orderId": "ORD0013",
+      "completionDate": "2023-10-15",
+      "id": "876a"
+    },
+    {
+      "orderId": "ORD0014",
+      "completionDate": "2023-10-15",
+      "id": "7899"
+    },
+    {
+      "orderId": "ORD0015",
+      "completionDate": "2023-10-15",
+      "id": "4955"
+    }
+  ],
+  "currentOrders": [
+    {
+      "orderId": "ORD001",
+      "stage": "Inventory",
+      "DamageType": "LipCracked",
+      "id": "ed6d"
+    },
+    {
+      "orderId": "ORD002",
+      "stage": "Soldering",
+      "DamageType": "Chipped",
+      "id": "9916"
+    },
+    {
+      "orderId": "ORD003",
+      "stage": "Painting",
+      "DamageType": "PaintFade",
+      "id": "bc74"
+    },
+    {
+      "orderId": "ORD004",
+      "stage": "Packaging",
+      "DamageType": "Scrapped",
+      "id": "65d6"
+    },
+    {
+      "orderId": "ORD005",
+      "stage": "Inventory",
+      "DamageType": "LipCracked",
+      "id": "df86"
+    },
+    {
+      "orderId": "ORD006",
+      "stage": "Soldering",
+      "DamageType": "Chipped",
+      "id": "01f2"
+    },
+    {
+      "orderId": "ORD007",
+      "stage": "Packaging",
+      "DamageType": "LipCracked",
+      "id": "c43c"
+    },
+    {
+      "orderId": "ORD008",
+      "stage": "Painting",
+      "DamageType": "PaintFade",
+      "id": "5a15"
+    },
+    {
+      "orderId": "ORD009",
+      "stage": "Inventory",
+      "DamageType": "LipCracked",
+      "id": "aff5"
+    },
+    {
+      "orderId": "ORD010",
+      "stage": "Soldering",
+      "DamageType": "Chipped",
+      "id": "abfe"
+    },
+    {
+      "orderId": "ORD011",
+      "stage": "Packaging",
+      "DamageType": "Scrapped",
+      "id": "9ca6"
+    },
+    {
+      "orderId": "ORD012",
+      "stage": "Painting",
+      "DamageType": "PaintFade",
+      "id": "bad2"
+    },
+    {
+      "orderId": "ORD013",
+      "stage": "Inventory",
+      "DamageType": "LipCracked",
+      "id": "db74"
+    },
+    {
+      "orderId": "ORD014",
+      "stage": "Inventory",
+      "DamageType": "Scrapped",
+      "id": "4cfa"
+    },
+    {
+      "orderId": "ORD015",
+      "stage": "Soldering",
+      "DamageType": "LipCracked",
+      "id": "34db"
     }
   ],
   "workers": [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -29,10 +29,15 @@ const Packaging = () => {
 
     fetchData();
   }, []);
+  const handleRedirect = ()=>
+  {
+    navigate('/soldering');
+  }
 
   // Formik for form handling and validation
   const formik = useFormik({
     initialValues: {
+      orderId:"ORD001",
       rating: '',
       notes: '',
       image: null,
@@ -73,7 +78,7 @@ const Packaging = () => {
           >
             Prev
           </button>
-          <h1 className="text-xl font-bold text-white">Level-4 PACKAGING</h1>
+          <h1 className="text-xl font-bold text-white"> PACKAGING</h1>
         </div>
         <button
           onClick={() => navigate('/')}
@@ -84,15 +89,26 @@ const Packaging = () => {
       </header>
 
       <main className="mt-2">
-        <div className="bg-white p-5 rounded-md flex justify-between">
-          <p className="text-lg font-bold">ORDER ID: {orderId}</p>
+        <div className="bg-white p-8 rounded-md flex justify-between">
+          {/* <p className="text-lg font-bold">ORDER ID: {orderId}</p> */}
+          <div>
+              <label className="text-lg font-bold text-black">
+                Order Id:
+              </label>
+              <input
+                type="text"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
+                value={formik.values.orderId}
+                readOnly
+              />
+            </div>
           <div>
             <label className="text-lg font-bold mr-2">STATUS: </label>
             <input
               type="text"
               value={status}
               readOnly
-              className="border border-gray-300 p-2 rounded-md shadow-sm"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
             />
           </div>
         </div>
@@ -156,6 +172,12 @@ const Packaging = () => {
           </div>
 
           <div className="text-center">
+          <button
+              type="submit"
+              className="bg-black font-bold text-white border h py-2 px-6 rounded-md shadow-md hover:bg-white hover:font-bold hover:text-black transition"
+            onChange={handleRedirect}>
+              Redirect
+            </button>
             <button
               type="submit"
               className="bg-black font-bold text-white border h py-2 px-6 rounded-md shadow-md hover:bg-white hover:font-bold hover:text-black transition"
