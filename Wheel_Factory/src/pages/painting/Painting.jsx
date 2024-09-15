@@ -1,73 +1,68 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const Painting = () => {
   const navigate = useNavigate();
-  const [paintOptions, setPaintOptions] = useState([]);
-  const [typeOfPaintOptions, setTypeOfPaintOptions] = useState([]);
-  const [orderId, setOrderId] = useState('');
-  const [status, setStatus] = useState('');
+  const location = useLocation();
+  const orderId = location.state?.orderId;
+  const [orderDetails, setOrderDetails] = useState(null);
 
-  // Fetch paint options and type of paint options from APIs
-  useEffect(() => {
-    const fetchOptions = async () => {
+  const fetchOrderDetails = async () => {
+    if (orderId) {
       try {
-        // Fetch paint options
-        const paintResponse = await axios.get('http://localhost:3000/api/paints'); // Dummy API
-        setPaintOptions(paintResponse.data);
-
-        // Fetch type of paint options
-        const typeOfPaintResponse = await axios.get('http://localhost:3000/api/painttypes'); // Dummy API
-        setTypeOfPaintOptions(typeOfPaintResponse.data);
-
-        // Fetch order details (orderId and status)
-        const orderResponse = await axios.get('http://localhost:3000/api/order'); // Dummy API
-        setOrderId(orderResponse.data.orderId);
-        setStatus(orderResponse.data.status);
+        const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
+        console.log("API Response:", response.data);
+        setOrderDetails(response.data);
+        setLoading(false); 
       } catch (error) {
-        console.error('Error fetching options:', error);
+        console.error("Error fetching data:", error);
+        setError('Failed to load order details. Please try again later.');
+        setLoading(false);
       }
-    };
+    } else {
+      setError('Order ID is missing.');
+      setLoading(false);
+    }
+  };
 
-    fetchOptions();
-  }, []);
+  useEffect(() => {
+    fetchOrderDetails();
+  }, [orderId]);
+
 
   const formik = useFormik({
     initialValues: {
-      orderId: orderId || 'ORD001',
       paint: '',
       typeOfPaint: '',
-      status: status || '',
       notes: '',
-      image: null,
+      image: '',
     },
-    enableReinitialize: true,
     validationSchema: Yup.object({
       paint: Yup.string().required('Paint is required'),
       typeOfPaint: Yup.string().required('Type of paint is required'),
       notes: Yup.string().required('Notes are required'),
-      image: Yup.mixed().required('Image is required'),
+      image: Yup.string().required('Image URL is required'),
     }),
     onSubmit: async (values) => {
-      const formData = new FormData();
-      formData.append('orderId', values.orderId);
-      formData.append('paint', values.paint);
-      formData.append('typeOfPaint', values.typeOfPaint);
-      formData.append('status', values.status);
-      formData.append('notes', values.notes);
-      formData.append('image', values.image);
+      const requestBody = {
+        orderId: orderDetails?.orderId,
+        pColor: values.paint,
+        PType: values.typeOfPaint,
+        status: orderDetails?.status,
+        notes: values.notes,
+        imageUrl: values.image,
+      };
 
       try {
-        await axios.post('http://localhost:3000/api/task', formData, {
+        await axios.post('http://localhost:5041/api/Task/painting', requestBody, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         });
         alert('Painting task submitted successfully');
-        navigate('/inventory');
       } catch (error) {
         console.error('Error submitting painting task:', error);
         alert('Failed to submit the painting task');
@@ -85,7 +80,7 @@ const Painting = () => {
           >
             PREVIOUS
           </button>
-          <h1 className="text-xl text-white pt-1 font-bold"> PAINTING</h1>
+          <h1 className="text-xl text-white pt-1 font-bold">PAINTING</h1>
         </div>
         <button
           className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500"
@@ -94,39 +89,38 @@ const Painting = () => {
           LOGOUT
         </button>
       </header>
+      {orderDetails && (
+        <div className="mt-4 space-y-4">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+            <div className="flex-1 space-y-4">
+              <div>
+                <h2 className="text-lg font-bold">Order Id:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Status:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.status}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit} encType="multipart/form-data">
+      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           {/* Left Column */}
           <div className="flex-1 space-y-4">
-            {/* Order ID */}
-            <div>
-              <label className="text-lg font-bold text-black">Order Id:</label>
-              <input
-                type="text"
-                name="orderId"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                value={formik.values.orderId}
-                readOnly
-              />
-            </div>
-
+        
             {/* Paint */}
             <div>
               <label className="text-lg font-bold text-black">Paint:</label>
-              <select
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              <input
+                type="text"
                 name="paint"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 value={formik.values.paint}
                 onChange={formik.handleChange}
-              >
-                <option value="">Select</option>
-                {paintOptions.map((paint) => (
-                  <option key={paint.id} value={paint.name}>
-                    {paint.name}
-                  </option>
-                ))}
-              </select>
+              />
               {formik.errors.paint && formik.touched.paint && (
                 <p className="text-red-500">{formik.errors.paint}</p>
               )}
@@ -135,19 +129,13 @@ const Painting = () => {
             {/* Type of Paint */}
             <div>
               <label className="text-lg font-bold text-black">Type of Paint:</label>
-              <select
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              <input
+                type="text"
                 name="typeOfPaint"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 value={formik.values.typeOfPaint}
                 onChange={formik.handleChange}
-              >
-                <option value="">Select</option>
-                {typeOfPaintOptions.map((type) => (
-                  <option key={type.id} value={type.name}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
+              />
               {formik.errors.typeOfPaint && formik.touched.typeOfPaint && (
                 <p className="text-red-500">{formik.errors.typeOfPaint}</p>
               )}
@@ -156,17 +144,6 @@ const Painting = () => {
 
           {/* Right Column */}
           <div className="flex-1 space-y-4">
-            {/* Status */}
-            <div>
-              <label className="text-lg font-bold text-black">Status:</label>
-              <input
-                type="text"
-                name="status"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                value={formik.values.status}
-                readOnly
-              />
-            </div>
 
             {/* Notes */}
             <div>
@@ -182,16 +159,15 @@ const Painting = () => {
               )}
             </div>
 
-            {/* Image Upload */}
+            {/* Image URL */}
             <div>
-              <label className="text-lg font-bold text-black">Upload Image:</label>
+              <label className="text-lg font-bold text-black">Image URL:</label>
               <input
-                type="file"
+                type="text"
                 name="image"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                onChange={(event) => {
-                  formik.setFieldValue('image', event.currentTarget.files[0]);
-                }}
+                value={formik.values.image}
+                onChange={formik.handleChange}
               />
               {formik.errors.image && formik.touched.image && (
                 <p className="text-red-500">{formik.errors.image}</p>

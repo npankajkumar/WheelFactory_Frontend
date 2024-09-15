@@ -1,46 +1,36 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const Packaging = () => {
-  const [orderId, setOrderId] = useState('');
-  const [status, setStatus] = useState('');
-  const [ratingOptions, setRatingOptions] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const orderId = location.state?.orderId;
+  const [orderDetails, setOrderDetails] = useState(null);
 
-  // Fetch order ID, status, and rating options from the API
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchOrderDetails = async () => {
+    if (orderId) {
       try {
-        // Dummy API calls for orderId, status, and ratings
-        const orderResponse = await axios.get('http://localhost:3000/api/order'); // Dummy endpoint
-        const ratingResponse = await axios.get('http://localhost:3000/api/ratings'); // Dummy endpoint
-
-        setOrderId(orderResponse.data.orderId);
-        setStatus(orderResponse.data.status);
-        setRatingOptions(ratingResponse.data);
-
+        const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
+        console.log("API Response:", response.data);
+        setOrderDetails(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
-    };
+    }
+  };
 
-    fetchData();
-  }, []);
-  const handleRedirect = ()=>
-  {
-    navigate('/soldering');
-  }
+  useEffect(() => {
+    fetchOrderDetails();
+  }, [orderId]);
 
-  // Formik for form handling and validation
   const formik = useFormik({
     initialValues: {
-      orderId:"ORD001",
       rating: '',
       notes: '',
-      image: null,
+      image: '',
     },
     validationSchema: Yup.object({
       rating: Yup.string().required('Rating is required'),
@@ -48,19 +38,17 @@ const Packaging = () => {
       image: Yup.mixed().required('Proof of Inspection (image) is required'),
     }),
     onSubmit: async (values) => {
-      // Prepare the data to send, including orderId and status from API
-      const formData = new FormData();
-      formData.append('orderId', orderId);
-      formData.append('status', status);
-      formData.append('rating', values.rating);
-      formData.append('notes', values.notes);
-      formData.append('image', values.image);
+      const requestBody = {
+        orderId: orderDetails?.orderId , 
+        status: orderDetails?.status,
+        rating:values.rating,
+        notes: values.notes,
+        imageUrl: values.image,
+      };
 
       try {
-        // Post the form data to API
-        await axios.post('http://localhost:3000/api/submitPackaging', formData); // Dummy API endpoint
+        await axios.post('http://localhost:5041/api/Task/packaging', requestBody);
         alert('Packaging task submitted successfully');
-        navigate('/inventory');
       } catch (error) {
         console.error('Error submitting packaging task:', error);
         alert('Failed to submit the packaging task');
@@ -69,126 +57,112 @@ const Packaging = () => {
   });
 
   return (
-    <div className="min-h-screen p-4">
-      <header className="flex justify-between items-center rounded-md p-5 bg-black shadow-md border border-gray-200">
+    <div className="p-4">
+      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md">
         <div className="flex space-x-4">
           <button
+            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
             onClick={() => navigate('/workers/:userId')}
-            className="border border-gray-300 text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
           >
-            Prev
+            PREVIOUS
           </button>
-          <h1 className="text-xl font-bold text-white"> PACKAGING</h1>
+          <h1 className="text-xl text-white pt-1 font-bold">PACKAGING</h1>
         </div>
         <button
+          className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500"
           onClick={() => navigate('/')}
-          className="border border-red-400 text-red-500 p-2 rounded-md shadow-sm hover:bg-red-100 transition"
         >
-          Logout
+          LOGOUT
         </button>
       </header>
-
-      <main className="mt-2">
-        <div className="bg-white p-8 rounded-md flex justify-between">
-          {/* <p className="text-lg font-bold">ORDER ID: {orderId}</p> */}
-          <div>
-              <label className="text-lg font-bold text-black">
-                Order Id:
-              </label>
-              <input
-                type="text"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
-                value={formik.values.orderId}
-                readOnly
-              />
+      {orderDetails && (
+        <div className="mt-4 space-y-4">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+            <div className="flex-1 space-y-4">
+              <div>
+                <h2 className="text-lg font-bold">Order Id:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Status:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.status}</p>
+              </div>
             </div>
-          <div>
-            <label className="text-lg font-bold mr-2">STATUS: </label>
-            <input
-              type="text"
-              value={status}
-              readOnly
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-black"
-            />
           </div>
         </div>
+      )}
 
-        <form
-          onSubmit={formik.handleSubmit}
-          className="bg-white p-5 rounded-md space-y-5"
-          encType="multipart/form-data"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit} encType="multipart/form-data">
+        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+          {/* Left Column */}
+          <div className="flex-1 space-y-4">
+            {/* Rating */}
             <div>
-              <label className="block text-lg font-bold mb-2">Rating (1-5):</label>
-              <select
+              <label className="text-lg font-bold text-black">Rating (1-5):</label>
+              <input
+                type="text"
                 name="rating"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 value={formik.values.rating}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
-              >
-                <option value="">Select Rating</option>
-                {ratingOptions.map((option) => (
-                  <option key={option.id} value={option.value}>
-                    {option.value}
-                  </option>
-                ))}
-              </select>
+              />
               {formik.errors.rating && formik.touched.rating && (
                 <p className="text-red-500">{formik.errors.rating}</p>
               )}
             </div>
 
+            {/* Notes */}
             <div>
-              <label className="block text-lg font-bold mb-2">Notes:</label>
+              <label className="text-lg font-bold text-black">Notes:</label>
               <textarea
                 name="notes"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-28"
                 value={formik.values.notes}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
-                rows="4"
               ></textarea>
               {formik.errors.notes && formik.touched.notes && (
                 <p className="text-red-500">{formik.errors.notes}</p>
               )}
             </div>
+          </div>
 
+          {/* Right Column */}
+          <div className="flex-1 space-y-4">
+            {/* Image */}
             <div>
-              <label className="block text-lg font-bold mb-2">Upload Image (Proof of Inspection):</label>
-              <input
-                type="file"
+              {/* <input
+                type="text"
                 name="image"
-                onChange={(event) => {
-                  formik.setFieldValue('image', event.currentTarget.files[0]);
-                }}
-                className="border border-gray-300 p-2 w-full rounded-md shadow-sm hover:border-gray-400 focus:ring focus:ring-gray-200 transition"
+                onChange={(event) => formik.setFieldValue('image', event.currentTarget.files[0])}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              /> */}
+               <div>
+              <label className="text-lg font-bold text-black">Image URL:</label>
+              <input
+                type="text"
+                name="image"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                value={formik.values.image}
+                onChange={formik.handleChange}
               />
               {formik.errors.image && formik.touched.image && (
                 <p className="text-red-500">{formik.errors.image}</p>
               )}
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="text-center">
-          <button
-              type="submit"
-              className="bg-black font-bold text-white border h py-2 px-6 rounded-md shadow-md hover:bg-white hover:font-bold hover:text-black transition"
-            onChange={handleRedirect}>
-              Redirect
-            </button>
-            <button
-              type="submit"
-              className="bg-black font-bold text-white border h py-2 px-6 rounded-md shadow-md hover:bg-white hover:font-bold hover:text-black transition"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </main>
+        <button
+          type="submit"
+          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
 
 export default Packaging;
+

@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 
-
 const ManagerDashboard = () => {
 const [currentOrders, setCurrentOrders] = useState([]);
 const [completedOrders, setCompletedOrders] = useState([]);
@@ -15,34 +14,44 @@ const [damageTypes, setDamageTypes] = useState([]);
 const menuItems = [
   { name: 'Current Orders', id: 'currentOrders' },
   { name: 'Completed Orders', id: 'completedOrders' },
-  { name: 'Add New Order', id: 'addNewOrder' }
+  { name: 'Add New Order', id: 'add' }
 ];
 
 const navigate = useNavigate();
 
 useEffect(() => {
-  // Dummy API Calls (Replace with actual API)
+  
   const fetchOrders = async () => {
-    const currentOrdersResponse = await axios.get("http://localhost:3000/currentOrders");
-    const completedOrdersResponse = await axios.get("http://localhost:3000/completedOrders");
+    const currentOrdersResponse = await axios.get('http://localhost:5041/api/Orders/current');  
+    const completedOrdersResponse = await axios.get('http://localhost:5041/api/Orders/completed');
     setCurrentOrders(currentOrdersResponse.data);
     setCompletedOrders(completedOrdersResponse.data);
   };
 
   const fetchDamageTypes = async () => {
-    const response = await axios.get("https://dummyapi/damageTypes");
+    const response = await axios.get("");
     setDamageTypes(response.data);
   };
 
   fetchOrders();
   fetchDamageTypes();
 }, []);
-
 const handleAddOrder = async (values) => {
-  await axios.post("http://localhost:3000/wheels", values);
-  alert("Order added successfully!");
-  setShowAddModal(false);
-};
+  const requestBody = {
+    clientName: values.clientName,
+    year: values.year,
+    make: values.make,
+    model: values.model,
+    damageType: values.damageType,
+    imageUrl: values.imageUrl,
+    notes: values.notes,
+    status: values.status
+  };
+
+  await axios.post("http://localhost:5041/api/Orders", requestBody);
+
+  setShowAddModal(false); 
+}
 
 const handleLogout = () => {
   navigate('/');
@@ -63,9 +72,10 @@ return (
               activeMenuItem === item.id ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'
             }`}
             onClick={() => {
-              if (item.id === 'addNewOrder') {
-                setShowAddModal(true); // Open the modal
-              } else {
+              if (item.id === 'add') {
+                setShowAddModal(true); 
+              }
+               else {
                 setActiveMenuItem(item.id);
               }
             }}
@@ -77,7 +87,6 @@ return (
     </div>
     <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white-800">
       <div>
-        {/* Navbar */}
         <header className="flex justify-between items-center p-5  bg-gray-900 shadow-md border border-gray-200">
           <div className="flex space-x-8">
             <h1 className="flex items-center text-xl justify-between text-white pt-1 font-xs">
@@ -117,21 +126,23 @@ return (
           <div className="bg-white p-6 rounded-lg shadow-xl w-1/2">
             <h2 className="text-2xl font-bold mb-4">Add New Order</h2>
             <Formik
-              initialValues={{
-                OrderId: "",
-                year: "",
-                make: "",
-                model: "",
-                damageType: "",
-                notes: ""
-              }}
-              onSubmit={handleAddOrder}
-            >
+                initialValues={{
+                  clientName: "",
+                  year: "",
+                  make: "",
+                  model: "",
+                  damageType: "",
+                  imageUrl: "",
+                  notes: "",
+                  status: ""
+                }}
+                onSubmit={handleAddOrder}
+              >
               <Form>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="OrderId" className="block font-bold">Order ID</label>
-                    <Field name="OrderId" type="text" className="border p-2 rounded w-full" />
+                    <label htmlFor="clientName" className="block font-bold">ClientName</label>
+                    <Field name="clientName" type="text" className="border p-2 rounded w-full" />
                   </div>
                   <div>
                     <label htmlFor="year" className="block font-bold">Year</label>
@@ -146,19 +157,29 @@ return (
                     <Field name="model" type="text" className="border p-2 rounded w-full" />
                   </div>
                   <div>
+                    <label htmlFor="imageUrl" className="block font-bold">Image</label>
+                    <Field name="imageUrl" type="text" className="border p-2 rounded w-full" />
+                  </div>
+                  <div>
                     <label htmlFor="damageType" className="block font-bold">Damage Type</label>
-                    <Field as="select" name="damageType" className="border p-2 rounded w-full">
+                    {/* <Field as="select" name="damageType" className="border p-2 rounded w-full">
                       <option value="">Select Damage Type</option>
                       {damageTypes.map((type) => (
                         <option key={type.id} value={type.name}>
                           {type.name}
                         </option>
                       ))}
-                    </Field>
+                    </Field> */}
+                    <Field name="damageType" as="textarea" className="border p-2 rounded w-full" />
+
                   </div>
                   <div>
                     <label htmlFor="notes" className="block font-bold">Notes</label>
                     <Field name="notes" as="textarea" className="border p-2 rounded w-full" />
+                  </div>
+                  <div>
+                    <label htmlFor="status" className="block font-bold">Status</label>
+                    <Field name="status" as="textarea" className="border p-2 rounded w-full" />
                   </div>
                 </div>
                 <div className="mt-6 flex justify-end space-x-4">
@@ -233,7 +254,7 @@ return (
         <option value="paintfade">Paint Fade</option>
       </select>
     </div>
-    <table className="min-w-full divide-y divide-gray-900 table-auto w-full text-left border-collapse">
+    {/* <table className="min-w-full divide-y divide-gray-900 table-auto w-full text-left border-collapse">
       <thead>
         <tr className="bg-gray-900">
         <th className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">
@@ -252,8 +273,8 @@ return (
             Actions
           </th>
         </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-500">
+      </thead> */}
+      {/* <tbody className="bg-white divide-y divide-gray-500">
         {currentOrdersPage.map((order) => (
           <tr key={order.orderId}>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -279,8 +300,8 @@ return (
             </td>
           </tr>
         ))}
-      </tbody>
-    </table>
+      </tbody> */}
+    {/* </table>
     <div className="mt-4 flex justify-between items-center">
       <button
         onClick={() => setCurrentPage(currentPage - 1)}
@@ -377,7 +398,7 @@ return (
           </tr>
         ))}
       </tbody>
-    </table>
+    </table> */}
     </div>
 )
 }

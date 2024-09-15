@@ -1,63 +1,68 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Soldering = () => {
   const navigate = useNavigate();
-  const [sandBlastingLevels, setSandBlastingLevels] = useState([]);
+  const location = useLocation();
+  const orderId = location.state?.orderId;
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState(null); // Track errors
 
-  // Fetch dummy orderId and status from API (replace later with real API)
   const fetchOrderDetails = async () => {
-    return {
-      orderId: '12345', // Dummy order ID
-      status: 'In Progress', // Dummy status
-    };
+    if (orderId) {
+      try {
+        const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
+        console.log("API Response:", response.data);
+        setOrderDetails(response.data);
+        setLoading(false); // Set loading to false when data is fetched
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError('Failed to load order details. Please try again later.');
+        setLoading(false);
+      }
+    } else {
+      setError('Order ID is missing.');
+      setLoading(false);
+    }
   };
 
-  // Fetch sandblasting levels from API
   useEffect(() => {
-    const fetchSandBlastingLevels = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/sandblastinglevels'); // Dummy API
-        setSandBlastingLevels(response.data);
-      } catch (error) {
-        console.error('Error fetching sandblasting levels', error);
-      }
-    };
-    fetchSandBlastingLevels();
-  }, []);
+    fetchOrderDetails();
+  }, [orderId]);
 
-  // Formik with Yup validation
   const formik = useFormik({
     initialValues: {
-      orderId: 'ORD001',
-      status: '',
       sandBlastingLevel: '',
       solderingNote: '',
-      image: null,
       additionalNotes: '',
     },
     validationSchema: Yup.object({
       sandBlastingLevel: Yup.string().required('Sandblasting level is required'),
       solderingNote: Yup.string().required('Soldering note is required'),
-      image: Yup.mixed().required('Image is required'),
       additionalNotes: Yup.string().required('Additional notes are required'),
     }),
+
     onSubmit: async (values) => {
-      const formData = new FormData();
-      Object.keys(values).forEach((key) => {
-        formData.append(key, values[key]);
-      });
+      const requestBody = {
+        orderId: orderDetails?.orderId,
+        status: orderDetails?.status,
+        sandBlastingLevel: values.sandBlastingLevel,
+        notes: values.solderingNote,
+        imageUrl: values.additionalNotes, // Assuming this is an image URL or additional note
+      };
+
       try {
-        await axios.post('http://localhost:3000/api/task', formData, {
+        await axios.post('http://localhost:5041/api/task/soldering', requestBody, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         });
         alert('Form submitted successfully!');
-        navigate('/workers/:userId');
+        navigate('/workers/:userId'); // Navigate back after successful submission
       } catch (error) {
         console.error('Error submitting form', error);
         alert('Error submitting form');
@@ -65,15 +70,13 @@ const Soldering = () => {
     },
   });
 
-  // Fetch order details and set them in the form
-  useEffect(() => {
-    const setOrderDetails = async () => {
-      const { orderId, status } = await fetchOrderDetails();
-      formik.setFieldValue('orderId', orderId);
-      formik.setFieldValue('status', status);
-    };
-    setOrderDetails();
-  }, []);
+  if (loading) {
+    return <p>Loading order details...</p>; // Show loading message while data is fetched
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>; // Show error message if there's an issue
+  }
 
   return (
     <div className="p-4">
@@ -81,7 +84,7 @@ const Soldering = () => {
         <div className="flex space-x-4">
           <button 
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate('/workers/:userId')}
+            onClick={() => navigate('/')}
           >
             PREVIOUS
           </button>
@@ -95,43 +98,36 @@ const Soldering = () => {
         </button>
       </header>
 
+      {orderDetails && (
+        <div className="mt-4 space-y-4">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+            <div className="flex-1 space-y-4">
+              <div>
+                <h2 className="text-lg font-bold">Order Id:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">Status:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.status}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Form Section */}
       <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           <div className="flex-1 space-y-4">
             <div>
-              <label className="text-lg font-bold">Order Id:</label>
-              <input 
-                type="text" 
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                value={formik.values.orderId}
-                readOnly
-              />
-            </div>
-            <div>
-              <label className="text-lg font-bold">Status:</label>
-              <input 
-                type="text" 
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                value={formik.values.status}
-                readOnly
-              />
-            </div>
-            <div>
               <label className="text-lg font-bold">SandBlasting Level:</label>
-              <div className="mt-1 space-x-4">
-                {sandBlastingLevels.map((level) => (
-                  <label key={level.id}>
-                    <input
-                      type="radio"
-                      name="sandBlastingLevel"
-                      value={level.name}
-                      onChange={formik.handleChange}
-                      className="mr-2"
-                    />
-                    {level.name}
-                  </label>
-                ))}
-              </div>
+              <input
+                type="text"
+                name="sandBlastingLevel"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                value={formik.values.sandBlastingLevel}
+                onChange={formik.handleChange}
+              />
               {formik.errors.sandBlastingLevel && formik.touched.sandBlastingLevel && (
                 <p className="text-red-500">{formik.errors.sandBlastingLevel}</p>
               )}
@@ -154,25 +150,14 @@ const Soldering = () => {
             </div>
 
             <div>
-              <label className="text-lg font-bold">Upload Image:</label>
+              <label className="text-lg font-bold">Additional Notes / Image URL:</label>
               <input
-                type="file"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                onChange={(e) => formik.setFieldValue('image', e.target.files[0])}
-              />
-              {formik.errors.image && formik.touched.image && (
-                <p className="text-red-500">{formik.errors.image}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="text-lg font-bold">Additional Notes:</label>
-              <textarea
+                type="text"
                 name="additionalNotes"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-28"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 value={formik.values.additionalNotes}
                 onChange={formik.handleChange}
-              ></textarea>
+              />
               {formik.errors.additionalNotes && formik.touched.additionalNotes && (
                 <p className="text-red-500">{formik.errors.additionalNotes}</p>
               )}
