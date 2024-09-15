@@ -7,25 +7,25 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Soldering = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const orderId = location.state?.orderId;
+  const orderId = location.state?.orderId || 0; // If no orderId, set to 0
   const [orderDetails, setOrderDetails] = useState(null);
-  const [loading, setLoading] = useState(true); // Track loading state
-  const [error, setError] = useState(null); // Track errors
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(); 
 
   const fetchOrderDetails = async () => {
-    if (orderId) {
+    if (orderId !== 0) {
       try {
         const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
         console.log("API Response:", response.data);
         setOrderDetails(response.data);
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError('Failed to load order details. Please try again later.');
         setLoading(false);
       }
     } else {
-      setError('Order ID is missing.');
+      setError('No orders available.');
       setLoading(false);
     }
   };
@@ -49,10 +49,10 @@ const Soldering = () => {
     onSubmit: async (values) => {
       const requestBody = {
         orderId: orderDetails?.orderId,
-        status: orderDetails?.status,
+        status: orderDetails?.status, 
         sandBlastingLevel: values.sandBlastingLevel,
         notes: values.solderingNote,
-        imageUrl: values.additionalNotes, // Assuming this is an image URL or additional note
+        imageUrl: values.additionalNotes, 
       };
 
       try {
@@ -62,7 +62,6 @@ const Soldering = () => {
           },
         });
         alert('Form submitted successfully!');
-        navigate('/workers/:userId'); // Navigate back after successful submission
       } catch (error) {
         console.error('Error submitting form', error);
         alert('Error submitting form');
@@ -71,11 +70,7 @@ const Soldering = () => {
   });
 
   if (loading) {
-    return <p>Loading order details...</p>; // Show loading message while data is fetched
-  }
-
-  if (error) {
-    return <p className="text-red-500">{error}</p>; // Show error message if there's an issue
+    return <p>Loading order details...</p>; 
   }
 
   return (
@@ -98,7 +93,7 @@ const Soldering = () => {
         </button>
       </header>
 
-      {orderDetails && (
+      {orderDetails ? (
         <div className="mt-4 space-y-4">
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
             <div className="flex-1 space-y-4">
@@ -113,9 +108,12 @@ const Soldering = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <div className="mt-4 text-center">
+          <h2 className="text-lg font-bold text-red-500"></h2>
+        </div>
       )}
 
-      {/* Form Section */}
       <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           <div className="flex-1 space-y-4">

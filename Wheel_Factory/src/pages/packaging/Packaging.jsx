@@ -39,9 +39,9 @@ const Packaging = () => {
     }),
     onSubmit: async (values) => {
       const requestBody = {
-        orderId: orderDetails?.orderId , 
+        orderId: orderDetails?.orderId, 
         status: orderDetails?.status,
-        rating:values.rating,
+        rating: values.rating,
         notes: values.notes,
         imageUrl: values.image,
       };
@@ -92,7 +92,7 @@ const Packaging = () => {
         </div>
       )}
 
-      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit} encType="multipart/form-data">
+      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           {/* Left Column */}
           <div className="flex-1 space-y-4">
@@ -130,14 +130,7 @@ const Packaging = () => {
           <div className="flex-1 space-y-4">
             {/* Image */}
             <div>
-              {/* <input
-                type="text"
-                name="image"
-                onChange={(event) => formik.setFieldValue('image', event.currentTarget.files[0])}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              /> */}
-               <div>
-              <label className="text-lg font-bold text-black">Image URL:</label>
+              <label className="text-lg font-bold text-black">Proof of Inspection (Image URL):</label>
               <input
                 type="text"
                 name="image"
@@ -148,11 +141,11 @@ const Packaging = () => {
               {formik.errors.image && formik.touched.image && (
                 <p className="text-red-500">{formik.errors.image}</p>
               )}
-              </div>
             </div>
           </div>
         </div>
 
+       
         <button
           type="submit"
           className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
@@ -165,4 +158,3 @@ const Packaging = () => {
 };
 
 export default Packaging;
-

@@ -28,13 +28,13 @@ useEffect(() => {
     setCompletedOrders(completedOrdersResponse.data);
   };
 
-  const fetchDamageTypes = async () => {
-    const response = await axios.get("");
-    setDamageTypes(response.data);
-  };
+  // const fetchDamageTypes = async () => {
+  //   const response = await axios.get("");
+  //   setDamageTypes(response.data);
+  // };
 
   fetchOrders();
-  fetchDamageTypes();
+  // fetchDamageTypes();
 }, []);
 const handleAddOrder = async (values) => {
   const requestBody = {
@@ -254,12 +254,9 @@ return (
         <option value="paintfade">Paint Fade</option>
       </select>
     </div>
-    {/* <table className="min-w-full divide-y divide-gray-900 table-auto w-full text-left border-collapse">
+      <table className="min-w-full divide-y divide-gray-900 table-auto w-full text-left border-collapse">
       <thead>
         <tr className="bg-gray-900">
-        <th className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">
-            S No
-          </th>
           <th className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">
             Order ID
           </th>
@@ -273,21 +270,18 @@ return (
             Actions
           </th>
         </tr>
-      </thead> */}
-      {/* <tbody className="bg-white divide-y divide-gray-500">
+      </thead> 
+      <tbody className="bg-white divide-y divide-gray-500">
         {currentOrdersPage.map((order) => (
           <tr key={order.orderId}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {order.Sno}
-            </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {order.orderId}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
-              {order.stage}
+              {order.status}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
-              {order.DamageType}
+              {order.damageType}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
             <button
@@ -300,8 +294,8 @@ return (
             </td>
           </tr>
         ))}
-      </tbody> */}
-    {/* </table>
+      </tbody> 
+    </table>
     <div className="mt-4 flex justify-between items-center">
       <button
         onClick={() => setCurrentPage(currentPage - 1)}
@@ -323,7 +317,7 @@ return (
     </div>
   </div>
 );
-};
+}; 
 
 const CompletedOrders = ({
 completedOrders,
@@ -360,9 +354,6 @@ return (
     <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-black">
       <thead>
         <tr className="bg-gray-900">
-        <th className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">
-            S No
-          </th>
           <th className="px-6 py-3 text-left text-l font-bold text-white uppercase tracking-wider">
             Order ID
           </th>
@@ -378,19 +369,16 @@ return (
         {currentOrdersPage.map((order) => (
           <tr key={order.orderId}>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              {order.Sno}
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {order.orderId}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
-              {order.completionDate}
+              {order.createdAt}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-950">
             <button
                   type="button"
                   className="bg-green-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-400"
-                onClick={() => setViewOrderDetails(order)}
+                onClick={() => setViewOrderDetails(orderId)}
               >
                 View Details
               </button>
@@ -398,7 +386,7 @@ return (
           </tr>
         ))}
       </tbody>
-    </table> */}
+    </table> 
     </div>
 )
 }

@@ -9,17 +9,18 @@ const Painting = () => {
   const location = useLocation();
   const orderId = location.state?.orderId;
   const [orderDetails, setOrderDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchOrderDetails = async () => {
     if (orderId) {
       try {
         const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
-        console.log("API Response:", response.data);
         setOrderDetails(response.data);
-        setLoading(false); 
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching order details:", error);
         setError('Failed to load order details. Please try again later.');
+      } finally {
         setLoading(false);
       }
     } else {
@@ -31,7 +32,7 @@ const Painting = () => {
   useEffect(() => {
     fetchOrderDetails();
   }, [orderId]);
-
+  
 
   const formik = useFormik({
     initialValues: {
@@ -48,9 +49,9 @@ const Painting = () => {
     }),
     onSubmit: async (values) => {
       const requestBody = {
-        orderId: orderDetails?.orderId,
+        orderId: orderDetails?.orderId || 0,  
         pColor: values.paint,
-        PType: values.typeOfPaint,
+        pType: values.typeOfPaint,
         status: orderDetails?.status,
         notes: values.notes,
         imageUrl: values.image,
@@ -76,7 +77,7 @@ const Painting = () => {
         <div className="flex space-x-4">
           <button
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate('/workers/:userId')}
+            onClick={() => navigate('')}
           >
             PREVIOUS
           </button>
@@ -89,7 +90,13 @@ const Painting = () => {
           LOGOUT
         </button>
       </header>
-      {orderDetails && (
+
+      {/* Order Details or Error Message */}
+      {loading ? (
+        <p>Loading order details...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : orderDetails ? (
         <div className="mt-4 space-y-4">
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
             <div className="flex-1 space-y-4">
@@ -104,13 +111,15 @@ const Painting = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <p className="mt-4 text-gray-700">No order details available.</p>
       )}
 
+      {/* Painting Form */}
       <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           {/* Left Column */}
           <div className="flex-1 space-y-4">
-        
             {/* Paint */}
             <div>
               <label className="text-lg font-bold text-black">Paint:</label>
@@ -144,7 +153,6 @@ const Painting = () => {
 
           {/* Right Column */}
           <div className="flex-1 space-y-4">
-
             {/* Notes */}
             <div>
               <label className="text-lg font-bold text-black">Notes:</label>
