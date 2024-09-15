@@ -80,7 +80,7 @@ export const Login = () => {
                   className="w-full text-black bg-slate-100 p-2 border rounded"
                 />
               </div>
-              <button type="submit" className="w-full border-2 border-teal-500 text-black font-bold px-4 py-2 rounded hover:cursor-pointer hover:bg-teal-300 hover:text-black transition ease-in-out duration-300">
+              <button type="submit" className="w-full border-2 bg-gray-400  border-teal-500 text-black font-bold px-4 py-2 rounded hover:cursor-pointer hover:bg-teal-300 hover:text-black transition ease-in-out duration-300">
                 LOG IN
               </button>
             </form>

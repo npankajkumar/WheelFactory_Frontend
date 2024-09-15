@@ -70,7 +70,7 @@ const Home = () => {
             <img src="public/bg-images/man.png" alt="Wheel Image 2" className="w-full h-full object-cover" />
           </div>
           <div>
-            <img src="public/bg-images/mansory4.png" alt="Wheel Image 3" className="w-full h-full object-cover" />
+            <img src="public/bg-images/ghost.png" alt="Wheel Image 3" className="w-full h-full object-cover" />
           </div>
         </Carousel>
       </div>
