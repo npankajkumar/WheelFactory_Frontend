@@ -356,7 +356,7 @@ export default function Worker() {
 
   const handleDetailsClick = async (orderId) => {
     try {
-      let taskEndpoint, additionalEndpoint;
+      let taskEndpoint, additionalEndpoint,SecondEndpoint;
       switch (workerType) {
         case '1': // Inventory
           taskEndpoint = `http://localhost:5041/api/Orders/${orderId}`;
@@ -370,7 +370,8 @@ export default function Worker() {
           break;
         case '4': // Packaging
           taskEndpoint = `http://localhost:5041/api/Orders/${orderId}`;
-          additionalEndpoint = `http://localhost:5041/api/Task/painting/${orderId}`;
+          additionalEndpoint = `http://localhost:5041/api/Task/soldering/${orderId}`;
+          SecondEndpoint = `http://localhost:5041/api/Task/painting/${orderId}`;
           break;
         default:
           throw new Error('Invalid worker type');
@@ -378,13 +379,17 @@ export default function Worker() {
 
       const taskResponse = await axios.get(taskEndpoint);
       let additionalData = null;
-
+      let SecondData=null;
       if (additionalEndpoint) {
         const additionalResponse = await axios.get(additionalEndpoint);
         additionalData = additionalResponse.data;
       }
+      if (SecondEndpoint) {
+        const SecondResponse = await axios.get(SecondEndpoint);
+        SecondData = SecondResponse.data;
+      }
 
-      setSelectedTask({ ...taskResponse.data, additionalData });
+      setSelectedTask({ ...taskResponse.data, additionalData ,SecondData});
       setIsModalOpen(true);
     } catch (error) {
       console.error('Error fetching task details:', error);
@@ -467,12 +472,15 @@ export default function Worker() {
         </table>
       </div>
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-md shadow-md w-1/2">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-white p-2   rounded-md shadow-md w-1/2">
             {selectedTask && (
               <div>
-                <h2 className="text-xl font-semibold mb-4">Order ID: {selectedTask.orderId}</h2>
-                <div className="space-y-2">
+                <h3 className="text-lg font-semibold">Inventory Details</h3>
+                <div className="space-y-1">
+                  <div>
+                  <strong>Order Id</strong> {selectedTask.orderId}
+                  </div>
                   <div>
                     <strong>Status:</strong> {selectedTask.status}
                   </div>
@@ -483,18 +491,42 @@ export default function Worker() {
                     <strong>Notes:</strong> {selectedTask.notes}
                   </div>
                   {selectedTask && selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
-  <div className="mt-4 border-t pt-4">
-    <h3 className="text-lg font-semibold">Additional Details</h3>
-    <div>
-      <strong>SandBlasting Notes:</strong> {selectedTask.additionalData.imageUrl || 'N/A'}
-    </div>
-    <div>
-      <strong>SandBlasting Level:</strong> {selectedTask.additionalData.sandBlastingLevel || 'N/A'}
-    </div>
-  </div>
-)}
-
-                  
+                  <div className="mt-4 border-t pt-4">
+                    <h3 className="text-lg font-semibold">Soldering Details</h3>
+                    <div className="space-y-1">
+                    <div>
+                      <strong>ImageUrl</strong> {selectedTask.additionalData[0].imageUrl }
+                    </div>
+                    <div>
+                      <strong>SandBlasting notes:</strong> {selectedTask.additionalData[0].notes }
+                    </div>
+                    <div>
+                      <strong>SandBlasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel }
+                    </div>
+                    </div>
+                  </div>
+                )}
+                {selectedTask && selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
+                  <div className="mt-4 border-t pt-4">
+                    <h3 className="text-lg font-semibold">Painting Details</h3>
+                    <div className="space-y-1">
+                    <div>
+                      <strong>ImageUrl</strong> {selectedTask.SecondData[0].imageUrl }
+                    </div>
+                    <div>
+                      <strong>PaintColor:</strong> {selectedTask.SecondData[0].pColor}
+                    </div>
+                    <div>
+                      <strong>PaintType:</strong> {selectedTask.SecondData[0].pType }
+                    </div>
+                    <div>
+                      <strong>Notes:</strong> {selectedTask.SecondData[0].notes }
+                    </div>
+                    </div>
+                  </div>
+                )}
+              
+                     
                 </div>
                 <div className="mt-4 flex justify-end space-x-4">
                   <button
