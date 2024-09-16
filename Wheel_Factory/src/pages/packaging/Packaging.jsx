@@ -55,23 +55,44 @@ const Packaging = () => {
       notes: Yup.string().required('Notes are required'),
       image: Yup.mixed().required('Proof of Inspection (image) is required'),
     }),
-    onSubmit: async (values) => {
-      const requestBody = {
-        orderId: orderDetails?.orderId, 
-        status: orderDetails?.status,
-        rating: values.rating,
-        notes: values.notes,
-        imageUrl: values.image,
-      };
+    // onSubmit: async (values) => {
+    //   const requestBody = {
+    //     orderId: orderDetails?.orderId, 
+    //     status: orderDetails?.status,
+    //     rating: values.rating,
+    //     notes: values.notes,
+    //     imageUrl: values.image,
+    //   };
 
+    //   try {
+    //     await axios.post('http://localhost:5041/api/Task/packaging', requestBody);
+    //     alert('Packaging task submitted successfully');
+    //   } catch (error) {
+    //     console.error('Error submitting packaging task:', error);
+    //     alert('Failed to submit the packaging task');
+    //   }
+    // },
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append('orderId', orderDetails?.orderId); 
+      formData.append('status', orderDetails?.status);
+      formData.append('rating', values.rating);
+      formData.append('notes', values.notes);
+      formData.append('imageUrl', values.image); 
+    
       try {
-        await axios.post('http://localhost:5041/api/Task/packaging', requestBody);
+        await axios.post('http://localhost:5041/api/Task/packaging', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
         alert('Packaging task submitted successfully');
       } catch (error) {
         console.error('Error submitting packaging task:', error);
         alert('Failed to submit the packaging task');
       }
     },
+    
   });
 
   return (

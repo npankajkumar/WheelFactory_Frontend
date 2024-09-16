@@ -13,27 +13,51 @@ const Inventory = () => {
       axios.get(`http://localhost:5041/api/Orders/${orderId}`)
         .then(response => {
           console.log("API Response:", response.data);
-          setOrderData(response.data);
+          setOrderData(response.data);  
         })
         .catch(error => console.error("Error fetching data:", error));
     }
   }, [orderId]);
+  
 
+  // const handleSubmit = async () => {
+  //   const requestBody = {
+  //     clientName: orderData?.clientName || '',
+  //     year: orderData?.year || '',
+  //     make: orderData?.make || '',
+  //     model: orderData?.model || '',
+  //     damageType: orderData?.damageType || '',
+  //     imageUrl: orderData?.imageUrl || '',
+  //     notes: orderData?.notes || '',
+  //     status: orderData?.status || ''
+  //   };
+  //   try {
+  //     await axios.put(`http://localhost:5041/api/Orders/Inventory/${orderId}`, requestBody, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     alert('Order submitted successfully!');
+  //   } catch (error) {
+  //     console.error('Error submitting form', error);
+  //     alert('Error submitting form');
+  //   }
+  // };
   const handleSubmit = async () => {
-    const requestBody = {
-      clientName: orderData?.clientName || '',
-      year: orderData?.year || '',
-      make: orderData?.make || '',
-      model: orderData?.model || '',
-      damageType: orderData?.damageType || '',
-      imageUrl: orderData?.imageUrl || '',
-      notes: orderData?.notes || '',
-      status: orderData?.status || ''
-    };
+    const formData = new FormData();
+    formData.append('clientName', orderData?.clientName || '');
+    formData.append('year', orderData?.year || '');
+    formData.append('make', orderData?.make || '');
+    formData.append('model', orderData?.model || '');
+    formData.append('damageType', orderData?.damageType || '');
+    formData.append('imageUrl', orderData?.imageUrl || ''); 
+    formData.append('notes', orderData?.notes || '');
+    formData.append('status', orderData?.status || '');
+  
     try {
-      await axios.put(`http://localhost:5041/api/Orders/Inventory/${orderId}`, requestBody, {
+      await axios.put(`http://localhost:5041/api/Orders/Inventory/${orderId}`, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
       alert('Order submitted successfully!');
@@ -42,7 +66,7 @@ const Inventory = () => {
       alert('Error submitting form');
     }
   };
-
+  
   const handleScrap = async () => {
     const requestBody = {
       clientName: orderData?.clientName || '',
@@ -124,10 +148,15 @@ const Inventory = () => {
               <h2 className="text-lg font-bold text-black">Notes:</h2>
               <p className="mt-1 text-gray-700">{orderData?.notes || 'N/A'}</p>
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-black">Image:</h2>
-              <p className="mt-1 text-gray-700">{orderData?.imageUrl || 'N/A'}</p>
-            </div>
+                      <div>
+            <h2 className="text-lg font-bold text-black">Image:</h2>
+            {orderData?.imageUrl ? (
+              <img src={orderData?.imageUrl}
+              className="mt-1" style={{ maxWidth: '100%', height: 'auto' }} />
+            ) : (
+              <p className="mt-1 text-gray-700">N/A</p>
+            )}
+          </div>
           </div>
         </div>
       </div>

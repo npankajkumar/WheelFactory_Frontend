@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -31,26 +31,32 @@ const ManagerDashboard = () => {
       setCurrentOrders(currentOrdersResponse.data);
       setCompletedOrders(completedOrdersResponse.data);
       setScrappedOrders(scrappedOrdersResponse.data);
+      console.log(currentOrdersResponse.data);
+
     };
 
     fetchOrders();
   }, []);
 
   const handleAddOrder = async (values) => {
-    const requestBody = {
-      clientName: values.clientName,
-      year: values.year,
-      make: values.make,
-      model: values.model,
-      damageType: values.damageType,
-      imageUrl: values.imageUrl,
-      notes: values.notes,
-      status: values.status
-    };
+    const formData = new FormData();
+    formData.append('clientName', values.clientName);
+    formData.append('year', values.year);
+    formData.append('make', values.make);
+    formData.append('model', values.model);
+    formData.append('damageType', values.damageType);
+    formData.append('imageUrl', values.imageUrl); 
+    formData.append('notes', values.notes);
+    formData.append('status', values.status);
+  
     try {
-      await axios.post("http://localhost:5041/api/Orders", requestBody);
-      setShowAddModal(false); 
-      alert("form submitted successfully");
+      await axios.post("http://localhost:5041/api/Orders", formData, {
+        headers: {
+          "Content-Type": 'multipart/form-data',
+        },
+      });
+      setShowAddModal(false);
+      alert("Form submitted successfully");
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Failed to submit');
@@ -264,80 +270,149 @@ const ManagerDashboard = () => {
 
           {showAddModal && (
             <>
-              <div
-                className="fixed inset-0 bg-black opacity-80 z-50"
-                onClick={() => setShowAddModal(false)} 
-              ></div>
-              <div className="fixed inset-0 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-lg shadow-xl w-1/2">
-                  <h2 className="text-2xl font-bold mb-4">Add New Order</h2>
-                  <Formik
-                    initialValues={{
-                      clientName: "",
-                      year: "",
-                      make: "",
-                      model: "",
-                      damageType: "",
-                      imageUrl: "",
-                      notes: "",
-                      status: ""
+              
+  <div
+    className="fixed inset-0 bg-black opacity-80 z-50"
+    onClick={() => setShowAddModal(false)} 
+  ></div>
+  <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-xl w-1/2">
+      <h2 className="text-2xl font-bold mb-4">Add New Order</h2>
+      <Formik
+        initialValues={{
+          clientName: "",
+          year: "",
+          make: "",
+          model: "",
+          damageType: "",
+          imageUrl: null, 
+          notes: "",
+          status: ""
+        }}
+        onSubmit={handleAddOrder}
+      >
+        {formik => (
+          <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
+            <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+              {/* Left Column */}
+              <div className="flex-1 space-y-4">
+                {/* Client Name */}
+                <div>
+                  <label className="text-lg font-bold text-black">Client Name:</label>
+                  <input
+                    type="text"
+                    name="clientName"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    value={formik.values.clientName}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+                {/* Year */}
+                <div>
+                  <label className="text-lg font-bold text-black">Year:</label>
+                  <input
+                    type="text"
+                    name="year"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    value={formik.values.year}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+
+                {/* Make */}
+                <div>
+                  <label className="text-lg font-bold text-black">Make:</label>
+                  <input
+                    type="text"
+                    name="make"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    value={formik.values.make}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+
+                {/* Model */}
+                <div>
+                  <label className="text-lg font-bold text-black">Model:</label>
+                  <input
+                    type="text"
+                    name="model"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    value={formik.values.model}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+                </div>
+                <div>
+
+                {/* Image Upload */}
+                <div>
+                  <label className="text-lg font-bold text-black">Image:</label>
+                  <input
+                    id="image"
+                    name="image"
+                    type="file"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    onChange={(event) => {
+                      formik.setFieldValue("imageUrl", event.currentTarget.files[0]);
                     }}
-                    onSubmit={handleAddOrder}
-                  >
-                    <Form>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label htmlFor="clientName" className="block font-bold">Client Name</label>
-                          <Field name="clientName" type="text" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="year" className="block font-bold">Year</label>
-                          <Field name="year" type="text" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="make" className="block font-bold">Make</label>
-                          <Field name="make" type="text" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="model" className="block font-bold">Model</label>
-                          <Field name="model" type="text" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="imageUrl" className="block font-bold">Image URL</label>
-                          <Field name="imageUrl" type="text" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="damageType" className="block font-bold">Damage Type</label>
-                          <Field name="damageType" as="textarea" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="notes" className="block font-bold">Notes</label>
-                          <Field name="notes" as="textarea" className="border p-2 rounded w-full" />
-                        </div>
-                        <div>
-                          <label htmlFor="status" className="block font-bold">Status</label>
-                          <Field name="status" as="textarea" className="border p-2 rounded w-full" />
-                        </div>
-                      </div>
-                      <div className="mt-6 flex justify-end space-x-4">
-                        <button
-                          type="submit"
-                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-teal-600"
-                        >
-                          Add Order
-                        </button>
-                        <button
-                          type="button"
-                          className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-                          onClick={() => setShowAddModal(false)}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </Form>
-                  </Formik>
+                  />
+                </div>
+
+                {/* Damage Type */}
+                <div>
+                  <label className="text-lg font-bold text-black">Damage Type:</label>
+                  <textarea
+                    name="damageType"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
+                    value={formik.values.damageType}
+                    onChange={formik.handleChange}
+                  ></textarea>
+                </div>
+
+                {/* Notes */}
+                <div>
+                  <label className="text-lg font-bold text-black">Notes:</label>
+                  <textarea
+                    name="notes"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
+                    value={formik.values.notes}
+                    onChange={formik.handleChange}
+                  ></textarea>
+                </div>
+
+                {/* Status */}
+                <div>
+                  <label className="text-lg font-bold text-black">Status:</label>
+                  <textarea
+                    name="status"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                  ></textarea>
                 </div>
               </div>
+            </div>
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                type="submit"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-teal-600"
+              >
+                Add Order
+              </button>
+              <button
+                type="button"
+                className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                onClick={() => setShowAddModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </Formik>
+    </div>
+  </div>
             </>
           )}
         </div>
@@ -355,10 +430,13 @@ const CurrentOrders = ({
   const [damageTypeFilter, setDamageTypeFilter] = useState("");
   const ordersPerPage = 10;
 
-  const filteredOrders = currentOrders.filter(order => 
-    (!stageFilter || order.stage === stageFilter) &&
-    (!damageTypeFilter || order.damageType === damageTypeFilter)
-  );
+  const filteredOrders = useMemo(() => {
+    return currentOrders.filter(
+      (order) =>
+        ( order.status === stageFilter) &&
+        ( order.damageType === damageTypeFilter)
+    );
+  }, [currentOrders, stageFilter, damageTypeFilter]);
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -369,29 +447,32 @@ const CurrentOrders = ({
     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
       <h2 className="text-xl font-bold mb-4">Current Orders</h2>
       <div className="mb-4 flex space-x-4">
+        
         <select
           className="border p-2 rounded"
           value={stageFilter}
-          onChange={(e) => setStageFilter(e.target.value)}
+          onChange={(e) => setStageFilter(e.target.value)} 
         >
           <option value="">All Stages</option>
-          <option value="inventory">Inventory</option>
-          <option value="soldering">Soldering</option>
-          <option value="painting">Painting</option>
-          <option value="packaging">Packaging</option>
+          <option value="inventory">inventory</option>
+          <option value="soldering">soldering</option>
+          <option value="Painting">Painting</option>
+          <option value="packaging">packaging</option>
         </select>
+       
         <select
           className="border p-2 rounded"
           value={damageTypeFilter}
-          onChange={(e) => setDamageTypeFilter(e.target.value)}
+          onChange={(e) => setDamageTypeFilter(e.target.value)} 
         >
           <option value="">All Damage Types</option>
-          <option value="scrapped">Scrapped</option>
+          <option value="scraped">Scraped</option>
           <option value="lipcrack">Lip Crack</option>
           <option value="chipped">Chipped</option>
           <option value="paintfade">Paint Fade</option>
         </select>
       </div>
+      {/* Orders Table */}
       <table className="min-w-full divide-y divide-gray-900 table-auto w-full text-left border-collapse">
         <thead>
           <tr className="bg-gray-900">
@@ -408,7 +489,7 @@ const CurrentOrders = ({
               Actions
             </th>
           </tr>
-        </thead> 
+        </thead>
         <tbody className="bg-white divide-y divide-gray-500">
           {currentOrdersPage.map((order) => (
             <tr key={order.orderId}>
@@ -432,13 +513,14 @@ const CurrentOrders = ({
               </td>
             </tr>
           ))}
-        </tbody> 
+        </tbody>
       </table>
+      {/* Pagination */}
       <div className="mt-4 flex justify-between items-center">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-teal-500 text-white rounded "
+          className="px-4 py-2 bg-teal-500 text-white rounded"
         >
           Previous
         </button>
@@ -448,7 +530,7 @@ const CurrentOrders = ({
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-teal-500 text-white rounded "
+          className="px-4 py-2 bg-teal-500 text-white rounded"
         >
           Next
         </button>
@@ -456,6 +538,7 @@ const CurrentOrders = ({
     </div>
   );
 };
+
 const CompletedOrders = ({
   completedOrders,
   viewCompletedDetails,
@@ -691,473 +774,3 @@ export default ManagerDashboard;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { Formik, Field, Form } from "formik";
-// import axios from "axios";
-
-// const ManagerDashboard = () => {
-//   const [currentOrders, setCurrentOrders] = useState([]);
-//   const [completedOrders, setCompletedOrders] = useState([]);
-//   const [showAddModal, setShowAddModal] = useState(false);
-//   const [viewOrderDetails, setViewOrderDetails] = useState(null);
-//   const [isCompletedView, setIsCompletedView] = useState(false);
-//   const [damageTypes, setDamageTypes] = useState([]);
-
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // Dummy API Calls (Replace these with actual API later)
-//     const fetchOrders = async () => {
-//       const currentOrdersResponse = await axios.get(
-//         "http://localhost:3000/currentOrders"
-//       );
-//       const completedOrdersResponse = await axios.get(
-//         "http://localhost:3000/completedOrders"
-//       );
-//       setCurrentOrders(currentOrdersResponse.data);
-//       setCompletedOrders(completedOrdersResponse.data);
-//     };
-
-//     const fetchDamageTypes = async () => {
-//       // Dummy API for damage types
-//       const response = await axios.get("https://dummyapi/damageTypes");
-//       setDamageTypes(response.data);
-//     };
-
-//     fetchOrders();
-//     fetchDamageTypes();
-//   }, []);
-
-//   const handleAddOrder = async (values) => {
-//     await axios.post("https://dummyapi/wheels", values);
-//     alert("Order added successfully!");
-//     setShowAddModal(false);
-//   };
-
-//   const handleLogout = () => {
-//     navigate("/");
-//   };
-
-//   return (
-//     <div className="p-4">
-//       {/* Navbar */}
-//       <header className="flex justify-between items-center p-5 rounded-md bg-gray-900 shadow-md border border-gray-200">
-//         <div className="flex space-x-4">
-//           <button
-//             className="flex items-center justify-center px-4 py-2 rounded-md  bg-gray-700 hover:bg-gray-600 text-white font-medium"
-//             onClick={() => setShowAddModal(true)}
-//           >
-//             ADD NEW ORDER
-//           </button>
-//           <h1 className="text-xl text-white pt-1 font-xs">
-//             MANAGER DASHBOARD
-//           </h1>
-//         </div>
-//         <button
-//           className="flex items-center justify-center px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white font-medium transition"
-//           onClick={handleLogout}
-//         >
-//           LOGOUT
-//         </button>
-//       </header>
-
-//       {/* Buttons for Switching Views */}
-//       <div className="pl-5 mt-4 flex space-x-4">
-//         <button
-//           className="bg-teal-500 text-white p-2 rounded shadow-md hover:bg-teal-700"
-//           onClick={() => setIsCompletedView(false)}
-//         >
-//           Current Orders
-//         </button>
-//         <button
-//           className="bg-teal-500 text-white p-2 rounded shadow-md hover:bg-teal-700"
-//           onClick={() => setIsCompletedView(true)}
-//         >
-//           Completed Orders
-//         </button>
-//       </div>
-
-//       {/* Order Table */}
-//       {isCompletedView ? (
-//         <CompletedOrders
-//           completedOrders={completedOrders}
-//           viewOrderDetails={viewOrderDetails}
-//           setViewOrderDetails={setViewOrderDetails}
-//         />
-//       ) : (
-//         <CurrentOrders
-//           currentOrders={currentOrders}
-//           viewOrderDetails={viewOrderDetails}
-//           setViewOrderDetails={setViewOrderDetails}
-//         />
-//       )}
-
-//       {/* Modal for Adding New Order */}
-//       {showAddModal && (
-//         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
-//           <div className="bg-white p-8 rounded shadow-md w-2/3">
-//             <h2 className="text-2xl font-bold mb-4">Add New Order</h2>
-//             <Formik
-//               initialValues={{
-//                 clientName: "",
-//                 year: "",
-//                 make: "",
-//                 model: "",
-//                 damageType: "",
-//                 notes: "",
-//               }}
-//               onSubmit={handleAddOrder}
-//             >
-//               <Form>
-//                 <div className="grid grid-cols-2 gap-4">
-//                   <div>
-//                     <label htmlFor="clientName" className="block font-bold">
-//                       Client Name
-//                     </label>
-//                     <Field
-//                       name="clientName"
-//                       type="text"
-//                       className="border p-2 rounded w-full"
-//                     />
-//                   </div>
-//                   <div>
-//                     <label htmlFor="year" className="block font-bold">
-//                       Year
-//                     </label>
-//                     <Field
-//                       name="year"
-//                       type="text"
-//                       className="border p-2 rounded w-full"
-//                     />
-//                   </div>
-//                   <div>
-//                     <label htmlFor="make" className="block font-bold">
-//                       Make
-//                     </label>
-//                     <Field
-//                       name="make"
-//                       type="text"
-//                       className="border p-2 rounded w-full"
-//                     />
-//                   </div>
-//                   <div>
-//                     <label htmlFor="model" className="block font-bold">
-//                       Model
-//                     </label>
-//                     <Field
-//                       name="model"
-//                       type="text"
-//                       className="border p-2 rounded w-full"
-//                     />
-//                   </div>
-//                   <div>
-//                     <label htmlFor="damageType" className="block font-bold">
-//                       Damage Type
-//                     </label>
-//                     <Field
-//                       as="select"
-//                       name="damageType"
-//                       className="border p-2 rounded w-full"
-//                     >
-//                       <option value="">Select Damage Type</option>
-//                       {damageTypes.map((type) => (
-//                         <option key={type.id} value={type.name}>
-//                           {type.name}
-//                         </option>
-//                       ))}
-//                     </Field>
-//                   </div>
-//                   <div>
-//                     <label htmlFor="notes" className="block font-bold">
-//                       Notes
-//                     </label>
-//                     <Field
-//                       name="notes"
-//                       as="textarea"
-//                       className="border p-2 rounded w-full"
-//                     />
-//                   </div>
-//                 </div>
-//                 <div className="mt-6 flex justify-end space-x-4">
-//                   <button
-//                     type="submit"
-//                     className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-700"
-//                   >
-//                     Add Order
-//                   </button>
-//                   <button
-//                     type="button"
-//                     className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-500"
-//                     onClick={() => setShowAddModal(false)}
-//                   >
-//                     Cancel
-//                   </button>
-//                 </div>
-//               </Form>
-//             </Formik>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// const CurrentOrders = ({
-//   currentOrders,
-//   //viewOrderDetails,
-//   setViewOrderDetails,
-// }) => {
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const ordersPerPage = 10;
-
-//   const indexOfLastOrder = currentPage * ordersPerPage;
-//   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-//   const currentOrdersPage = currentOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-
-//   const totalPages = Math.ceil(currentOrders.length / ordersPerPage);
-
-//   return (
-//     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
-//       <h2 className="text-xl font-bold mb-4">Current Orders</h2>
-//       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse">
-//         <thead>
-//           <tr>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Order ID
-//             </th>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Stage
-//             </th>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               DamageType
-//             </th>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Actions
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="bg-white divide-y divide-gray-200">
-//           {currentOrdersPage.map((order) => (
-//             <tr key={order.orderId}>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-//                 {order.orderId}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//                 {order.stage}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//                 {order.DamageType}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//                 <button
-//                   className="text-teal-600 hover:text-teal-900"
-//                   onClick={() => setViewOrderDetails(order)}
-//                 >
-//                   View Details
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//       <div className="mt-4 flex justify-between items-center">
-//         <button
-//           onClick={() => setCurrentPage(currentPage - 1)}
-//           disabled={currentPage === 1}
-//           className="px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-300"
-//         >
-//           Previous
-//         </button>
-//         <span>
-//           Page {currentPage} of {totalPages}
-//         </span>
-//         <button
-//           onClick={() => setCurrentPage(currentPage + 1)}
-//           disabled={currentPage === totalPages}
-//           className="px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-300"
-//         >
-//           Next
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// const CompletedOrders = ({
-//   completedOrders,
-//   //viewOrderDetails,
-//   setViewOrderDetails,
-// }) => {
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const ordersPerPage = 10;
-
-//   const indexOfLastOrder = currentPage * ordersPerPage;
-//   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-//   const currentOrdersPage = completedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-
-//   const totalPages = Math.ceil(completedOrders.length / ordersPerPage);
-
-//   return (
-//     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
-//       <h2 className="text-xl font-bold mb-4">Completed Orders</h2>
-//       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse">
-//         <thead>
-//           <tr>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Order ID
-//             </th>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Completion Date
-//             </th>
-//             <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//               Actions
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="bg-white divide-y divide-gray-200">
-//           {currentOrdersPage.map((order) => (
-//             <tr key={order.orderId}>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-//                 {order.orderId}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//                 {order.completionDate}
-//               </td>
-//               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//                 <button
-//                   className="text-teal-600 hover:text-teal-900"
-//                   onClick={() => setViewOrderDetails(order)}
-//                 >
-//                   View Details
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//       <div className="mt-4 flex justify-between items-center">
-//         <button
-//           onClick={() => setCurrentPage(currentPage - 1)}
-//           disabled={currentPage === 1}
-//           className="px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-300"
-//         >
-//           Previous
-//         </button>
-//         <span>
-//           Page {currentPage} of {totalPages}
-//         </span>
-//         <button
-//           onClick={() => setCurrentPage(currentPage + 1)}
-//           disabled={currentPage === totalPages}
-//           className="px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-300"
-//         >
-//           Next
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };

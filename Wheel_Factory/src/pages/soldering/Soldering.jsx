@@ -46,19 +46,42 @@ const Soldering = () => {
       additionalNotes: Yup.string().required('Additional notes are required'),
     }),
 
-    onSubmit: async (values) => {
-      const requestBody = {
-        orderId: orderDetails?.orderId,
-        status: orderDetails?.status, 
-        sandBlastingLevel: values.sandBlastingLevel,
-        notes: values.solderingNote,
-        imageUrl: values.additionalNotes, 
-      };
+    // onSubmit: async (values) => {
+    //   const requestBody = {
+    //     orderId: orderDetails?.orderId,
+    //     status: orderDetails?.status, 
+    //     sandBlastingLevel: values.sandBlastingLevel,
+    //     notes: values.solderingNote,
+    //     imageUrl: values.additionalNotes, 
+    //   };
 
+    //   try {
+    //     await axios.post('http://localhost:5041/api/task/soldering', requestBody, {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+    //     alert('Form submitted successfully!');
+    //   } catch (error) {
+    //     console.error('Error submitting form', error);
+    //     alert('Error submitting form');
+    //   }
+    // },
+
+
+
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append('orderId', orderDetails?.orderId);
+      formData.append('status', orderDetails?.status); 
+      formData.append('sandBlastingLevel', values.sandBlastingLevel);
+      formData.append('notes', values.solderingNote);
+      formData.append('imageUrl', values.additionalNotes); 
+      
       try {
-        await axios.post('http://localhost:5041/api/task/soldering', requestBody, {
+        await axios.post('http://localhost:5041/api/task/soldering', formData, {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
         });
         alert('Form submitted successfully!');
@@ -67,7 +90,19 @@ const Soldering = () => {
         alert('Error submitting form');
       }
     },
+    
   });
+
+
+
+
+
+
+
+
+
+
+  
 
   if (loading) {
     return <p>Loading order details...</p>; 

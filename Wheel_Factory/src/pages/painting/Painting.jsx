@@ -47,20 +47,41 @@ const Painting = () => {
       notes: Yup.string().required('Notes are required'),
       image: Yup.string().required('Image URL is required'),
     }),
-    onSubmit: async (values) => {
-      const requestBody = {
-        orderId: orderDetails?.orderId || 0,  
-        pColor: values.paint,
-        pType: values.typeOfPaint,
-        status: orderDetails?.status,
-        notes: values.notes,
-        imageUrl: values.image,
-      };
+    // onSubmit: async (values) => {
+    //   const requestBody = {
+    //     orderId: orderDetails?.orderId || 0,  
+    //     pColor: values.paint,
+    //     pType: values.typeOfPaint,
+    //     status: orderDetails?.status,
+    //     notes: values.notes,
+    //     imageUrl: values.image,
+    //   };
 
+    //   try {
+    //     await axios.post('http://localhost:5041/api/Task/painting', requestBody, {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+    //     alert('Painting task submitted successfully');
+    //   } catch (error) {
+    //     console.error('Error submitting painting task:', error);
+    //     alert('Failed to submit the painting task');
+    //   }
+    // },
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append('orderId', orderDetails?.orderId || 0);
+      formData.append('pColor', values.paint);
+      formData.append('pType', values.typeOfPaint);
+      formData.append('status', orderDetails?.status);
+      formData.append('notes', values.notes);
+      formData.append('imageUrl', values.image); 
+    
       try {
-        await axios.post('http://localhost:5041/api/Task/painting', requestBody, {
+        await axios.post('http://localhost:5041/api/Task/painting', formData, {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
         });
         alert('Painting task submitted successfully');
@@ -69,6 +90,7 @@ const Painting = () => {
         alert('Failed to submit the painting task');
       }
     },
+    
   });
 
   return (
