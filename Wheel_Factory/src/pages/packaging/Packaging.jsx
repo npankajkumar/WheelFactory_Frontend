@@ -26,6 +26,24 @@ const Packaging = () => {
     fetchOrderDetails();
   }, [orderId]);
 
+//  const onhandle = async (values) => {
+//     const requestBody = {
+//       orderId: orderDetails?.orderId, 
+//         status: orderDetails?.status,
+//         rating: values.rating,
+//         notes: values.notes,
+//         imageUrl: values.image,
+//     };
+
+//     try {
+//       await axios.post(`http://localhost:5041/api/Orders`, requestBody);
+//       alert('Order moved to soldering stage');
+//     } catch (error) {
+//       console.error('Error moving to soldering stage:', error);
+//       alert('Failed to move the order to soldering stage');
+//     }
+//   };
+
   const formik = useFormik({
     initialValues: {
       rating: '',
@@ -92,7 +110,7 @@ const Packaging = () => {
         </div>
       )}
 
-      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
+      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit} >
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           {/* Left Column */}
           <div className="flex-1 space-y-4">
@@ -144,7 +162,13 @@ const Packaging = () => {
             </div>
           </div>
         </div>
-
+        {/* <button
+          type="submit"
+          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+          // onClick={handleRedo}
+        >
+          Redo
+        </button> */}
        
         <button
           type="submit"

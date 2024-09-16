@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Soldering = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const orderId = location.state?.orderId || 0; // If no orderId, set to 0
+  const orderId = location.state?.orderId || 0; 
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(); 

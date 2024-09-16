@@ -44,8 +44,23 @@ const Inventory = () => {
   };
 
   const handleScrap = async () => {
+    const requestBody = {
+      clientName: orderData?.clientName || '',
+      year: orderData?.year || '',
+      make: orderData?.make || '',
+      model: orderData?.model || '',
+      damageType: orderData?.damageType || '',
+      notes: orderData?.notes || '',
+      imageUrl: orderData?.imageUrl || '',
+      status: orderData?.status || ''
+    };
     try {
-      await axios.delete(`http://localhost:5041/api/Orders/Inventory/${orderId}`);
+      await axios.put(`http://localhost:5041/api/Orders/scrap/${orderId}`,requestBody,{
+        headers:
+        {
+          'Content-Type':'application/json'
+        },
+      });
       alert('Order marked as scrap successfully!');
     } catch (error) {
       console.error('Error marking order as scrap', error);
