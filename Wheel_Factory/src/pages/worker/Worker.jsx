@@ -83,7 +83,7 @@ export default function Worker() {
 
   const handleDetailsClick = async (orderId) => {
     try {
-      let taskEndpoint, additionalEndpoint,SecondEndpoint;
+      let taskEndpoint, additionalEndpoint, SecondEndpoint;
       switch (workerType) {
         case '1': // Inventory
           taskEndpoint = `http://localhost:5041/api/Orders/${orderId}`;
@@ -106,7 +106,7 @@ export default function Worker() {
 
       const taskResponse = await axios.get(taskEndpoint);
       let additionalData = null;
-      let SecondData=null;
+      let SecondData = null;
       if (additionalEndpoint) {
         const additionalResponse = await axios.get(additionalEndpoint);
         additionalData = additionalResponse.data;
@@ -116,7 +116,7 @@ export default function Worker() {
         SecondData = SecondResponse.data;
       }
 
-      setSelectedTask({ ...taskResponse.data, additionalData ,SecondData});
+      setSelectedTask({ ...taskResponse.data, additionalData, SecondData });
       setIsModalOpen(true);
     } catch (error) {
       console.error('Error fetching task details:', error);
@@ -128,9 +128,11 @@ export default function Worker() {
     setIsModalOpen(false);
     setSelectedTask(null);
   };
+
   if (error) {
     return <p className="text-red-500 text-center mt-8">{error}</p>;
   }
+
   const filteredOrders = pendingTasks.filter(order =>
     (!stageFilter || order.Stage === stageFilter) &&
     (!damageTypeFilter || order.DamageType === damageTypeFilter)
@@ -165,6 +167,32 @@ export default function Worker() {
       </header>
 
       <h2 className="text-3xl font-bold text-center mb-6">PENDING ORDERS LIST</h2>
+
+      <div className="mb-4 flex space-x-4">
+        <select
+          className="border p-2 rounded"
+          value={stageFilter}
+          onChange={(e) => setStageFilter(e.target.value)}
+        >
+          <option value="">All Stages</option>
+          <option value="inventory">Inventory</option>
+          <option value="soldering">Soldering</option>
+          <option value="painting">Painting</option>
+          <option value="packaging">Packaging</option>
+        </select>
+        <select
+          className="border p-2 rounded"
+          value={damageTypeFilter}
+          onChange={(e) => setDamageTypeFilter(e.target.value)}
+        >
+          <option value="">All Damage Types</option>
+          <option value="scraped">Scraped</option>
+          <option value="lipcrack">Lip Crack</option>
+          <option value="chipped">Chipped</option>
+          <option value="paintfade">Paint Fade</option>
+        </select>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 shadow-md">
           <thead className="bg-gray-900 text-white font-semibold font-serif">
@@ -198,15 +226,37 @@ export default function Worker() {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center mt-4">
+        <button
+          className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="text-lg">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-          <div className="bg-white p-2   rounded-md shadow-md w-1/2">
+          <div className="bg-white p-2 rounded-md shadow-md w-1/2">
             {selectedTask && (
               <div>
                 <h3 className="text-lg font-semibold">Inventory Details</h3>
                 <div className="space-y-1">
                   <div>
-                  <strong>Order Id</strong> {selectedTask.orderId}
+                    <strong>Order Id:</strong> {selectedTask.orderId}
                   </div>
                   <div>
                     <strong>Status:</strong> {selectedTask.status}
@@ -217,43 +267,43 @@ export default function Worker() {
                   <div>
                     <strong>Notes:</strong> {selectedTask.notes}
                   </div>
-                  {selectedTask && selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
-                  <div className="mt-4 border-t pt-4">
-                    <h3 className="text-lg font-semibold">Soldering Details</h3>
-                    <div className="space-y-1">
-                    <div>
-                      <strong>ImageUrl</strong> {selectedTask.additionalData[0].imageUrl }
-                    </div>
-                    <div>
-                      <strong>SandBlasting notes:</strong> {selectedTask.additionalData[0].notes }
-                    </div>
-                    <div>
-                      <strong>SandBlasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel }
-                    </div>
-                    </div>
+                  <div>
+                    <strong>Image:</strong> <img src={selectedTask.imageUrl} className='mt-1'style={{ maxWidth: '10%', height: 'auto' }} />
                   </div>
-                )}
-                {selectedTask && selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
-                  <div className="mt-4 border-t pt-4">
-                    <h3 className="text-lg font-semibold">Painting Details</h3>
-                    <div className="space-y-1">
-                    <div>
-                      <strong>ImageUrl</strong> {selectedTask.SecondData[0].imageUrl }
+                  {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
+                    <div className="mt-4 border-t pt-4">
+                      <h3 className="text-lg font-semibold">Soldering Details</h3>
+                      <div className="space-y-1"> 
+                        <div>
+                          <strong>ImageUrl:</strong><img src= {selectedTask.additionalData[0].imageUrl} className="mt-1" style={{ maxWidth: '10%', height: 'auto' }}  />
+                        </div>
+                        <div>
+                          <strong>SandBlasting notes:</strong> {selectedTask.additionalData[0].notes}
+                        </div>
+                        <div>
+                          <strong>SandBlasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <strong>PaintColor:</strong> {selectedTask.SecondData[0].pColor}
+                  )}
+                  {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
+                    <div className="mt-4 border-t pt-4">
+                      <h3 className="text-lg font-semibold">Painting Details</h3>
+                      <div className="space-y-1">
+                        <div>
+                          <strong>ImageUrl:</strong><img src= {selectedTask.SecondData[0].imageUrl} className='mt-1' style={{ maxWidth: '10%', height: 'auto' }}/>                       </div>
+                        <div>
+                          <strong>PaintColor:</strong> {selectedTask.SecondData[0].pColor}
+                        </div>
+                        <div>
+                          <strong>PaintType:</strong> {selectedTask.SecondData[0].pType}
+                        </div>
+                        <div>
+                          <strong>Notes:</strong> {selectedTask.SecondData[0].notes}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <strong>PaintType:</strong> {selectedTask.SecondData[0].pType }
-                    </div>
-                    <div>
-                      <strong>Notes:</strong> {selectedTask.SecondData[0].notes }
-                    </div>
-                    </div>
-                  </div>
-                )}
-              
-                     
+                  )}
                 </div>
                 <div className="mt-4 flex justify-end space-x-4">
                   <button
@@ -274,9 +324,6 @@ export default function Worker() {
           </div>
         </div>
       )}
-      
     </div>
   );
 }
-
-        
