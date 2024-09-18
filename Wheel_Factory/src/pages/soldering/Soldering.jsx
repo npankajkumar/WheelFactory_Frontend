@@ -217,7 +217,8 @@ const Soldering = () => {
   const fetchSandBlastingLevels = async () => {
     try {
       const response = await axios.get('http://localhost:5041/api/SandBlastingLevels'); // Adjust the URL to your API endpoint
-      setSandBlastingOptions(response.data); // Assuming response.data is an array of options
+      setSandBlastingOptions(response.data);
+      console.log(response.data) 
     } catch (error) {
       console.error("Error fetching sand blasting levels:", error);
       setError('Failed to load sand blasting levels.');
@@ -226,19 +227,19 @@ const Soldering = () => {
 
   useEffect(() => {
     fetchOrderDetails();
-    fetchSandBlastingLevels(); // Fetch the dropdown options
+    fetchSandBlastingLevels(); 
   }, [orderId]);
 
   const formik = useFormik({
     initialValues: {
       sandBlastingLevel: '',
       solderingNote: '',
-      imageFile: null, // Add image file field
+      imageUrl: null, 
     },
     validationSchema: Yup.object({
       sandBlastingLevel: Yup.string().required('Sandblasting level is required'),
       solderingNote: Yup.string().required('Soldering note is required'),
-      imageFile: Yup.mixed().required('An image is required'), // Validate image file
+      imageUrl: Yup.mixed().required('An image is required'), 
     }),
     onSubmit: async (values) => {
       const formData = new FormData();
@@ -247,8 +248,8 @@ const Soldering = () => {
       formData.append('sandBlastingLevel', values.sandBlastingLevel);
       formData.append('notes', values.solderingNote);
 
-      if (values.imageFile) {
-        formData.append('imageUrl', values.imageFile);  // Append the uploaded file
+      if (values.imageUrl) {
+        formData.append('imageUrl', values.imageUrl);  // Append the uploaded file
       }
       
       try {
@@ -313,7 +314,7 @@ const Soldering = () => {
       <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
           <div className="flex-1 space-y-4">
-            <div>
+             <div>
               <label className="text-lg font-bold">SandBlasting Level:</label>
               <select
                 name="sandBlastingLevel"
@@ -323,13 +324,15 @@ const Soldering = () => {
               >
                 <option value="">Select SandBlasting Level</option>
                 {sandBlastingOptions.map((option) => (
-                  <option key={option.id} value={option.value}>{option.label}</option> // Adjust based on your API response
+                  <option key={option.id} >{option.sandBlastingLevel}</option> // Adjust based on your API response
                 ))}
               </select>
               {formik.errors.sandBlastingLevel && formik.touched.sandBlastingLevel && (
                 <p className="text-red-500">{formik.errors.sandBlastingLevel}</p>
               )}
-            </div>
+            </div> 
+
+
           </div>
 
           <div className="flex-1 space-y-4">
@@ -351,14 +354,14 @@ const Soldering = () => {
               <label className="text-lg font-bold">Upload Image:</label>
               <input
                 type="file"
-                name="imageFile"
+                name="imageUrl"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 onChange={(event) => {
-                  formik.setFieldValue("imageFile", event.currentTarget.files[0]);
+                  formik.setFieldValue("imageUrl", event.currentTarget.files[0]);
                 }}
               />
-              {formik.errors.imageFile && formik.touched.imageFile && (
-                <p className="text-red-500">{formik.errors.imageFile}</p>
+              {formik.errors.imageUrl && formik.touched.imageUrl && (
+                <p className="text-red-500">{formik.errors.imageUrl}</p>
               )}
             </div>
           </div>

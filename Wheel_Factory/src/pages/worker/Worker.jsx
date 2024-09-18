@@ -253,7 +253,7 @@ export default function Worker() {
           <div className="bg-white p-2 rounded-md shadow-md w-1/2">
             {selectedTask && (
               <div>
-                <h3 className="text-lg font-semibold">Inventory Details</h3>
+                {/* <h3 className="text-lg font-semibold">Inventory Details</h3> */}
                 <div className="space-y-1">
                   <div>
                     <strong>Order Id:</strong> {selectedTask.orderId}
@@ -268,14 +268,14 @@ export default function Worker() {
                     <strong>Notes:</strong> {selectedTask.notes}
                   </div>
                   <div>
-                    <strong>Image:</strong> <img src={selectedTask.imageUrl} className='mt-1'style={{ maxWidth: '10%', height: 'auto' }} />
+                    <strong>Image:</strong> <img src={selectedTask.imageUrl} className='mt-1'style={{ maxWidth: '5%', height: 'auto' }} />
                   </div>
                   {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
                     <div className="mt-4 border-t pt-4">
-                      <h3 className="text-lg font-semibold">Soldering Details</h3>
-                      <div className="space-y-1"> 
+                      {/* <h3 className="text-lg font-semibold">Soldering Details</h3> */}
+                      <div className=""> 
                         <div>
-                          <strong>ImageUrl:</strong><img src= {selectedTask.additionalData[0].imageUrl} className="mt-1" style={{ maxWidth: '10%', height: 'auto' }}  />
+                          <strong>ImageUrl:</strong><img src= {selectedTask.additionalData[0].imageUrl} className="mt-1" style={{ maxWidth: '5%', height: 'auto' }}  />
                         </div>
                         <div>
                           <strong>SandBlasting notes:</strong> {selectedTask.additionalData[0].notes}
@@ -288,10 +288,10 @@ export default function Worker() {
                   )}
                   {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
                     <div className="mt-4 border-t pt-4">
-                      <h3 className="text-lg font-semibold">Painting Details</h3>
-                      <div className="space-y-1">
+                      {/* <h3 className="text-lg font-semibold">Painting Details</h3> */}
+                      <div className="">
                         <div>
-                          <strong>ImageUrl:</strong><img src= {selectedTask.SecondData[0].imageUrl} className='mt-1' style={{ maxWidth: '10%', height: 'auto' }}/>                       </div>
+                          <strong>ImageUrl:</strong><img src= {selectedTask.SecondData[0].imageUrl} className='mt-1' style={{ maxWidth: '5%', height: 'auto' }}/>                       </div>
                         <div>
                           <strong>PaintColor:</strong> {selectedTask.SecondData[0].pColor}
                         </div>

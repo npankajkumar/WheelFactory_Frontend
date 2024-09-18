@@ -22,8 +22,18 @@
 //     }
 //   };
 
+//   const fetchRatingOptions = async () => {
+//         try {
+//           const response = await axios.get('http://localhost:5041/api/Ratings'); 
+//           setRatingOptions(response.data);
+//         } catch (error) {
+//           console.error("Error fetching rating options:", error);
+//           setError('Failed to load rating options.');
+//         }
+//       };
 //   useEffect(() => {
 //     fetchOrderDetails();
+//     fetchRatingOptions();
 //   }, [orderId]);
 
 //   const formik = useFormik({
@@ -35,7 +45,7 @@
 //     validationSchema: Yup.object({
 //       rating: Yup.string().required('Rating is required'),
 //       notes: Yup.string().required('Notes are required'),
-//       imageUrl: Yup.string().required('Proof of Inspection (image) is required'),
+//       imageUrl: Yup.mixed().required('Proof is required'),
 //     }),
 //     onSubmit: async (values, { resetForm }) => {
 //       const formData = new FormData();
@@ -44,7 +54,7 @@
 //       formData.append('rating', values.rating);
 //       formData.append('notes', values.notes);
 //       if (values.imageUrl) {
-//         formData.append('imageFile', values.imageUrl);
+//         formData.append('imageUrl', values.imageUrl);
 //       }
 
 //       try {
@@ -142,7 +152,7 @@
 //                 name="imageUrl"
 //                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
 //                 onChange={(event) => {
-//                   formik.setFieldValue('imageFile', event.currentTarget.files[0]);
+//                   formik.setFieldValue('imageUrl', event.currentTarget.files[0]);
 //                 }}
 //               />
 //               {formik.errors.imageUrl && formik.touched.imageUrl && (
@@ -232,7 +242,7 @@ const Packaging = () => {
       formData.append('rating', values.rating);
       formData.append('notes', values.notes);
       if (values.imageUrl) {
-        formData.append('imageFile', values.imageUrl);
+        formData.append('imageUrl', values.imageUrl);
       }
 
       try {
@@ -306,8 +316,8 @@ const Packaging = () => {
               >
                 <option value="" label="Select rating" />
                 {ratingOptions.map((option) => (
-                  <option key={option.id} value={option.value}>
-                    {option.label}
+                  <option key={option.id} >
+                    {option.iRating}
                   </option>
                 ))}
               </select>
