@@ -2,6 +2,7 @@ import { useState, useEffect,useMemo } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
+import { toast } from '@/hooks/use-toast';
 
 const ManagerDashboard = () => {
   const [currentOrders, setCurrentOrders] = useState([]);
@@ -59,10 +60,10 @@ const ManagerDashboard = () => {
         },
       });
       setShowAddModal(false);
-      alert("Form submitted successfully");
-    } catch (error) {
+      toast.success("Added order sucessfully", { duration: 5000 });
+      } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Failed to submit');
+      toast.error(error.response.data, { duration: 5000 });
     }
   };
 
@@ -356,8 +357,6 @@ const ManagerDashboard = () => {
                 </div>
                 </div>
                 <div>
-
-                Image Upload */
                 <div>
                   <label className="text-lg font-bold text-black">Image:</label>
                   <input
@@ -374,20 +373,22 @@ const ManagerDashboard = () => {
                 {/* Damage Type */}
                 <div>
                   <label className="text-lg font-bold text-black">Damage Type:</label>
-                  <textarea
+                  <input
                     name="damageType"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
                     value={formik.values.damageType}
                     onChange={formik.handleChange}
-                  ></textarea>
+                  ></input>
                 </div>
 
+
+                
                 {/* Notes */}
                 <div>
                   <label className="text-lg font-bold text-black">Notes:</label>
                   <textarea
                     name="notes"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-30"
                     value={formik.values.notes}
                     onChange={formik.handleChange}
                   ></textarea>
@@ -396,12 +397,12 @@ const ManagerDashboard = () => {
                 {/* Status */}
                 <div>
                   <label className="text-lg font-bold text-black">Status:</label>
-                  <textarea
+                  <input
                     name="status"
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md h-10"
                     value={formik.values.status}
                     onChange={formik.handleChange}
-                  ></textarea>
+                  ></input>
                 </div>
               </div>
             </div>
@@ -409,7 +410,7 @@ const ManagerDashboard = () => {
               <button
                 type="submit"
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-teal-600"
-              >
+                onClick={()=>{toast({title:"Added Successfully"})}}>
                 Add Order
               </button>
               <button
@@ -779,5 +780,3 @@ const ScrappedOrdersTable = ({
   );
 };
 export default ManagerDashboard;
-
-        

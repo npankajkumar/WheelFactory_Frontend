@@ -7,9 +7,11 @@ import Painting from './pages/painting/Painting';
 import { Login } from './pages/login/Login';
 import Worker from './pages/worker/Worker';
 import ManagerDashboard from './pages/manager/Manager';
+import { Toaster } from "@/components/ui/toaster"
 function App() {
   return (
     <>
+    
      <Router>
       <Routes>
       <Route path='/inventory' element={<Inventory/>}/>
@@ -22,6 +24,7 @@ function App() {
       <Route path='/painting' element={<Painting/>}/>
       </Routes>
      </Router>
+     <Toaster/>
    </>
   )
 }

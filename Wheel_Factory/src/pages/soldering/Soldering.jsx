@@ -184,6 +184,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 const Soldering = () => {
   const navigate = useNavigate();
@@ -370,7 +371,9 @@ const Soldering = () => {
         <button 
           type="submit" 
           className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
-        >
+          onClick={()=>{toast({title:"Form submitted Successfully"})}}>
+                
+
           Submit
         </button>
       </form>
