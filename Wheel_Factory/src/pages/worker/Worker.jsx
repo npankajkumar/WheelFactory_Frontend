@@ -160,7 +160,7 @@ export default function Worker() {
         </div>
         <button
           className="flex items-center justify-center px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white font-medium transition"
-          onClick={() => navigate('/')}
+          onClick={() =>{localStorage.clear(); navigate('/')}}
         >
           LOGOUT
         </button>
