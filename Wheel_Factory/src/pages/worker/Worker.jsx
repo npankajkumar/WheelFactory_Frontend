@@ -17,10 +17,10 @@ export default function Worker() {
   const [damageTypeFilter, setDamageTypeFilter] = useState('');
 
   const userIdToWorkerTypeMap = {
-    'USR002': '1', // Inventory worker
-    'USR003': '2', // Soldering worker
-    'USR004': '3', // Painting worker
-    'USR005': '4', // Packaging worker
+    'Worker1': '1', // Inventory worker
+    'Worker2': '2', // Soldering worker
+    'Worker3': '3', // Painting worker
+    'Worker4': '4', // Packaging workerf
   };
 
   useEffect(() => {
