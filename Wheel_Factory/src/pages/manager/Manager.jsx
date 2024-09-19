@@ -557,7 +557,7 @@ const ManagerDashboard = () => {
                   <div>
                     {/* Painting Details Card */}
                     {viewCompletedDetails.additionalsecond && (
-                      <div className="bg-white p-4 rounded-lg shadow-lg mb-4 transform transition-transform duration-200 hover:shadow-lg hover:scale-105">                          <h3 className="text-xl font-semibold text-center font-sans">
+                      <div className="bg-white p-4 mt-2 rounded-lg shadow-lg mb-4 transform transition-transform duration-200 hover:shadow-lg hover:scale-105">                          <h3 className="text-xl font-semibold text-center font-sans">
                           Painting Details
                         </h3>
                         <hr />

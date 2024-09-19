@@ -20,7 +20,9 @@ const Home = () => {
         </button>
       </header> */}
 
-<header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
+<header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10"
+
+>
     <div className="animate-pulse flex items-center">
         <img src="src\assets\file.png" alt="Logo" className="h-10 w-10 mr-4" />
     </div>
