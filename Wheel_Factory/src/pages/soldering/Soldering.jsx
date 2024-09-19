@@ -13,10 +13,13 @@ const Soldering = () => {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(); 
   const [sandBlastingOptions, setSandBlastingOptions] = useState([]); 
+  const [role, setRole] = useState('');
+
 const fetchOrderDetails = async () => {
   if (orderId !== 0) {
     try {
       const token = localStorage.getItem('token');
+      setRole(localStorage.getItem('role'));
       const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -108,15 +111,15 @@ const formik = useFormik({
   <div className="flex space-x-4">
     <button 
       className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-      onClick={() => navigate('/')}
+      onClick={() => navigate(`/Workers/${role}`)}
     >
-      PREVIOUS
+      PREVIOUS/
     </button>
     <h1 className="text-xl text-white font-bold">SOLDERING</h1>
   </div>
   <button 
     className="border border-red-400 p-2 rounded-md font-bold text-red-500"
-    onClick={() => navigate('/')}
+    onClick={() =>{localStorage.clear(); navigate('/')}}
   >
     LOGOUT
   </button>

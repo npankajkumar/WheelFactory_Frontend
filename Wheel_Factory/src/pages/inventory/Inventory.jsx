@@ -307,7 +307,7 @@ import { toast } from '@/hooks/use-toast';
           </div>
           <button
             className="border border-red-400 hover:text-black p-2 rounded-md shadow-sm font-bold text-red-500 hover:bg-red-600 transition"
-            onClick={() => navigate('/')}
+            onClick={() =>{localStorage.clear(); navigate('/')}}
           >
             LOGOUT
           </button>
