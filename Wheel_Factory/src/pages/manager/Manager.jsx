@@ -75,7 +75,6 @@ const ManagerDashboard = () => {
 
     fetchOrders();
   }, []);
-
   const formik = useFormik({
     initialValues: {
       clientName: "",
@@ -172,7 +171,7 @@ const ManagerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5041/api/Orders/scrapped/${orderId}`,
+        `http://localhost:5041/api/Orders/scraped/${orderId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
