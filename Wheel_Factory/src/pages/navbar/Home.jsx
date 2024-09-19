@@ -9,49 +9,32 @@ const Home = () => {
   };
   return (
     <>
-      <header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
+      {/* <header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
         <h3 className="border-2 border-teal-500 text-black font-bold px-4 py-2 rounded hover:cursor-pointer hover:border-black hover:text-black transition ease-in-out duration-300">THE WHEEL FACTORY</h3>
-        <ul className="flex list-none space-x-4 p-2">
-          <li>
-            <Link
-              to={"/inventory"}
-              className="text-white font-bold hover:underline"
-            >
-              INVENTORY
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/soldering"}
-              className="text-white font-bold hover:underline"
-            >
-              SOLDERING
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/packaging"}
-              className="text-white font-bold hover:underline"
-            >
-              PACKAGING
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/painting"}
-              className="text-white font-bold hover:underline"
-            >
-              PAINTING
-            </Link>
-          </li>
-        </ul>
+        
         <button
           className="border-2 border-teal-500 text-white font-bold px-4 py-2 rounded hover:bg-teal-500 hover:text-black transition ease-in-out duration-300"
           onClick={loginHandler}
         >
           LOGIN
         </button>
-      </header>
+      </header> */}
+
+<header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
+    <div className="flex items-center">
+        <img src="src\assets\file.png" alt="Logo" className="h-10 w-10 mr-4" />
+    </div>
+    <h3 className="text-center flex-grow text-2xl font-bold text-white px-4 py-2 rounded transition ease-in-out duration-300 animate-in">
+        THE WHEEL FACTORY
+    </h3>
+    <button
+        className="border-2 border-teal-500 text-white font-bold px-4 py-2 rounded hover:bg-teal-500 hover:text-black transition ease-in-out duration-300"
+        onClick={loginHandler}
+    >
+        LOGIN
+    </button>
+</header>
+
     <div className="relative bg-gray-800 flex justify-center items-center">
         <Carousel
           showThumbs={false}
