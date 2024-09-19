@@ -84,10 +84,16 @@ const formik = useFormik({
           Authorization: `Bearer ${token}`,
         },
       });
-      alert('Form submitted successfully!');
+      toast({ title: 'soldering task  submitted successfully' ,
+        style: {
+          backgroundColor: "#90EE90",
+          color: "black",
+          fontWeight: "bold"
+        }});
+      
     } catch (error) {
       console.error('Error submitting form', error);
-      alert('Error submitting form');
+      toast({ title: 'Failed to submit the painting task', variant: 'error' });
     }
   },
 });
@@ -221,14 +227,27 @@ const formik = useFormik({
                     <p className="text-red-500">{formik.errors.imageUrl}</p>
                   )}
                 </div>
-  
+
+                <div className="flex justify-center space-x-4 mt-4">
                 <button 
                   type="submit" 
-                  className="w-full border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4"
-                  onClick={() => {toast({title:"Form submitted Successfully"})}}
+                  className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
+                  onClick={() => {toast({title:"Form submitted Successfully",
+                  style: {
+                    backgroundColor: "#90EE90",
+                    color: "black",
+                    fontWeight: "bold"
+                  }})}}
                 >
                   Submit
                 </button>
+            <button
+              type="submit"
+              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
+              onClick={() => navigate(`/Workers/${role} `)}>
+              Cancel
+            </button>
+          </div>
               </form>
             </div>
           </div>

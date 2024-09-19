@@ -188,34 +188,7 @@ export default function Worker() {
           LOGOUT
         </button>
       </header>
-
       <h2 className="text-3xl font-bold text-center mb-6">PENDING ORDERS LIST</h2>
-
-      <div className="mb-4 flex space-x-4">
-        <select
-          className="border p-2 rounded"
-          value={stageFilter}
-          onChange={(e) => setStageFilter(e.target.value)}
-        >
-          <option value="">All Stages</option>
-          <option value="inventory">Inventory</option>
-          <option value="soldering">Soldering</option>
-          <option value="painting">Painting</option>
-          <option value="packaging">Packaging</option>
-        </select>
-        <select
-          className="border p-2 rounded"
-          value={damageTypeFilter}
-          onChange={(e) => setDamageTypeFilter(e.target.value)}
-        >
-          <option value="">All Damage Types</option>
-          <option value="scraped">Scraped</option>
-          <option value="lipcrack">Lip Crack</option>
-          <option value="chipped">Chipped</option>
-          <option value="paintfade">Paint Fade</option>
-        </select>
-      </div>
-
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded border-gray-300 shadow-md">
           <thead className="bg-gray-950 text-white font-bold font-serif font-large">
@@ -238,7 +211,7 @@ export default function Worker() {
                 <td className="p-4">{task.imageUrl}</td>
                 <td className="p-4">
                   <button
-                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                    className="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600"
                     onClick={() => handleDetailsClick(task.orderId)}
                   >
                     Next
@@ -246,6 +219,9 @@ export default function Worker() {
                 </td>
               </tr>
             ))}
+
+
+            
           </tbody>
         </table>
       </div>
@@ -262,7 +238,7 @@ export default function Worker() {
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="bg-red-400 text-gray-950 px-4 py-2 rounded "
+          className="bg-green-400 text-gray-950 px-4 py-2 rounded "
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
         >

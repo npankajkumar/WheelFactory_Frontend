@@ -57,7 +57,13 @@ import { toast } from '@/hooks/use-toast';
             Authorization: `Bearer ${token}`,
           },
         });
-        toast({ title: 'Inventory task submitted successfully' });
+        toast({ title: 'Inventory task submitted successfully' , duration: 5000,
+        style: {
+          backgroundColor: "#90EE90",
+          color: "black",
+          fontWeight: "bold"
+        }},
+        );
         resetForm();
       } catch (error) {
         console.error('Error submitting form', error);
@@ -98,7 +104,15 @@ import { toast } from '@/hooks/use-toast';
   
     return (
       <div className="p-4">
-        <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md border border-gray-200">
+
+<header 
+className="flex justify-between items-center p-8 rounded-md shadow-md mb-8"
+style={{
+backgroundImage: 'url("public/bg-images/bag.jpg")',
+backgroundSize: 'cover', 
+backgroundPosition: 'center', 
+}}
+>     
           <div className="flex space-x-4">
             <button
               className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"

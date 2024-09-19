@@ -8,17 +8,15 @@ import { toast } from '@/hooks/use-toast';
 
 const ManagerDashboard = () => {
   const [currentOrders, setCurrentOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [viewOrderDetails, setViewOrderDetails] = useState(null);
   const [viewCompletedDetails, setViewCompletedDetails] = useState(null);
   const [activeMenuItem, setActiveMenuItem] = useState('currentOrders');
-  const [damageTypes, setDamageTypes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [scrappedOrders, setScrappedOrders] = useState(null);
-  const [stageFilter, setStageFilter] = useState("");
-  const [damageTypeFilter, setDamageTypeFilter] = useState("");
   const [showImage, setShowImage] = useState(false);
   const [showSandBlastingImage, setShowSandBlastingImage] = useState(false);
   const [showPaintingImage, setShowPaintingImage] = useState(false);
@@ -108,6 +106,11 @@ const ManagerDashboard = () => {
           title: "Added order successfully",
           description: "The new order has been added to the system.",
           duration: 5000,
+          style: {
+            backgroundColor: "#90EE90",
+            color: "black",
+            fontWeight: "bold"
+          }
         });
         resetForm();
       } catch (error) {
@@ -252,11 +255,12 @@ const ManagerDashboard = () => {
         </header>
 
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+       
           {activeMenuItem === 'currentOrders' && (
             <CurrentOrders
               currentOrders={currentOrders}
               viewOrderDetails={fetchOrderDetails}
-              setViewOrderDetails={setViewOrderDetails}
+              setViewOrderDetails={fetchOrderDetails}
             />
           )}
 
@@ -548,6 +552,7 @@ const ManagerDashboard = () => {
                         name="notes"
                         onChange={formik.handleChange}
                         value={formik.values.notes}
+                        placeholder="*Add color preference"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                       />
                     </div>
@@ -645,12 +650,11 @@ const CurrentOrders = ({
   setViewOrderDetails
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [stageFilter, setStageFilter] = useState("");
   const [damageTypeFilter, setDamageTypeFilter] = useState("");
   const ordersPerPage = 10;
 
   const filteredOrders = currentOrders.filter(order =>
-    (!stageFilter || order.status === stageFilter) &&
+  
     (!damageTypeFilter || order.damageType === damageTypeFilter)
   );
 
@@ -662,22 +666,12 @@ const CurrentOrders = ({
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+ 
 
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Orders</h2>
       <div className="mb-6 flex space-x-4">
-        <select
-          className="border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={stageFilter}
-          onChange={(e) => setStageFilter(e.target.value)}
-        >
-          <option value="">All Stages</option>
-          <option value="inventory">Inventory</option>
-          <option value="soldering">Soldering</option>
-          <option value="Painting">Painting</option>
-          <option value="packaging">Packaging</option>
-        </select>
 
         <select
           className="border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -698,7 +692,7 @@ const CurrentOrders = ({
               Order ID
             </th>
             <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
-              Stage
+              status
             </th>
             <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
               Damage Type
@@ -763,12 +757,10 @@ const CompletedOrders = ({
   setViewOrderDetails,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dateFilter, setDateFilter] = useState("");
   const [searchOrderId, setSearchOrderId] = useState("");
   const ordersPerPage = 10;
 
   const filteredOrders = completedOrders.filter(order =>
-    (!dateFilter || order.completionDate.includes(dateFilter)) &&
     (!searchOrderId || order.orderId.toString().includes(searchOrderId))
   );
 
@@ -792,13 +784,6 @@ const CompletedOrders = ({
           className="border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchOrderId}
           onChange={(e) => setSearchOrderId(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Filter by Completion Date"
-          className="border border-gray-300 p-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
         />
       </div>
       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse font-bold">
@@ -850,7 +835,7 @@ const CompletedOrders = ({
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="px-4 py-2 bg-red-400 text-gray rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 "
+          className="px-4 py-2 bg-green-500 text-gray rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 "
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -863,16 +848,13 @@ const CompletedOrders = ({
 
 const ScrappedOrdersTable = ({
   scrappedOrders,
-  setViewScrappedDetails,
-  setScrappedOrders,
+  setViewOrderDetails
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dateFilter, setDateFilter] = useState("");
   const [searchOrderId, setSearchOrderId] = useState("");
   const ordersPerPage = 10;
 
   const filteredOrders = scrappedOrders.filter(order =>
-    (!dateFilter || order.scrapDate.includes(dateFilter)) &&
     (!searchOrderId || order.orderId.toString().includes(searchOrderId))
   );
 
@@ -900,13 +882,6 @@ const ScrappedOrdersTable = ({
           className="border border-gray-300 p-2 rounded-md text-gray-950 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchOrderId}
           onChange={(e) => setSearchOrderId(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Filter by Scrap Date"
-          className="border border-gray-300 p-2 rounded-md text-gray-950 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
         />
       </div>
       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse">
@@ -975,7 +950,7 @@ const ScrappedOrdersTable = ({
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50"
+          className="px-4 py-2 bg-green-500 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >

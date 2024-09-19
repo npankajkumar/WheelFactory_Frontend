@@ -36,6 +36,7 @@ const Packaging = () => {
     try {
       const response = await axios.get('http://localhost:5041/api/Ratings');
       setRatingOptions(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching rating options:", error);
       setError('Failed to load rating options.');
@@ -46,6 +47,7 @@ const Packaging = () => {
     const fetchData = async () => {
       await fetchOrderDetails();
       await fetchRatingOptions();
+      console.log(ratingOptions);
       setLoading(false);
     };
 
@@ -54,20 +56,20 @@ const Packaging = () => {
 
   const formik = useFormik({
     initialValues: {
-      rating: '',
+      iRating: '',
       notes: '',
       imageUrl: null,
     },
     validationSchema: Yup.object({
-      rating: Yup.string().required('Rating is required'),
+    iRating: Yup.string().required('Rating is required'),
       notes: Yup.string().required('Notes are required'),
       imageUrl: Yup.mixed().required('Proof of Inspection (image) is required'),
     }),
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
-      formData.append('orderId', orderDetails?.orderId || 0);
-      formData.append('status', orderDetails?.status || '');
-      formData.append('rating', values.rating);
+      formData.append('orderId', orderDetails?.orderId);
+      formData.append('status', orderDetails?.status );
+      formData.append('iRating', values.iRating);
       formData.append('notes', values.notes);
       if (values.imageUrl) {
         formData.append('imageUrl', values.imageUrl);
@@ -81,7 +83,13 @@ const Packaging = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast({ title: 'Packaging task submitted successfully' });
+        toast({ title: 'Packaging task submitted successfully' ,
+        style: {
+          backgroundColor: "#90EE90",
+          color: "black",
+          fontWeight: "bold"
+        }});
+        
         resetForm();
       } catch (error) {
         console.error('Error submitting packaging task:', error);
@@ -167,20 +175,21 @@ const Packaging = () => {
             <div>
               <label className="text-lg font-bold text-black">Rating:</label>
               <select
-                name="rating"
+                name="iRating"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                value={formik.values.rating}
+                value={formik.values.iRating}
                 onChange={formik.handleChange}
               >
-                <option value="" label="Select rating" />
+                <option value="">select rating</option>
                 {ratingOptions.map((option) => (
-                  <option key={option.id} >
-                    {option.iRating}
+                  <option key={option.id}> {option.iRating} 
+                   
                   </option>
+
                 ))}
               </select>
-              {formik.errors.rating && formik.touched.rating && (
-                <p className="text-red-500">{formik.errors.rating}</p>
+              {formik.errors.iRating && formik.touched.iRating && (
+                <p className="text-red-500">{formik.errors.iRating}</p>
               )}
             </div>
 
@@ -212,13 +221,23 @@ const Packaging = () => {
                 <p className="text-red-500">{formik.errors.imageUrl}</p>
               )}
             </div>
-
+            <div className="flex justify-center space-x-4 mt-4">
             <button
               type="submit"
-              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
             >
               Submit
             </button>
+
+            <button
+              type="submit"
+              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
+              onClick={() => navigate(`/Workers/${role} `)}>
+              Cancel
+            </button>
+          </div>
+
+           
           </form>
         </div>
       </div>

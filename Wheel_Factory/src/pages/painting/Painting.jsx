@@ -100,7 +100,12 @@ const Painting = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast({ title: 'Painting task submitted successfully' });
+        toast({ title: 'Painting task submitted successfully' ,
+        style: {
+          backgroundColor: "#90EE90",
+          color: "black",
+          fontWeight: "bold"
+        }});
         resetForm();
       } catch (error) {
         console.error('Error submitting painting task:', error);
@@ -256,13 +261,21 @@ const Painting = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
-          >
-            Submit
-          </button>
+          <div className="flex justify-center space-x-4 mt-4">
+            <button
+              type="submit"
+              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
+            >
+              Submit
+            </button>
+
+            <button
+              type="submit"
+              className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2"
+              onClick={() => navigate(`/Workers/${role} `)}>
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
     </div>

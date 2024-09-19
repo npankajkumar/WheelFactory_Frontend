@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { toast } from '@/hooks/use-toast';
 
 export const Login = () => {
   const [userId, setUserId] = useState(''); 
@@ -33,12 +34,12 @@ export const Login = () => {
       } else {
         console.log('Validation failed');
         localStorage.setItem('status', 'failed');
-        setError('Validation failed. Please check your credentials.');
+      toast({title:'Validation failed. Please check your credentials',variant:'error'});
       }
     } catch (error) {
       console.error('An error occurred during validation:', error);
       localStorage.setItem('status', 'failed');
-      setError('An error occurred. Please try again.');
+      toast({ title: 'An error occure during validation', variant:  "destructive" });
     }
   };
   
