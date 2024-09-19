@@ -34,12 +34,12 @@ export const Login = () => {
       } else {
         console.log('Validation failed');
         localStorage.setItem('status', 'failed');
-      toast({title:'Validation failed. Please check your credentials',variant:'error'});
+      toast({title:' Please check your credentials',variant:'error'});
       }
     } catch (error) {
-      console.error('An error occurred during validation:', error);
+      console.error('invalid credentials', error);
       localStorage.setItem('status', 'failed');
-      toast({ title: 'An error occure during validation', variant:  "destructive" });
+      toast({ title: 'Invalid Credentials', variant:  "destructive" });
     }
   };
   

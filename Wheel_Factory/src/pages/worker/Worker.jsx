@@ -15,6 +15,8 @@ export default function Worker() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [heading, setHeading] = useState('');
+
   const [stageFilter, setStageFilter] = useState('');
   const [damageTypeFilter, setDamageTypeFilter] = useState('');
   const [showImage, setShowImage] = useState(false);
@@ -43,21 +45,30 @@ export default function Worker() {
               response = await axios.get('http://localhost:5041/api/Orders/Inventory', {
                 headers: { Authorization: `Bearer ${token}` },
               });
+              setHeading("Orders Tasks for Inventory");
+
               break;
             case '2':
               response = await axios.get('http://localhost:5041/api/task/soldering', {
                 headers: { Authorization: `Bearer ${token}` },
               });
+              setHeading("Orders Tasks for Soldering");
+
               break;
+              
             case '3':
               response = await axios.get('http://localhost:5041/api/task/painting', {
                 headers: { Authorization: `Bearer ${token}` },
               });
+              setHeading("Orders Tasks for Painting");
+
               break;
             case '4':
               response = await axios.get('http://localhost:5041/api/task/packaging', {
                 headers: { Authorization: `Bearer ${token}` },
               });
+              setHeading("Orders Tasks for Packaging");
+
               break;
             default:
               console.log('Invalid worker type');
@@ -179,7 +190,7 @@ export default function Worker() {
           >
             PREVIOUS
           </button>
-          <h1 className="text-2xl font-bold">ORDERS LIST</h1>
+          <h1 className="text-2xl font-bold">{heading}</h1>
         </div>
         <button
           className="flex items-center justify-center px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white font-medium transition"
@@ -188,7 +199,7 @@ export default function Worker() {
           LOGOUT
         </button>
       </header>
-      <h2 className="text-3xl font-bold text-center mb-6">PENDING ORDERS LIST</h2>
+      <h3 className="text-2xl font-light text-center mb-6">PENDING ORDERS LIST</h3>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded border-gray-300 shadow-md">
           <thead className="bg-gray-950 text-white font-bold font-serif font-large">
@@ -211,10 +222,10 @@ export default function Worker() {
                 <td className="p-4">{task.imageUrl}</td>
                 <td className="p-4">
                   <button
-                    className="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                    className=" bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500"
                     onClick={() => handleDetailsClick(task.orderId)}
                   >
-                    Next
+                    Preview
                   </button>
                 </td>
               </tr>
@@ -228,7 +239,7 @@ export default function Worker() {
 
       <div className="flex justify-between items-center mt-4">
         <button
-          className="bg-red-400 text-gray-950 px-4 py-2 rounded "
+          className="bg-red-400 text-black px-4 py-2 rounded "
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -238,7 +249,7 @@ export default function Worker() {
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="bg-green-400 text-gray-950 px-4 py-2 rounded "
+          className="bg-green-400  text-black px-4 py-2 rounded "
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -249,7 +260,9 @@ export default function Worker() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
           <div className="bg-white p-4 rounded-md shadow-md w-1/2 max-w-2xl">
             {selectedTask && (
-              <div className="space-y-4 font-sans font-bold">
+              <div className="space-y-4 font-sans">
+                <span className='font-bold text-xl '>Stage-1</span>
+                <hr />
                 <div className="flex justify-between items-start">
                   <div className="flex-grow">
                     <div>
@@ -284,7 +297,13 @@ export default function Worker() {
 
 
             {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
+            
+              <div><hr />
+              <br /><span className='font-bold text-xl '>Stage-2</span>
+                <br /><hr />
               <div className="flex justify-between items-start border-t pt-2">
+                
+                
                 <div className="w-full">
                   <div>
                     <strong>Sand Blasting Notes:</strong> {selectedTask.additionalData[0].notes}
@@ -307,10 +326,15 @@ export default function Worker() {
                   </div>
                 )}
               </div>
+              </div>
             )}
 
             {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
+              <div><hr />
+              <br /><span className='font-bold text-xl '>Stage-3</span>
+                <br /><hr />
               <div className="flex justify-between items-start border-t pt-2">
+                
                 <div className="w-full">
                   <div>
                     <strong>Paint Color:</strong> {selectedTask.SecondData[0].pColor}
@@ -335,6 +359,7 @@ export default function Worker() {
                     )}
                   </div>
                 )}
+              </div>
               </div>
             )}
 
