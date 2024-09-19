@@ -8,20 +8,26 @@ import { Login } from './pages/login/Login';
 import Worker from './pages/worker/Worker';
 import ManagerDashboard from './pages/manager/Manager';
 import { Toaster } from "@/components/ui/toaster"
+import ProtectedRoute from './pages/Protected/ProtectedRoute';
+import NotFound from './pages/notfound/NotFound';
 function App() {
   return (
     <>
     
      <Router>
       <Routes>
-      <Route path='/inventory' element={<Inventory/>}/>
+     
       <Route path='' element={<Home/>}/>
-      <Route path='/workers/:userId' element={<Worker/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/soldering' element={<Soldering/>}/>
-      <Route path="/manager" element={<ManagerDashboard />} />
-      <Route path='/packaging' element={<Packaging/>}/>
-      <Route path='/painting' element={<Painting/>}/>
+      <Route element={<ProtectedRoute/>}>
+          <Route path='/workers/:userId' element={<Worker/>}/>
+          <Route path='/inventory' element={<Inventory/>}/>
+          <Route path='/soldering' element={<Soldering/>}/>
+          <Route path="/manager" element={<ManagerDashboard />} />
+          <Route path='/packaging' element={<Packaging/>}/>
+          <Route path='/painting' element={<Painting/>}/>
+      </Route>
+      <Route path="*" element={<NotFound/>} />
       </Routes>
      </Router>
      <Toaster/>

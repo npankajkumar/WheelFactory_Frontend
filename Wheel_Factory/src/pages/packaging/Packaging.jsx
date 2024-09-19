@@ -103,7 +103,7 @@ const Packaging = () => {
         </div>
         <button
           className="border border-red-400 p-2 rounded-md shadow-sm font-bold text-red-500"
-          onClick={() => navigate('/')}
+          onClick={() =>{localStorage.clear(); navigate('/')}}
         >
           LOGOUT
         </button>

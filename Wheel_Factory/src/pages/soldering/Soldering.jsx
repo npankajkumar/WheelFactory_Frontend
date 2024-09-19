@@ -122,6 +122,7 @@ const formik = useFormik({
   </button>
 </header>
 
+<<<<<<< HEAD
   
           <div className="bg-white shadow-xl rounded-lg overflow-hidden md:flex">
             {/* Profile Section */}
@@ -134,6 +135,35 @@ const formik = useFormik({
                   <h2 className="text-2xl font-extrabold text-gray-900">WORKER2-SOLDERING</h2>
                   <p className="text-sm text-gray-650">Soldering </p>
                 </div>
+=======
+  return (
+    <div className="p-4">
+      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md">
+        <div className="flex space-x-4">
+          <button 
+            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
+            onClick={() => navigate('/')}
+          >
+            PREVIOUS
+          </button>
+          <h1 className="text-xl text-white font-bold">SOLDERING</h1>
+        </div>
+        <button 
+          className="border border-red-400 p-2 rounded-md font-bold text-red-500"
+          onClick={() =>{localStorage.clear(); navigate('/')}}
+        >
+          LOGOUT
+        </button>
+      </header>
+
+      {orderDetails ? (
+        <div className="mt-4 space-y-4">
+          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
+            <div className="flex-1 space-y-4">
+              <div>
+                <h2 className="text-lg font-bold">Order Id:</h2>
+                <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
+>>>>>>> ca4e090b97078f81e24f1d93e824382238e4df4f
               </div>
               <div className="space-y-4">
                 <div>

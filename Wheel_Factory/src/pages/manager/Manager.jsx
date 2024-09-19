@@ -123,7 +123,9 @@ const ManagerDashboard = () => {
   });
 
   const handleLogout = () => {
+    localStorage.clear();
     navigate('/');
+    
   };
 
   const fetchOrderDetails = async (orderId) => {
