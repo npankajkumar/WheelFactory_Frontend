@@ -12,7 +12,7 @@ const Soldering = () => {
   const [orderDetails, setOrderDetails] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(); 
-  const [sandBlastingOptions, setSandBlastingOptions] = useState([]); // State for dropdown options
+  const [sandBlastingOptions, setSandBlastingOptions] = useState([]); 
 const fetchOrderDetails = async () => {
   if (orderId !== 0) {
     try {
@@ -122,33 +122,18 @@ const formik = useFormik({
   </button>
 </header>
 
-  return (
-    <div className="p-4">
-      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md">
-        <div className="flex space-x-4">
-          <button 
-            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate('/')}
-          >
-            PREVIOUS
-          </button>
-          <h1 className="text-xl text-white font-bold">SOLDERING</h1>
-        </div>
-        <button 
-          className="border border-red-400 p-2 rounded-md font-bold text-red-500"
-          onClick={() =>{localStorage.clear(); navigate('/')}}
-        >
-          LOGOUT
-        </button>
-      </header>
-
-      {orderDetails ? (
-        <div className="mt-4 space-y-4">
-          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
-            <div className="flex-1 space-y-4">
-              <div>
-                <h2 className="text-lg font-bold">Order Id:</h2>
-                <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
+  
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden md:flex">
+            {/* Profile Section */}
+            <div className="md:w-1/2 p-4 bg-gray-50">
+              <div className="flex items-center mb-8">
+                <div className="bg-gray-300 rounded-full h-20 w-20 flex items-center justify-center text-3xl text-gray-600">
+                  SD
+                </div>
+                <div className="ml-4">
+                  <h2 className="text-2xl font-extrabold text-gray-900">WORKER2-SOLDERING</h2>
+                  <p className="text-sm text-gray-650">Soldering </p>
+                </div>
               </div>
               <div className="space-y-4">
                 <div>
