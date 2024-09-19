@@ -21,10 +21,10 @@ const Home = () => {
       </header> */}
 
 <header className="bg-white bg-opacity-10 backdrop-blur-lg flex items-center justify-between text-white p-4 fixed w-full z-10">
-    <div className="flex items-center">
+    <div className="animate-pulse flex items-center">
         <img src="src\assets\file.png" alt="Logo" className="h-10 w-10 mr-4" />
     </div>
-    <h3 className="text-center flex-grow text-2xl font-bold text-white px-4 py-2 rounded transition ease-in-out duration-300 animate-in">
+    <h3 className="text-center flex-grow text-2xl font-bold text-white px-4 py-2 rounded transition ease-in-out duration-300 animate-pulse">
         THE WHEEL FACTORY
     </h3>
     <button
