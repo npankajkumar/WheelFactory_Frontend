@@ -981,7 +981,7 @@ const CurrentOrders = ({
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          Preview
+          Next
         </button>
       </div>
     </div>
