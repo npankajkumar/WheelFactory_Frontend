@@ -188,6 +188,7 @@ import { toast } from '@/hooks/use-toast';
     const location = useLocation();
     const [orderData, setOrderData] = useState(null);
     const [profileData, setProfileData] = useState(null);
+    const [role, setRole] = useState('');
     const orderId = location.state?.orderId;
   
     useEffect(() => {
@@ -195,6 +196,7 @@ import { toast } from '@/hooks/use-toast';
         const fetchOrderData = async () => {
           try {
             const token = localStorage.getItem('token');
+            setRole(localStorage.getItem('role'));
             if (!token) {
               throw new Error('Authorization token not found');
             }
@@ -299,7 +301,7 @@ import { toast } from '@/hooks/use-toast';
           <div className="flex space-x-4">
             <button
               className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm hover:bg-gray-200 hover:text-black transition"
-              onClick={() => navigate('/workers/:userId')}
+              onClick={() => navigate(`/workers/${role}`)}
             >
               PREVIOUS
             </button>
