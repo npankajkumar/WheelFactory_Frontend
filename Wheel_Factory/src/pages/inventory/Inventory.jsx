@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -158,7 +156,6 @@ const Inventory = () => {
 };
 
 export default Inventory;
->>>>>>> ca4e090b97078f81e24f1d93e824382238e4df4f
 // import { useEffect, useState } from 'react';
 // import { useNavigate, useLocation } from 'react-router-dom';
 // import axios from 'axios';

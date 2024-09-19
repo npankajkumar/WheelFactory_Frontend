@@ -122,20 +122,6 @@ const formik = useFormik({
   </button>
 </header>
 
-<<<<<<< HEAD
-  
-          <div className="bg-white shadow-xl rounded-lg overflow-hidden md:flex">
-            {/* Profile Section */}
-            <div className="md:w-1/2 p-4 bg-gray-50">
-              <div className="flex items-center mb-8">
-                <div className="bg-gray-300 rounded-full h-20 w-20 flex items-center justify-center text-3xl text-gray-600">
-                  SD
-                </div>
-                <div className="ml-4">
-                  <h2 className="text-2xl font-extrabold text-gray-900">WORKER2-SOLDERING</h2>
-                  <p className="text-sm text-gray-650">Soldering </p>
-                </div>
-=======
   return (
     <div className="p-4">
       <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md">
@@ -163,7 +149,6 @@ const formik = useFormik({
               <div>
                 <h2 className="text-lg font-bold">Order Id:</h2>
                 <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
->>>>>>> ca4e090b97078f81e24f1d93e824382238e4df4f
               </div>
               <div className="space-y-4">
                 <div>
