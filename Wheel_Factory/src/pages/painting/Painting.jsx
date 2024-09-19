@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from '@/hooks/use-toast';
 
 const Painting = () => {
   const navigate = useNavigate();
@@ -14,11 +15,13 @@ const Painting = () => {
   const [paintTypes, setPaintTypes] = useState([]);
   const [paintColors, setPaintColors] = useState([]);
 
-  // Fetch order details
   const fetchOrderDetails = async () => {
     if (orderId) {
       try {
-        const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`);
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrderDetails(response.data);
       } catch (error) {
         console.error("Error fetching order details:", error);
@@ -32,10 +35,9 @@ const Painting = () => {
     }
   };
 
-  // Fetch paint types
   const fetchPaintTypes = async () => {
     try {
-      const response = await axios.get('http://localhost:5041/api/PaintTypes');  // Adjust endpoint if necessary
+      const response = await axios.get('http://localhost:5041/api/PaintTypes');
       setPaintTypes(response.data);
     } catch (error) {
       console.error("Error fetching paint types:", error);
@@ -45,7 +47,7 @@ const Painting = () => {
 
   const fetchPaintColors = async () => {
     try {
-      const response = await axios.get('http://localhost:5041/api/Colors');  // Adjust endpoint if necessary
+      const response = await axios.get('http://localhost:5041/api/Colors');
       setPaintColors(response.data);
     } catch (error) {
       console.error("Error fetching paint colors:", error);
@@ -78,7 +80,7 @@ const Painting = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
-      formData.append('orderId', orderDetails?.orderId || 0);
+      formData.append('orderId', orderDetails?.orderId);
       formData.append('pColor', values.paint);
       formData.append('pType', values.typeOfPaint);
       formData.append('status', orderDetails?.status);
@@ -86,18 +88,20 @@ const Painting = () => {
       if (values.imageUrl) {
         formData.append('imageUrl', values.imageUrl);
       }
-    
+
       try {
+        const token = localStorage.getItem('token');
         await axios.post('http://localhost:5041/api/Task/painting', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
         });
-        alert('Painting task submitted successfully');
+        toast({ title: 'Painting task submitted successfully' });
         resetForm();
       } catch (error) {
         console.error('Error submitting painting task:', error);
-        alert('Failed to submit the painting task');
+        toast({ title: 'Failed to submit the painting task', variant: 'error' });
       }
     },
   });
@@ -122,15 +126,43 @@ const Painting = () => {
         </button>
       </header>
 
-      {/* Order Details or Error Message */}
-      {loading ? (
-        <p>Loading order details...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : orderDetails ? (
-        <div className="mt-4 space-y-4">
-          <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
-            <div className="flex-1 space-y-4">
+      <form className="bg-white shadow-xl rounded-lg overflow-hidden md:flex mt-4 space-y-4 md:space-y-0" onSubmit={formik.handleSubmit}>
+        {/* Profile Section */}
+        <div className="md:w-1/2 p-4 bg-gray-50">
+          <div className="flex items-center mb-8">
+            <div className="bg-gray-300 rounded-full h-20 w-20 flex items-center justify-center text-3xl text-gray-600">
+              PT
+            </div>
+            <div className="ml-4">
+              <h2 className="text-2xl font-extrabold text-gray-900">WORKER2-PAINTING</h2>
+              <p className="text-sm text-gray-650">Painting</p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <p className="text-m uppercase tracking-wide text-gray-600 font-semibold">Role</p>
+              <p className="mt-1 text-lg font-medium text-gray-900">Painting Technician</p>
+            </div>
+            <div>
+              <p className="text-m uppercase tracking-wide text-gray-600 font-semibold">ID</p>
+              <p className="mt-1 text-lg font-medium text-gray-900">Worker003</p>
+            </div>
+            <div>
+              <p className="text-m uppercase tracking-wide text-gray-600 font-semibold">Type of Work</p>
+              <p className="mt-1 text-lg font-medium text-gray-900">Full-time</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Order Details and Painting Form */}
+        <div className="md:w-1/2 p-4">
+          {/* Order Details */}
+          {loading ? (
+            <p>Loading order details...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : orderDetails ? (
+            <div className="mt-4 space-y-4">
               <div>
                 <h2 className="text-lg font-bold">Order Id:</h2>
                 <p className="mt-1 text-gray-700">{orderDetails.orderId}</p>
@@ -140,30 +172,24 @@ const Painting = () => {
                 <p className="mt-1 text-gray-700">{orderDetails.status}</p>
               </div>
             </div>
-          </div>
-        </div>
-      ) : (
-        <p className="mt-4 text-gray-700">No order details available.</p>
-      )}
+          ) : (
+            <p className="mt-4 text-gray-700">No order details available.</p>
+          )}
 
-      {/* Painting Form */}
-      <form className="mt-4 space-y-4" onSubmit={formik.handleSubmit}>
-        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8">
-          {/* Left Column */}
-          <div className="flex-1 space-y-4">
-            {/* Paint Color */}
+          {/* Painting Form */}
+          <div className="mt-4 space-y-4">
             <div>
               <label className="text-lg font-bold text-black">Paint Color:</label>
               <select
                 name="paint"
-                className="mt-1 block w-full text-black p-2 border border-gray-300 rounded-md"
+                className="mt-1 block w-full text-black font-serif text-medium p-2 border border-gray-300 rounded-md"
                 value={formik.values.paint}
                 onChange={formik.handleChange}
               >
                 <option value="" label="Select paint color" />
                 {paintColors.map((color) => (
-                  <option key={color.id} >{color.pColor}
-                    
+                  <option key={color.id} value={color.pColor}>
+                    {color.pColor}
                   </option>
                 ))}
               </select>
@@ -172,18 +198,17 @@ const Painting = () => {
               )}
             </div>
 
-            {/* Type of Paint */}
             <div>
               <label className="text-lg font-bold text-black">Type of Paint:</label>
               <select
                 name="typeOfPaint"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                className="mt-1 block w-full p-2 border text-medium font-serif border-gray-300 rounded-md"
                 value={formik.values.typeOfPaint}
                 onChange={formik.handleChange}
               >
                 <option value="" label="Select paint type" />
                 {paintTypes.map((type) => (
-                  <option key={type.id} >
+                  <option key={type.id} value={type.pType}>
                     {type.pType}
                   </option>
                 ))}
@@ -192,11 +217,7 @@ const Painting = () => {
                 <p className="text-red-500">{formik.errors.typeOfPaint}</p>
               )}
             </div>
-          </div>
 
-          {/* Right Column */}
-          <div className="flex-1 space-y-4">
-            {/* Notes */}
             <div>
               <label className="text-lg font-bold text-black">Notes:</label>
               <textarea
@@ -210,7 +231,6 @@ const Painting = () => {
               )}
             </div>
 
-            {/* Image File */}
             <div>
               <label className="text-lg font-bold text-black">Upload Image:</label>
               <input
@@ -226,15 +246,15 @@ const Painting = () => {
               )}
             </div>
           </div>
-        </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
-        >
-          Submit
-        </button>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm bg-black px-4 py-2 mt-4 block mx-auto"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

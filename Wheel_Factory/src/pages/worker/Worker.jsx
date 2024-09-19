@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+ 
+
 export default function Worker() {
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -15,6 +17,10 @@ export default function Worker() {
   const [itemsPerPage] = useState(10);
   const [stageFilter, setStageFilter] = useState('');
   const [damageTypeFilter, setDamageTypeFilter] = useState('');
+  const [showImage, setShowImage] = useState(false);
+const [showAdditionalImage, setShowAdditionalImage] = useState(false);
+const [showSecondImage, setShowSecondImage] = useState(false);
+
 
   const userIdToWorkerTypeMap = {
     'Worker1': '1', // Inventory worker
@@ -26,23 +32,32 @@ export default function Worker() {
   useEffect(() => {
     const workerTypeFromUserId = userIdToWorkerTypeMap[userId];
     setWorkerType(workerTypeFromUserId);
-
+  
     const fetchPendingTasks = async () => {
       try {
         let response;
+        const token = localStorage.getItem('token');
         if (workerTypeFromUserId) {
           switch (workerTypeFromUserId) {
             case '1':
-              response = await axios.get('http://localhost:5041/api/Orders/Inventory');
+              response = await axios.get('http://localhost:5041/api/Orders/Inventory', {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               break;
             case '2':
-              response = await axios.get('http://localhost:5041/api/task/soldering');
+              response = await axios.get('http://localhost:5041/api/task/soldering', {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               break;
             case '3':
-              response = await axios.get('http://localhost:5041/api/task/painting');
+              response = await axios.get('http://localhost:5041/api/task/painting', {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               break;
             case '4':
-              response = await axios.get('http://localhost:5041/api/task/packaging');
+              response = await axios.get('http://localhost:5041/api/task/packaging', {
+                headers: { Authorization: `Bearer ${token}` },
+              });
               break;
             default:
               console.log('Invalid worker type');
@@ -55,12 +70,12 @@ export default function Worker() {
         console.error(error);
       }
     };
-
+  
     if (workerTypeFromUserId) {
       fetchPendingTasks();
     }
   }, [userId]);
-
+  
   const handleProcessClick = (orderId) => {
     setIsModalOpen(false);
     switch (workerType) {
@@ -80,10 +95,11 @@ export default function Worker() {
         console.log('Invalid worker type');
     }
   };
-
+  
   const handleDetailsClick = async (orderId) => {
     try {
       let taskEndpoint, additionalEndpoint, SecondEndpoint;
+      const token = localStorage.getItem('token');
       switch (workerType) {
         case '1': // Inventory
           taskEndpoint = `http://localhost:5041/api/Orders/${orderId}`;
@@ -103,19 +119,25 @@ export default function Worker() {
         default:
           throw new Error('Invalid worker type');
       }
-
-      const taskResponse = await axios.get(taskEndpoint);
+  
+      const taskResponse = await axios.get(taskEndpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       let additionalData = null;
       let SecondData = null;
       if (additionalEndpoint) {
-        const additionalResponse = await axios.get(additionalEndpoint);
+        const additionalResponse = await axios.get(additionalEndpoint, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         additionalData = additionalResponse.data;
       }
       if (SecondEndpoint) {
-        const SecondResponse = await axios.get(SecondEndpoint);
+        const SecondResponse = await axios.get(SecondEndpoint, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         SecondData = SecondResponse.data;
       }
-
+  
       setSelectedTask({ ...taskResponse.data, additionalData, SecondData });
       setIsModalOpen(true);
     } catch (error) {
@@ -123,11 +145,12 @@ export default function Worker() {
       setError('Failed to fetch task details');
     }
   };
-
+  
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTask(null);
   };
+  
 
   if (error) {
     return <p className="text-red-500 text-center mt-8">{error}</p>;
@@ -151,7 +174,7 @@ export default function Worker() {
       <header className="flex justify-between items-center p-5 bg-gray-900 text-white rounded-lg shadow-md mb-8">
         <div className="flex space-x-4">
           <button
-            className="flex items-center justify-center px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-medium"
+            className="flex items-center justify-center px-4 py-2 rounded-md bg-teal-500 hover:bg-blue-600 text-white font-medium"
             onClick={() => navigate('/login')}
           >
             PREVIOUS
@@ -194,8 +217,8 @@ export default function Worker() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300 shadow-md">
-          <thead className="bg-gray-900 text-white font-semibold font-serif">
+        <table className="min-w-full bg-white border rounded border-gray-300 shadow-md">
+          <thead className="bg-gray-950 text-white font-bold font-serif font-large">
             <tr>
               <th className="p-4 text-left">Order ID</th>
               <th className="p-4 text-left">Year</th>
@@ -205,7 +228,7 @@ export default function Worker() {
               <th className="p-4 text-left">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='text-m  text-black font-sans font-medium'>
             {currentItems.map((task) => (
               <tr key={task.orderId} className="border-t">
                 <td className="p-4">{task.orderId}</td>
@@ -227,10 +250,9 @@ export default function Worker() {
         </table>
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4">
         <button
-          className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+          className="bg-red-400 text-gray-950 px-4 py-2 rounded "
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -240,90 +262,126 @@ export default function Worker() {
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50"
+          className="bg-red-400 text-gray-950 px-4 py-2 rounded "
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Next
         </button>
       </div>
-
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-          <div className="bg-white p-2 rounded-md shadow-md w-1/2">
-            {selectedTask && (
-              <div>
-                {/* <h3 className="text-lg font-semibold">Inventory Details</h3> */}
-                <div className="space-y-1">
-                  <div>
-                    <strong>Order Id:</strong> {selectedTask.orderId}
-                  </div>
-                  <div>
-                    <strong>Status:</strong> {selectedTask.status}
-                  </div>
-                  <div>
-                    <strong>Damage Type:</strong> {selectedTask.damageType}
-                  </div>
-                  <div>
-                    <strong>Notes:</strong> {selectedTask.notes}
-                  </div>
-                  <div>
-                    <strong>Image:</strong> <img src={selectedTask.imageUrl} className='mt-1'style={{ maxWidth: '5%', height: 'auto' }} />
-                  </div>
-                  {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
-                    <div className="mt-4 border-t pt-4">
-                      {/* <h3 className="text-lg font-semibold">Soldering Details</h3> */}
-                      <div className=""> 
-                        <div>
-                          <strong>ImageUrl:</strong><img src= {selectedTask.additionalData[0].imageUrl} className="mt-1" style={{ maxWidth: '5%', height: 'auto' }}  />
-                        </div>
-                        <div>
-                          <strong>SandBlasting notes:</strong> {selectedTask.additionalData[0].notes}
-                        </div>
-                        <div>
-                          <strong>SandBlasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
-                    <div className="mt-4 border-t pt-4">
-                      {/* <h3 className="text-lg font-semibold">Painting Details</h3> */}
-                      <div className="">
-                        <div>
-                          <strong>ImageUrl:</strong><img src= {selectedTask.SecondData[0].imageUrl} className='mt-1' style={{ maxWidth: '5%', height: 'auto' }}/>                       </div>
-                        <div>
-                          <strong>PaintColor:</strong> {selectedTask.SecondData[0].pColor}
-                        </div>
-                        <div>
-                          <strong>PaintType:</strong> {selectedTask.SecondData[0].pType}
-                        </div>
-                        <div>
-                          <strong>Notes:</strong> {selectedTask.SecondData[0].notes}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-4 flex justify-end space-x-4">
-                  <button
-                    className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                    onClick={() => handleProcessClick(selectedTask.orderId)}
-                  >
-                    Process
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+    <div className="bg-white p-4 rounded-md shadow-md w-1/2 max-w-2xl">
+    {selectedTask && (
+  <div className="space-y-4 font-sans font-bold">
+    <div className="flex justify-between items-start">
+      <div className="flex-grow">
+        <div>
+          <strong>Order ID:</strong> {selectedTask.orderId}
+        </div>
+        <div>
+          <strong>Status:</strong> {selectedTask.status}
+        </div>
+        <div>
+          <strong>Damage Type:</strong> {selectedTask.damageType}
+        </div>
+        <div>
+          <strong>Notes:</strong> {selectedTask.notes}
+        </div>
+      </div>
+      {selectedTask.imageUrl && (
+        <div className="ml-4">
+          <button
+            className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+            onClick={() => setShowImage(prev => !prev)}
+          >
+            {showImage ? 'Image' : 'Image'}
+          </button>
+          {showImage && (
+            <img src={selectedTask.imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+          )}
         </div>
       )}
+    </div>
+  </div>
+)}
+
+
+          {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
+            <div className="flex justify-between items-start border-t pt-2">
+              <div className="w-full">
+                <div>
+                  <strong>Sand Blasting Notes:</strong> {selectedTask.additionalData[0].notes}
+                </div>
+                <div>
+                  <strong>Sand Blasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel}
+                </div>
+              </div>
+              {selectedTask.additionalData[0].imageUrl && (
+                <div className="ml-4">
+                  <button
+                    className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+                    onClick={() => setShowAdditionalImage(prev => !prev)}
+                  >
+                    {showAdditionalImage ? 'Image' : 'Image'}
+                  </button>
+                  {showAdditionalImage && (
+                    <img src={selectedTask.additionalData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
+            <div className="flex justify-between items-start border-t pt-2">
+              <div className="w-full">
+                <div>
+                  <strong>Paint Color:</strong> {selectedTask.SecondData[0].pColor}
+                </div>
+                <div>
+                  <strong>Paint Type:</strong> {selectedTask.SecondData[0].pType}
+                </div>
+                <div>
+                  <strong>Notes:</strong> {selectedTask.SecondData[0].notes}
+                </div>
+              </div>
+              {selectedTask.SecondData[0].imageUrl && (
+                <div className="ml-4">
+                  <button
+                    className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+                    onClick={() => setShowSecondImage(prev => !prev)}
+                  >
+                    {showSecondImage ? 'Image' : 'Image'}
+                  </button>
+                  {showSecondImage && (
+                    <img src={selectedTask.SecondData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="mt-4 flex justify-center space-x-4">
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              onClick={() => handleProcessClick(selectedTask.orderId)}
+            >
+              Process
+            </button>
+
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+    </div>
+)}
+
+
     </div>
   );
 }
