@@ -14,7 +14,7 @@ const Home = () => {
         <ul className="flex list-none space-x-4 p-2">
           <li>
             <Link
-              to={"/inventory"}
+
               className="text-white font-bold hover:underline"
             >
               INVENTORY
@@ -22,7 +22,7 @@ const Home = () => {
           </li>
           <li>
             <Link
-              to={"/soldering"}
+
               className="text-white font-bold hover:underline"
             >
               SOLDERING
@@ -30,7 +30,7 @@ const Home = () => {
           </li>
           <li>
             <Link
-              to={"/packaging"}
+
               className="text-white font-bold hover:underline"
             >
               PACKAGING
@@ -38,7 +38,7 @@ const Home = () => {
           </li>
           <li>
             <Link
-              to={"/painting"}
+
               className="text-white font-bold hover:underline"
             >
               PAINTING
@@ -52,7 +52,7 @@ const Home = () => {
           LOGIN
         </button>
       </header>
-    <div className="relative bg-gray-800 flex justify-center items-center">
+      <div className="relative bg-gray-800 flex justify-center items-center">
         <Carousel
           showThumbs={false}
           infiniteLoop
@@ -70,38 +70,36 @@ const Home = () => {
             <img src="public/bg-images/man.png" alt="Wheel Image 2" className="w-full h-full object-cover" />
           </div>
           <div>
-            <img src="public/bg-images/bg1.jpg" alt="Wheel Image 3" className="w-full h-full object-cover" />
+            <img src="public/bg-images/ghost.png" alt="Wheel Image 3" className="w-full h-full object-cover" />
           </div>
         </Carousel>
       </div>
 
 
       <div className="flex justify-center  bg-blue-950 "></div>
-      
 
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8 bg-gray-800">
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8 bg-gray-800">
         {[
           { title: "INVENTORY MANAGEMENT", image: "public/bg-images/inventory1.png" },
           { title: "SOLDERING AND SANDBLASTING", image: "public/bg-images/car2.jpg" },
           { title: "PACKAGING AND DELIVERY", image: "public/bg-images/remanu.png" },
-          
+
         ].map((item, index) => (
           <>
-          {/* <h2 className="text-white mb-2 text-xl font-extrabold underline decoration-4 decoration-teal-500">
-            PACKAGING AND DELIVERY <i class="fa fa-bold" aria-hidden="true"></i>
-          </h2> */}
-          <div key={index} className="group relative w-full h-full">
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-75 transition-all duration-500 ease-in-out rounded-lg"></div>
-            
-            <img
-              src={item.image}
-              alt={item.title}
-              className="rounded-lg w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:rotate-y-180"
-            />
-            <div className="absolute inset-0 flex justify-center items-center text-white font-bold text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              {item.title}
+
+            <div key={index} className="group relative w-full h-full">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-75 transition-all duration-500 ease-in-out rounded-lg"></div>
+
+              <img
+                src={item.image}
+                alt={item.title}
+                className="rounded-lg w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:rotate-y-180"
+              />
+              <div className="absolute inset-0 flex justify-center items-center text-white font-bold text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {item.title}
+              </div>
             </div>
-          </div>
           </>
         ))}
       </div>
@@ -150,7 +148,7 @@ const Home = () => {
       </footer>
       <div
         className="bg-gray-900 text-white p-4 flex justify-center font-bold"
-        
+
       >
         <p>&copy; 2023 The Wheel Factory. All rights reserved.</p>
       </div>

@@ -104,7 +104,7 @@ const Packaging = () => {
 >        <div className="flex space-x-4">
           <button
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate(`/Workers/${role} `)} // Update with the correct route
+            onClick={() => navigate(`/Workers/${role} `)} 
           >
             PREVIOUS
           </button>
@@ -174,7 +174,7 @@ const Packaging = () => {
               >
                 <option value="" label="Select rating" />
                 {ratingOptions.map((option) => (
-                  <option key={option.id} value={option.iRating}>
+                  <option key={option.id} >
                     {option.iRating}
                   </option>
                 ))}
@@ -198,7 +198,6 @@ const Packaging = () => {
               )}
             </div>
 
-            {/* Image */}
             <div>
               <label className="text-lg font-bold text-black">Proof of Inspection (Image):</label>
               <input
