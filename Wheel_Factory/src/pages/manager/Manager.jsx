@@ -125,7 +125,7 @@ const ManagerDashboard = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate('/');
-    
+
   };
 
   const fetchOrderDetails = async (orderId) => {
@@ -210,17 +210,18 @@ const ManagerDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="w-64 bg-teal-500 text-gray-950">
-        <div className="flex items-center justify-center h-20 text-white bg-gray-900 border-b border-gray-700">
-          <span className="text-xl font-bold">ACTIVITY</span>
+    <div className="flex h-screen bg-gray-400">
+      <div className="w-64  bg-gray-600 rounded text-white">
+        <div className="flex items-center font-bold justify-center h-20 text-white bg-gray-900  rounded border-b border-gray-700">
+          <span className="text-xl text-white font-bold">ACTIVITY</span>
         </div>
-        <nav className="mt-10">
+
+        <nav className="mt-12">
           {menuItems.map((item) => (
             <button
               key={item.id}
-              className={`w-full text-left font-bold text-black px-4 py-2 transition-colors ${activeMenuItem === item.id ? 'bg-white' : ''
-                }`}
+              className={`w-full mb-2 text-center font-xs rounded-md text-white px-4 py-2 ml-3 mr-3 transition-colors ${activeMenuItem === item.id ? 'border-teal-300 bg-gray-900' : 'bg-gray-700'} border-2  p-4`}
+              style={{ width: '230px', height: '40px' }}
               onClick={(e) => {
                 e.preventDefault();
                 if (item.id === 'add') {
@@ -234,11 +235,13 @@ const ManagerDashboard = () => {
             </button>
           ))}
         </nav>
+
       </div>
-      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900">
-        <header className="bg-teal-500 shadow-sm justify-center">
-          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 className="text-2xl font-semibold text-black justify-center ">MANAGER DASHBOARD</h1>
+
+      <main className="flex-1 overflow-x-hidden overflow-y-auto rounded bg-gray-300">
+        <header className="bg-gray-900 shadow-sm justify-center">
+          <div className="max-w-7xl   mx-auto py-5 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 className="text-2xl font-semibold rounded  text-white justify-center ">MANAGER DASHBOARD</h1>
             <button
               className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
               onClick={handleLogout}
@@ -247,6 +250,7 @@ const ManagerDashboard = () => {
             </button>
           </div>
         </header>
+
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {activeMenuItem === 'currentOrders' && (
             <CurrentOrders
@@ -330,7 +334,7 @@ const ManagerDashboard = () => {
 
           {isModalOpen && viewCompletedDetails && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-teal-500 p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+              <div className="bg-gray-400 p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
                 {/* Close Icon */}
                 <button
                   className="absolute top-2 right-2 text-black hover:text-gray-600 transition-colors"
@@ -415,7 +419,6 @@ const ManagerDashboard = () => {
                     )}
                   </div>
 
-                  {/* Right Column: Painting and Packaging Details */}
                   <div>
                     {/* Painting Details Card */}
                     {viewCompletedDetails.additionalsecond && (
@@ -656,6 +659,10 @@ const CurrentOrders = ({
   const currentOrdersPage = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6 mt-8">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Orders</h2>
@@ -685,63 +692,63 @@ const CurrentOrders = ({
         </select>
       </div>
       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse">
-  <thead>
-    <tr className="bg-gray-50">
-      <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
-        Order ID
-      </th>
-      <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
-        Stage
-      </th>
-      <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
-        Damage Type
-      </th>
-      <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
-        Actions
-      </th>
-    </tr>
-  </thead>
-  <tbody className="bg-white divide-y divide-gray-200 font-thin">
-    {currentOrdersPage.map((order) => (
-      <tr key={order.orderId} className="hover:bg-gray-50">
-        <td className="px-6 py-4 whitespace-nowrap text-m  text-black font-sans">
-          {order.orderId}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
-          {order.status}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
-          {order.damageType}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition duration-300 ease-in-out"
-            onClick={() => viewOrderDetails(order.orderId)}
-          >
-            View Details
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
+              Order ID
+            </th>
+            <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
+              Stage
+            </th>
+            <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
+              Damage Type
+            </th>
+            <th className="px-6 py-3 text-left text-l font-bold text-black uppercase tracking-wider font-sans">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200 font-thin">
+          {currentOrdersPage.map((order) => (
+            <tr key={order.orderId} className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-m  text-black font-sans">
+                {order.orderId}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
+                {order.status}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
+                {order.damageType}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition duration-300 ease-in-out"
+                  onClick={() => viewOrderDetails(order.orderId)}
+                >
+                  View Details
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <div className="mt-6 flex justify-between items-center">
         <button
-          onClick={() => setCurrentPage(currentPage - 1)}
+          className="px-4 py-2 bg-red-400 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 "
+          onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-red-400 text-gray rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900"
         >
           Previous
         </button>
-        <span className="text-sm text-gray-700">
+        <span className="text-sm text-gray-950">
           Page {currentPage} of {totalPages}
         </span>
         <button
-          onClick={() => setCurrentPage(currentPage + 1)}
+          className="px-4 py-2 bg-green-500 text-gray rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 "
+          onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-red-400 text-gray rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900"
         >
           Next
         </button>
@@ -795,41 +802,41 @@ const CompletedOrders = ({
         />
       </div>
       <table className="min-w-full divide-y divide-gray-200 table-auto w-full text-left border-collapse font-bold">
-  <thead>
-    <tr className="bg-gray-50">
-      <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
-        Order ID
-      </th>
-      <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
-        Completion Date
-      </th>
-      <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
-        Actions
-      </th>
-    </tr>
-  </thead>
-  <tbody className="bg-white divide-y divide-gray-200 font-thin">
-    {currentOrdersPage.map((order) => (
-      <tr key={order.orderId} className="hover:bg-gray-50">
-        <td className="px-6 py-4 whitespace-nowrap text-m font-medium text-black font-sans">
-          {order.orderId}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
-          {order.createdAt}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition duration-300 ease-in-out"
-            onClick={() => setViewOrderDetails(order.orderId)}
-          >
-            View Details
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
+              Order ID
+            </th>
+            <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
+              Completion Date
+            </th>
+            <th className="px-6 py-3 text-left text-l font-medium text-black uppercase tracking-wider font-sans">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200 font-thin">
+          {currentOrdersPage.map((order) => (
+            <tr key={order.orderId} className="hover:bg-gray-50">
+              <td className="px-6 py-4 whitespace-nowrap text-m font-medium text-black font-sans">
+                {order.orderId}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
+                {order.createdAt}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-m text-black font-sans">
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition duration-300 ease-in-out"
+                  onClick={() => setViewOrderDetails(order.orderId)}
+                >
+                  View Details
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <div className="mt-6 flex justify-between items-center">
         <button

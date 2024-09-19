@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
- 
+
 
 export default function Worker() {
   const { userId } = useParams();
@@ -18,8 +18,8 @@ export default function Worker() {
   const [stageFilter, setStageFilter] = useState('');
   const [damageTypeFilter, setDamageTypeFilter] = useState('');
   const [showImage, setShowImage] = useState(false);
-const [showAdditionalImage, setShowAdditionalImage] = useState(false);
-const [showSecondImage, setShowSecondImage] = useState(false);
+  const [showAdditionalImage, setShowAdditionalImage] = useState(false);
+  const [showSecondImage, setShowSecondImage] = useState(false);
 
 
   const userIdToWorkerTypeMap = {
@@ -32,7 +32,7 @@ const [showSecondImage, setShowSecondImage] = useState(false);
   useEffect(() => {
     const workerTypeFromUserId = userIdToWorkerTypeMap[userId];
     setWorkerType(workerTypeFromUserId);
-  
+
     const fetchPendingTasks = async () => {
       try {
         let response;
@@ -70,12 +70,12 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         console.error(error);
       }
     };
-  
+
     if (workerTypeFromUserId) {
       fetchPendingTasks();
     }
   }, [userId]);
-  
+
   const handleProcessClick = (orderId) => {
     setIsModalOpen(false);
     switch (workerType) {
@@ -95,7 +95,7 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         console.log('Invalid worker type');
     }
   };
-  
+
   const handleDetailsClick = async (orderId) => {
     try {
       let taskEndpoint, additionalEndpoint, SecondEndpoint;
@@ -119,7 +119,7 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         default:
           throw new Error('Invalid worker type');
       }
-  
+
       const taskResponse = await axios.get(taskEndpoint, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -137,7 +137,7 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         });
         SecondData = SecondResponse.data;
       }
-  
+
       setSelectedTask({ ...taskResponse.data, additionalData, SecondData });
       setIsModalOpen(true);
     } catch (error) {
@@ -145,12 +145,12 @@ const [showSecondImage, setShowSecondImage] = useState(false);
       setError('Failed to fetch task details');
     }
   };
-  
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTask(null);
   };
-  
+
 
   if (error) {
     return <p className="text-red-500 text-center mt-8">{error}</p>;
@@ -183,7 +183,7 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         </div>
         <button
           className="flex items-center justify-center px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white font-medium transition"
-          onClick={() =>{localStorage.clear(); navigate('/')}}
+          onClick={() => { localStorage.clear(); navigate('/') }}
         >
           LOGOUT
         </button>
@@ -270,116 +270,116 @@ const [showSecondImage, setShowSecondImage] = useState(false);
         </button>
       </div>
       {isModalOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-    <div className="bg-white p-4 rounded-md shadow-md w-1/2 max-w-2xl">
-    {selectedTask && (
-  <div className="space-y-4 font-sans font-bold">
-    <div className="flex justify-between items-start">
-      <div className="flex-grow">
-        <div>
-          <strong>Order ID:</strong> {selectedTask.orderId}
-        </div>
-        <div>
-          <strong>Status:</strong> {selectedTask.status}
-        </div>
-        <div>
-          <strong>Damage Type:</strong> {selectedTask.damageType}
-        </div>
-        <div>
-          <strong>Notes:</strong> {selectedTask.notes}
-        </div>
-      </div>
-      {selectedTask.imageUrl && (
-        <div className="ml-4">
-          <button
-            className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
-            onClick={() => setShowImage(prev => !prev)}
-          >
-            {showImage ? 'Image' : 'Image'}
-          </button>
-          {showImage && (
-            <img src={selectedTask.imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-)}
-
-
-          {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
-            <div className="flex justify-between items-start border-t pt-2">
-              <div className="w-full">
-                <div>
-                  <strong>Sand Blasting Notes:</strong> {selectedTask.additionalData[0].notes}
-                </div>
-                <div>
-                  <strong>Sand Blasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel}
-                </div>
-              </div>
-              {selectedTask.additionalData[0].imageUrl && (
-                <div className="ml-4">
-                  <button
-                    className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
-                    onClick={() => setShowAdditionalImage(prev => !prev)}
-                  >
-                    {showAdditionalImage ? 'Image' : 'Image'}
-                  </button>
-                  {showAdditionalImage && (
-                    <img src={selectedTask.additionalData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="bg-white p-4 rounded-md shadow-md w-1/2 max-w-2xl">
+            {selectedTask && (
+              <div className="space-y-4 font-sans font-bold">
+                <div className="flex justify-between items-start">
+                  <div className="flex-grow">
+                    <div>
+                      <strong>Order ID:</strong> {selectedTask.orderId}
+                    </div>
+                    <div>
+                      <strong>Status:</strong> {selectedTask.status}
+                    </div>
+                    <div>
+                      <strong>Damage Type:</strong> {selectedTask.damageType}
+                    </div>
+                    <div>
+                      <strong>Notes:</strong> {selectedTask.notes}
+                    </div>
+                  </div>
+                  {selectedTask.imageUrl && (
+                    <div className="ml-4">
+                      <button
+                        className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+                        onClick={() => setShowImage(prev => !prev)}
+                      >
+                        {showImage ? 'Image' : 'Image'}
+                      </button>
+                      {showImage && (
+                        <img src={selectedTask.imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
-            </div>
-          )}
-
-          {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
-            <div className="flex justify-between items-start border-t pt-2">
-              <div className="w-full">
-                <div>
-                  <strong>Paint Color:</strong> {selectedTask.SecondData[0].pColor}
-                </div>
-                <div>
-                  <strong>Paint Type:</strong> {selectedTask.SecondData[0].pType}
-                </div>
-                <div>
-                  <strong>Notes:</strong> {selectedTask.SecondData[0].notes}
-                </div>
               </div>
-              {selectedTask.SecondData[0].imageUrl && (
-                <div className="ml-4">
-                  <button
-                    className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
-                    onClick={() => setShowSecondImage(prev => !prev)}
-                  >
-                    {showSecondImage ? 'Image' : 'Image'}
-                  </button>
-                  {showSecondImage && (
-                    <img src={selectedTask.SecondData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
-                  )}
+            )}
+
+
+            {selectedTask.additionalData && selectedTask.additionalData.length > 0 && (
+              <div className="flex justify-between items-start border-t pt-2">
+                <div className="w-full">
+                  <div>
+                    <strong>Sand Blasting Notes:</strong> {selectedTask.additionalData[0].notes}
+                  </div>
+                  <div>
+                    <strong>Sand Blasting Level:</strong> {selectedTask.additionalData[0].sandBlastingLevel}
+                  </div>
                 </div>
-              )}
+                {selectedTask.additionalData[0].imageUrl && (
+                  <div className="ml-4">
+                    <button
+                      className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+                      onClick={() => setShowAdditionalImage(prev => !prev)}
+                    >
+                      {showAdditionalImage ? 'Image' : 'Image'}
+                    </button>
+                    {showAdditionalImage && (
+                      <img src={selectedTask.additionalData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {selectedTask.SecondData && selectedTask.SecondData.length > 0 && (
+              <div className="flex justify-between items-start border-t pt-2">
+                <div className="w-full">
+                  <div>
+                    <strong>Paint Color:</strong> {selectedTask.SecondData[0].pColor}
+                  </div>
+                  <div>
+                    <strong>Paint Type:</strong> {selectedTask.SecondData[0].pType}
+                  </div>
+                  <div>
+                    <strong>Notes:</strong> {selectedTask.SecondData[0].notes}
+                  </div>
+                </div>
+                {selectedTask.SecondData[0].imageUrl && (
+                  <div className="ml-4">
+                    <button
+                      className="mt-1 px-2 py-1 bg-red-400 text-black rounded hover:bg-gray-400 transition-colors"
+                      onClick={() => setShowSecondImage(prev => !prev)}
+                    >
+                      {showSecondImage ? 'Image' : 'Image'}
+                    </button>
+                    {showSecondImage && (
+                      <img src={selectedTask.SecondData[0].imageUrl} className="mt-2" style={{ maxWidth: '100px', height: 'auto' }} />
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="mt-4 flex justify-center space-x-4">
+              <button
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                onClick={() => handleProcessClick(selectedTask.orderId)}
+              >
+                Process
+              </button>
+
+              <button
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
             </div>
-          )}
-
-          <div className="mt-4 flex justify-center space-x-4">
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              onClick={() => handleProcessClick(selectedTask.orderId)}
-            >
-              Process
-            </button>
-
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-gray-600"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
           </div>
         </div>
-    </div>
-)}
+      )}
 
 
     </div>

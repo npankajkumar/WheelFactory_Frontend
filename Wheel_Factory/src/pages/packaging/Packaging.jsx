@@ -94,11 +94,17 @@ const Packaging = () => {
 
   return (
     <div className="p-4">
-      <header className="flex justify-between items-center p-5 rounded-md bg-black shadow-md">
-        <div className="flex space-x-4">
+<header 
+  className="flex justify-between items-center p-8 rounded-md shadow-md mb-8"
+  style={{
+    backgroundImage: 'url("public/bg-images/bag.jpg")',
+    backgroundSize: 'cover', 
+    backgroundPosition: 'center', 
+  }}
+>        <div className="flex space-x-4">
           <button
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate(`/Workers/${role} `)} // Update with the correct route
+            onClick={() => navigate(`/Workers/${role} `)} 
           >
             PREVIOUS
           </button>
@@ -168,7 +174,7 @@ const Packaging = () => {
               >
                 <option value="" label="Select rating" />
                 {ratingOptions.map((option) => (
-                  <option key={option.id} value={option.iRating}>
+                  <option key={option.id} >
                     {option.iRating}
                   </option>
                 ))}
@@ -192,7 +198,6 @@ const Packaging = () => {
               )}
             </div>
 
-            {/* Image */}
             <div>
               <label className="text-lg font-bold text-black">Proof of Inspection (Image):</label>
               <input
