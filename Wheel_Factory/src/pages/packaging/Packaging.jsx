@@ -13,11 +13,14 @@ const Packaging = () => {
   const [ratingOptions, setRatingOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [role, setRole] = useState('');
+
 
   const fetchOrderDetails = async () => {
     if (orderId) {
       try {
         const token = localStorage.getItem('token');
+        setRole(localStorage.getItem('role'));
         const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -101,7 +104,7 @@ const Packaging = () => {
 >        <div className="flex space-x-4">
           <button
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate('/workers/:userId')} // Update with the correct route
+            onClick={() => navigate(`/Workers/${role} `)} // Update with the correct route
           >
             PREVIOUS
           </button>

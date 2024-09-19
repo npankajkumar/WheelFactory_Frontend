@@ -14,11 +14,14 @@ const Painting = () => {
   const [error, setError] = useState(null);
   const [paintTypes, setPaintTypes] = useState([]);
   const [paintColors, setPaintColors] = useState([]);
+  const [role, setRole] = useState('');
 
   const fetchOrderDetails = async () => {
     if (orderId) {
       try {
         const token = localStorage.getItem('token');
+        setRole(localStorage.getItem('role'));
+
         const response = await axios.get(`http://localhost:5041/api/Orders/${orderId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -118,7 +121,7 @@ const Painting = () => {
 >        <div className="flex space-x-4">
           <button
             className="border border-gray-300 font-bold text-white p-2 rounded-md shadow-sm"
-            onClick={() => navigate('')}
+            onClick={() =>navigate(`/Workers/${role}`)}
           >
             PREVIOUS
           </button>

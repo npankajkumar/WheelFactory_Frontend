@@ -8,7 +8,7 @@ import { Login } from './pages/login/Login';
 import Worker from './pages/worker/Worker';
 import ManagerDashboard from './pages/manager/Manager';
 import { Toaster } from "@/components/ui/toaster"
-import ProtectedRoute from './pages/Protected/ProtectedRoute';
+import ProtectedRoute from './pages/protected/ProtectedRoute';
 import NotFound from './pages/notfound/NotFound';
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path='/workers/:userId' element={<Worker/>}/>
           <Route path='/inventory' element={<Inventory/>}/>
           <Route path='/soldering' element={<Soldering/>}/>
-          <Route path="/manager" element={<ManagerDashboard />} />
+          <Route path="/manager" element= {<ManagerDashboard/>} />
           <Route path='/packaging' element={<Packaging/>}/>
           <Route path='/painting' element={<Painting/>}/>
       {/* </Route> */}
