@@ -19,14 +19,14 @@ function App() {
      
       <Route path='' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route element={<ProtectedRoute/>}>
+      {/* <Route element={<ProtectedRoute/>}> */}
           <Route path='/workers/:userId' element={<Worker/>}/>
           <Route path='/inventory' element={<Inventory/>}/>
           <Route path='/soldering' element={<Soldering/>}/>
           <Route path="/manager" element={<ManagerDashboard />} />
           <Route path='/packaging' element={<Packaging/>}/>
           <Route path='/painting' element={<Painting/>}/>
-      </Route>
+      {/* </Route> */}
       <Route path="*" element={<NotFound/>} />
       </Routes>
      </Router>

@@ -5,7 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 const Home = () => {
   const navigate = useNavigate();
   const loginHandler = () => {
-    navigate("/login");
+    navigate('/login');
   };
   return (
     <>

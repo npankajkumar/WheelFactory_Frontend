@@ -210,16 +210,16 @@ const ManagerDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="w-64 bg-teal-500 text-gray-950">
-        <div className="flex items-center justify-center h-20 text-white bg-gray-900 border-b border-gray-700">
-          <span className="text-xl font-bold">ACTIVITY</span>
+    <div className="flex h-screen bg-gray-400">
+      <div className="w-64 bg-amber-300 rounded text-white">
+        <div className="flex items-center justify-center h-20 text-white bg-amber-300  rounded border-b border-gray-700">
+          <span className="text-xl text-black font-bold">ACTIVITY</span>
         </div>
-        <nav className="mt-10">
+        {/* <nav className="mt-10">
           {menuItems.map((item) => (
             <button
               key={item.id}
-              className={`w-full text-left font-bold text-black px-4 py-2 transition-colors ${activeMenuItem === item.id ? 'bg-white' : ''
+              className={`w-full text-center font-bold rounded text-white px-4 py-2  ml-3 mr-3 transition-colors ${activeMenuItem === item.id ? 'bg-gray-900' : ''
                 }`}
               onClick={(e) => {
                 e.preventDefault();
@@ -233,12 +233,32 @@ const ManagerDashboard = () => {
               {item.name}
             </button>
           ))}
-        </nav>
+        </nav> */}
+        <nav className="mt-10">
+  {menuItems.map((item) => (
+    <button
+      key={item.id}
+      className={`w-full text-center font-bold rounded text-white px-4 py-2 ml-3 mr-3 transition-colors ${activeMenuItem === item.id ? 'bg-gray-900' : 'bg-gray-700'} border-2  p-4`}
+      style={{ width: '230px', height: '40px' }}
+      onClick={(e) => {
+        e.preventDefault();
+        if (item.id === 'add') {
+          setShowAddModal(true);
+        } else {
+          setActiveMenuItem(item.id);
+        }
+      }}
+    >
+      {item.name}
+    </button>
+  ))}
+</nav>
+
       </div>
-      <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900">
-        <header className="bg-teal-500 shadow-sm justify-center">
+      <main className="flex-1 overflow-x-hidden overflow-y-auto rounded bg-gray-300">
+        <header className="bg-gray-900 shadow-sm justify-center">
           <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 className="text-2xl font-semibold text-black justify-center ">MANAGER DASHBOARD</h1>
+            <h1 className="text-2xl font-semibold rounded text-white justify-center ">MANAGER DASHBOARD</h1>
             <button
               className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
               onClick={handleLogout}
@@ -330,7 +350,7 @@ const ManagerDashboard = () => {
 
           {isModalOpen && viewCompletedDetails && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-teal-500 p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+              <div className="bg-gray-400 p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
                 {/* Close Icon */}
                 <button
                   className="absolute top-2 right-2 text-black hover:text-gray-600 transition-colors"
